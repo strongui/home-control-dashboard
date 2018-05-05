@@ -1,0 +1,37 @@
+{
+  "author": "Amir Karamuja",
+  "bugs": {
+    "url": "https://github.com/strongui/climate-control-dashboard/issues"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "gentelella": "^1.4.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-scripts-ts": "2.15.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "@types/node": "^10.0.3",
+    "@types/react": "^16.3.13",
+    "@types/react-dom": "^16.0.5",
+    "typescript": "^2.8.3"
+  },
+  "homepage": "https://github.com/strongui/climate-control-dashboard#readme",
+  "keywords": ["dashboard", "climate", "control"],
+  "license": "ISC",
+  "main": "src/App.tsx",
+  "name": "climate-control-dashboard",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strongui/climate-control-dashboard.git"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "version": "0.1.0"
+}
