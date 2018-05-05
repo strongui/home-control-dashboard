@@ -1,3 +1,16 @@
 .nav-link-text {
   margin-left: 10px;
 }
+nav {
+  .dropdown-item {
+    white-space: normal;
+    min-width: 300px;
+  }
+  ul {
+    &.navbar-nav {
+      .nav-item {
+        margin-right: 15px;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 {
+  "defaultSeverity": "warning",
   "extends": ["tslint-eslint-rules", "tslint:latest", "tslint-config-airbnb"],
   "rules": {
     "max-line-length": {

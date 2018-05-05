@@ -12,7 +12,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const postcssSmartImport = require('postcss-smart-import');
 const precss = require('precss');
 

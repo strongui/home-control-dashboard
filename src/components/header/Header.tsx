@@ -4,28 +4,48 @@ import SidenavToggler from './SidenavToggler';
 import TopMenu from './TopMenu';
 
 interface IHeaderState {
-  collapsing: boolean;
   collapsed: boolean;
 }
 class Header extends React.Component<{}, IHeaderState> {
+  private navbar: HTMLElement;
+
   constructor(props: {}) {
     super(props);
-    this.state = { collapsing: false, collapsed: true };
+    this.state = { collapsed: true };
     this.toggle = this.toggle.bind(this);
   }
 
   toggle() {
-    this.setState({ ...this.state, collapsing: this.state.collapsed ? true : false }, () => {
-      setTimeout(() => {
-        this.setState((state: IHeaderState, props) => {
-          return { collapsing: false, collapsed: state.collapsed ? false : true };
-        });
-      }, 1500);
-    });
+    if (document.body.classList.contains('sidenav-toggled')) {
+      document.body.classList.remove('sidenav-toggled');
+    }
+
+    const node = this.navbar;
+    if (node.classList.contains('collapsing')) {
+      return;
+    }
+
+    node.classList.remove('collapse');
+    node.classList.remove('show');
+    node.classList.add('collapsing');
+
+    setTimeout(() => {
+      if (this.state.collapsed) {
+        node.setAttribute('style', 'height: 454px;');
+      } else {
+        node.removeAttribute('style');
+      }
+    }, 0);
+
+    setTimeout(() => {
+      node.classList.remove('collapsing');
+      node.removeAttribute('style');
+      this.setState({ collapsed: this.state.collapsed ? false : true });
+    }, 350);
   }
 
   render() {
-    const { collapsing, collapsed } = this.state;
+    const { collapsed } = this.state;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <a className="navbar-brand" href="index.html">
@@ -44,11 +64,9 @@ class Header extends React.Component<{}, IHeaderState> {
           <span className="navbar-toggler-icon" />
         </button>
         <div
-          className={`navbar-collapse${collapsing ? ' collapsing' : ''}${
-            !collapsing && !collapsed ? ' show' : ''
-          }${!collapsing && collapsed ? ' collapse' : ''}`}
+          className={`navbar-collapse${collapsed ? ' collapse' : ' show'}`}
           id="navbarResponsive"
-          style={collapsing ? { height: '450px' } : {}}
+          ref={div => { this.navbar = div as HTMLElement; }}
         >
           <SideMenu />
           <SidenavToggler />
