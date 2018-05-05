@@ -1,8 +1,5 @@
 import * as React from 'react';
-
-export interface DataTablesProps {}
-
-export default class DataTables extends React.Component<DataTablesProps, any> {
+export default class DataTables extends React.Component<{}, any> {
   render() {
     return (
       <div className="card mb-3">

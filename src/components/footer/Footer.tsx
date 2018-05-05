@@ -1,7 +1,7 @@
-import * as React from "react";
+import * as React from 'react';
 
 export default class Footer extends React.Component<{}, any> {
-  public render() {
+  render() {
     return (
       <footer className="sticky-footer">
         <div className="container">

@@ -14,6 +14,7 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "baseUrl": "./modules",
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },

@@ -1,11 +1,9 @@
 import * as React from 'react';
-import AreaChartProps from './AreaChartProps';
+import AreaChart from './AreaChart';
 import DataTables from './DataTables';
 import IronCards from './IronCards';
 
-export interface WrapperProps {}
-
-export default class Wrapper extends React.Component<WrapperProps, any> {
+export default class Wrapper extends React.Component<{}, any> {
   render() {
     return (
       <div className="container-fluid">
@@ -16,7 +14,7 @@ export default class Wrapper extends React.Component<WrapperProps, any> {
           <li className="breadcrumb-item active">My Dashboard</li>
         </ol>
         <IronCards />
-        <AreaChartProps />
+        <AreaChart />
         <DataTables />
       </div>
     );

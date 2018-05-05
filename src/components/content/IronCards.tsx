@@ -1,9 +1,7 @@
 import * as React from 'react';
 
-export interface IrconCardsProps {}
-
-export default class IrconCards extends React.Component<IrconCardsProps, any> {
-  public render() {
+export default class IrconCards extends React.Component<{}, any> {
+  render() {
     return (
       <div className="row">
         <div className="col-xl-3 col-sm-6 mb-3">

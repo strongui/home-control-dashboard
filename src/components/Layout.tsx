@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 import Wrapper from './content/Wrapper';
 
 class Layout extends React.Component {
-  public render() {
+  render() {
     return (
       <div className="App">
         <Header />

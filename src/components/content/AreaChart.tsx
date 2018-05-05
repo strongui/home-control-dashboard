@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface AreaChartProps {}
-
-export default class AreaChart extends React.Component<AreaChartProps, any> {
+export default class AreaChart extends React.Component<{}, any> {
   render() {
     return (
       <div className="card mb-3">
