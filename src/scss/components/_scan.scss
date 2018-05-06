@@ -1,0 +1,51 @@
+.scan-wrapper {
+  .focus {
+    position: absolute;
+    top: 28px;
+    left: 40px;
+    transform: translateY(-50%);
+    filter: blur(2px);
+    opacity: 0.6;
+    color: #fff;
+  }
+
+  .mask {
+    position: absolute;
+    left: 35px;
+    top: 8px;
+    width: 70px;
+    clip: rect(0px,70px,75px,0px);
+    background: linear-gradient($white, $white 0) no-repeat,
+      linear-gradient(to right, $white, $white 0) no-repeat,
+      linear-gradient(to right, $white, $white 0) bottom left no-repeat,
+      linear-gradient(to right, $white, $white 0) bottom left no-repeat,
+      linear-gradient($white, $white 0) bottom right no-repeat,
+      linear-gradient($white, $white 0) bottom right no-repeat,
+      linear-gradient($white, $white 0) top right no-repeat,
+      linear-gradient($white, $white 0) top right no-repeat;
+    background-size: 10px 2px, 2px 10px, 2px 10px, 10px 2px, 2px 10px, 10px 2px, 10px 2px, 2px 10px, 10px 2px;
+    color: #fff;
+    padding: 5px;
+    transform: translateX(0);
+    box-sizing: border-box;
+    animation: mask 4.5s ease infinite alternate;
+  }
+
+  .text {
+    transform: translateX(0);
+    animation: text 4.5s ease infinite alternate;
+  }
+
+  @keyframes mask {
+    to {
+      transform: translateX(210px);
+    }
+  }
+
+  @keyframes text {
+    to {
+      transform: translateX(-210px);
+    }
+  }
+}
+

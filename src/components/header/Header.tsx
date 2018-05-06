@@ -25,7 +25,13 @@ class Header extends React.Component<{}, IHeaderState> {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <a className="navbar-brand" href="index.html">
-          <span className="fas fa-bolt" aria-hidden="true" /> Climate Control Dashboard
+          <span className="fas fa-bolt" aria-hidden="true" />
+          <div className="scan-wrapper">
+            <div className="focus">Climate Control Dashboard</div>
+            <div className="mask">
+              <div className="text">Climate Control Dashboard</div>
+            </div>
+          </div>
         </a>
         <button
           onClick={this.toggle}

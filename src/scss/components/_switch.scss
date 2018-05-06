@@ -1,17 +1,32 @@
 .switch-material.switch-light {
+  &:hover {
+    cursor: pointer;
+  }
   input {
     &:checked {
       ~ span {
+        background: rgba(59, 59, 59, 0.5);
+        border-color: rgba(59, 59, 59, 0.6);
         a {
-          background: #ae0000;
+          background: #414141;
           animation: pulse 2s infinite;
+        }
+      }
+    }
+    &:not(:checked) {
+      ~ span {
+        &:hover {
+          a {
+            background: #aeaeae;
+          }
         }
       }
     }
   }
   > span {
     width: 3.55rem;
-    border: solid 1px #1d5ecb;
+    border: solid 1px #bfbfbf;
+    background: rgba(141, 141, 141, 0.26);
   }
   span {
     span {

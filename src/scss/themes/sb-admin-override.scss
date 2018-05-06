@@ -27,6 +27,10 @@ h6, .h6 {
 	font-family: $header-font-stack;
 }
 
+.content-wrapper {
+  background: #f7f7f7;
+}
+
 .nav-link-text {
   margin-left: 10px;
 }
@@ -69,6 +73,6 @@ nav {
 
 @media (min-width: 992px) {
   .content-wrapper {
-      margin-left: 270px;
+      margin-left: 265px;
   }
 }

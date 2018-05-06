@@ -9,7 +9,7 @@ class Layout extends React.Component {
       <div className="App">
         <Header />
         <div className="content-wrapper">
-          <Wrapper />
+          <Wrapper status="online" />
           <Footer />
         </div>
       </div>

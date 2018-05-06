@@ -1,0 +1,68 @@
+.bd-callout {
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #eee;
+  border-left-width: .25rem;
+  border-radius: .25rem
+}
+
+.bd-callout h4 {
+  margin-top: 0;
+  margin-bottom: .25rem;
+  .badge {
+    font-size: 50%;
+  }
+}
+
+.bd-callout p:last-child {
+  margin-bottom: 0
+}
+
+.bd-callout code {
+  border-radius: .25rem
+}
+
+.bd-callout+.bd-callout {
+  margin-top: -.25rem
+}
+
+.bd-callout-success {
+  border-left-color: $green;
+}
+
+.bd-callout-success h4 {
+  color: $green;
+}
+
+.bd-callout-success-secondary {
+  border-left-color: $greenMeadow;
+}
+
+.bd-callout-success-secondary h4 {
+  color: $greenMeadow;
+}
+
+.bd-callout-info {
+  border-left-color: $cyan;
+}
+
+.bd-callout-info h4 {
+  color: $cyan;
+}
+
+.bd-callout-warning {
+  border-left-color: $yellow;
+}
+
+.bd-callout-warning h4 {
+  color: $yellow;
+}
+
+.bd-callout-danger {
+  border-left-color: $red;
+}
+
+.bd-callout-danger h4 {
+  color: $red;
+}

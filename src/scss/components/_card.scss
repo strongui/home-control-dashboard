@@ -1,0 +1,67 @@
+.card {
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  &.bg-default {
+    .card-body-icon {
+      color: #d1d1d1;
+    }
+  }
+  .card-body-icon {
+    right: -5px;
+  }
+  &.inactive {
+    color: #646464;
+    .card-body {
+      background: #f7f7f7;
+    }
+  }
+
+  // Chart Card
+  &.chart {
+    .card-body-chart {
+      font-size: 3em;
+      float: left;
+    }
+    .card-body-value {
+      float: left;
+      font-size: 3em;
+      padding: 0 20px;
+    }
+    .control {
+      float: left;
+      margin:0 20px;
+      input {
+        left: 175px;
+      }
+      &:after {
+        content: ' \B0 C';
+        position: absolute;
+        top: 58px;
+        left: 143px;
+        font-size: 1em;
+        letter-spacing: -2px;
+      }
+    }
+    &.warning  {
+      &:before {
+        color: rgba(255, 255, 255, .3);
+        font-family: 'Font Awesome 5 Free';
+        font-size: 8em;
+        font-weight: 900;
+        left: calc(50% - 62px);
+        position: absolute;
+        top: calc(50% - 96px);
+      }
+      &.cold {
+        &:before {
+          content: '\f2dc';
+        }
+      }
+      &.hot {
+        &:before {
+          content: '\f071';
+        }
+      }
+    }
+  }
+}

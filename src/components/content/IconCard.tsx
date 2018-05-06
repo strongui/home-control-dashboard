@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface IIconCardProps {
   error?: string;
   icon: string;
@@ -34,7 +33,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
     const { error, icon, title, type } = this.props;
     const cls = isOn
       ? `bg-${error ? 'danger' : type} text-white`
-      : `bg-${error ? 'danger text-white' : 'default'}`;
+      : `bg-${error ? 'danger text-white' : 'default inactive'}`;
 
     const errorLabel = <span className="badge badge-warning">{error}</span>;
     const toggleLabel = (
@@ -52,7 +51,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
       <div className={`card ${cls} o-hidden h-100`}>
         <div className="card-body">
           <div className="card-body-icon">
-            <i className={`fab fa-${icon}`} />
+            <span className={icon} aria-hidden="true" />
           </div>
           <h5 className="mr-5 mb-0">{title}</h5>
         </div>
