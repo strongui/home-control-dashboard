@@ -1,7 +1,7 @@
 import * as React from 'react';
 import AreaChart from './AreaChart';
 import DataTables from './DataTables';
-import IronCards from './IronCards';
+import IconCards from './IconCards';
 
 export default class Wrapper extends React.Component<{}, any> {
   render() {
@@ -13,7 +13,7 @@ export default class Wrapper extends React.Component<{}, any> {
           </li>
           <li className="breadcrumb-item active">My Dashboard</li>
         </ol>
-        <IronCards />
+        <IconCards />
         <AreaChart />
         <DataTables />
       </div>

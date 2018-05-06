@@ -1,5 +1,6 @@
 import * as React from 'react';
-
+import * as ReactTooltip from 'react-tooltip';
+import reactOnclickoutside from 'react-onclickoutside';
 export interface INotificationProps {
   icon?: string;
   link?: string;
@@ -20,7 +21,7 @@ export interface INotificationState {
   expanded: boolean;
 }
 
-export default class Notification extends React.Component<INotificationProps, INotificationState> {
+class Notification extends React.Component<INotificationProps, INotificationState> {
   constructor(props: INotificationProps) {
     super(props);
     this.state = {
@@ -29,9 +30,13 @@ export default class Notification extends React.Component<INotificationProps, IN
     this.toggle = this.toggle.bind(this);
   }
 
-  toggle(e: React.MouseEvent<HTMLElement>) {
-    e.preventDefault();
+  toggle(e?: React.MouseEvent<HTMLElement>) {
+    if (e) e.preventDefault();
     this.setState({ expanded: !this.state.expanded });
+  }
+
+  handleClickOutside(e: React.MouseEvent<HTMLElement>) {
+    if (this.state.expanded) this.toggle();
   }
 
   render() {
@@ -44,6 +49,18 @@ export default class Notification extends React.Component<INotificationProps, IN
       title,
       type = 'primary',
     } = this.props;
+
+    if (!notificationCount) {
+      return (
+        <li className={`nav-item dropdown${expanded ? ' show' : ''}`} data-tip={`No new ${title}`}>
+          <span className="nav-link no-items">
+            <span className={`fas fa-${icon}`} aria-hidden="true" />
+            <span className="d-lg-none pl-3">{title}</span>
+          </span>
+          <ReactTooltip />
+        </li>
+      );
+    }
 
     const id = `${title.toLowerCase}Dropdown`;
     const notificationItems = notifications.map(notificationObj => (
@@ -74,7 +91,7 @@ export default class Notification extends React.Component<INotificationProps, IN
               <span className={`ml-2 badge badge-pill badge-${type}`}>{notificationCount} New</span>
             )}
           </span>
-          <span className="indicator text-primary d-none d-lg-block">
+          <span className={`indicator text-${type} d-none d-lg-block`}>
             <span className="fa fa-fw fa-circle" aria-hidden="true" />
           </span>
         </a>
@@ -90,3 +107,5 @@ export default class Notification extends React.Component<INotificationProps, IN
     );
   }
 }
+
+export default (reactOnclickoutside as any)(Notification);

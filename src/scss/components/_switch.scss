@@ -1,0 +1,28 @@
+.switch-material.switch-light {
+  input {
+    &:checked {
+      ~ span {
+        a {
+          background: #ae0000;
+          animation: pulse 2s infinite;
+        }
+      }
+    }
+  }
+  > span {
+    width: 3.55rem;
+    border: solid 1px #1d5ecb;
+  }
+  span {
+    span {
+      clip: auto;
+      z-index: 1;
+      top: -1px;
+      text-transform: uppercase;
+      font-size: .6rem;
+      &:first-child {
+        right: 2px;
+      }
+    }
+  }
+}

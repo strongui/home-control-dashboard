@@ -1,0 +1,20 @@
+[
+  {
+    "key": 1,
+    "title": "Status Update",
+    "date": "08:56 AM",
+    "content": "This is an automated server response message. All systems are online."
+  },
+  {
+    "key": 2,
+    "title": "Status Update",
+    "date": "09:22 PM",
+    "content": "This is an automated server response message. All systems are online."
+  },
+  {
+    "key": 3,
+    "title": "Status Update",
+    "date": "10:18 PM",
+    "content": "This is an automated server response message. All systems are online."
+  }
+]

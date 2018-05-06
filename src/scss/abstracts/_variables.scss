@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+/// Regular font family
+/// @type List
+$header-font-stack: 'Lato', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+$text-font-stack: 'Montserrat', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
+/// Code (monospace) font family
+/// @type List
+$code-font-stack: 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace;
+
+// The font size set on the root html element.
+$base-font-size: 1em;
+
+// The base line height determines the basic unit of vertical rhythm.
+$base-line-height: 1.4em;
+
+// The length unit in which to output vertical rhythm values.
+// Supported values: px, em, rem.
+$rhythm-unit: 'em';
+
+// Note: This project also makes use of variables from Compass' support
+// module. Documentation for this can be found on the wiki at:
+// http://compass-style.org/reference/compass/support/
+$critical-usage-threshold: 0.01;
+
+$browser-minimum-versions: (
+  'chrome':  null,
+  'firefox': null,
+  'ie':      null,
+  'safari':  null,
+  'opera':   null
+);
+
+
+// The default font family.
+$base-font-family: sans-serif !default;
+
+// The font sizes for h1-h6.
+$h1-font-size: 2    * $base-font-size !default;
+$h2-font-size: 1.5  * $base-font-size !default;
+$h3-font-size: 1.17 * $base-font-size !default;
+$h4-font-size: 1    * $base-font-size !default;
+$h5-font-size: 0.83 * $base-font-size !default;
+$h6-font-size: 0.67 * $base-font-size !default;
+
+// The amount lists and blockquotes are indented.
+$indent-amount: 40px !default;
+
+// The following variable controls whether normalize-scss will output
+// font-sizes, line-heights and block-level top/bottom margins that form a basic
+// vertical rhythm on the page, which differs from the original Normalize.css.
+// However, changing any of the variables above will cause
+// $normalize-vertical-rhythm to be automatically set to true.
+$normalize-vertical-rhythm: false !default;
+
+
+/// Container's maximum width
+/// @type Length
+$max-width: 1180px !default;
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+  'small': 320px,
+  'medium': 768px,
+  'large': 1024px,
+) !default;
+
+//* Break Points *//
+$mobile-small-width: 479px;
+$mobile-width: 767px;
+$tablet-width: 768px;
+$desktop-width: 992px;
+$menu-custom-min-width: 1350px;
+$largedesktop-width: 1200px;
+
+
+
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'http://cdn.example.com/assets/';
+$base-url: '/assets/' !default;

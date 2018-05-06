@@ -7,8 +7,6 @@ interface IHeaderState {
   collapsed: boolean;
 }
 class Header extends React.Component<{}, IHeaderState> {
-  private navbar: HTMLElement;
-
   constructor(props: {}) {
     super(props);
     this.state = { collapsed: true };
@@ -19,29 +17,7 @@ class Header extends React.Component<{}, IHeaderState> {
     if (document.body.classList.contains('sidenav-toggled')) {
       document.body.classList.remove('sidenav-toggled');
     }
-
-    const node = this.navbar;
-    if (node.classList.contains('collapsing')) {
-      return;
-    }
-
-    node.classList.remove('collapse');
-    node.classList.remove('show');
-    node.classList.add('collapsing');
-
-    setTimeout(() => {
-      if (this.state.collapsed) {
-        node.setAttribute('style', 'height: 454px;');
-      } else {
-        node.removeAttribute('style');
-      }
-    }, 0);
-
-    setTimeout(() => {
-      node.classList.remove('collapsing');
-      node.removeAttribute('style');
-      this.setState({ collapsed: this.state.collapsed ? false : true });
-    }, 350);
+    this.setState({ collapsed: !this.state.collapsed });
   }
 
   render() {
@@ -49,7 +25,7 @@ class Header extends React.Component<{}, IHeaderState> {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <a className="navbar-brand" href="index.html">
-          <span className="fas fa-tachometer-alt" aria-hidden="true" /> Start Bootstrap
+          <span className="fas fa-bolt" aria-hidden="true" /> Climate Control Dashboard
         </a>
         <button
           onClick={this.toggle}
@@ -66,7 +42,6 @@ class Header extends React.Component<{}, IHeaderState> {
         <div
           className={`navbar-collapse${collapsed ? ' collapse' : ' show'}`}
           id="navbarResponsive"
-          ref={div => { this.navbar = div as HTMLElement; }}
         >
           <SideMenu />
           <SidenavToggler />
