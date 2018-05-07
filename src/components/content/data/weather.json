@@ -1,0 +1,42 @@
+{
+  "coord": {
+    "lon": -71.27,
+    "lat": 46.89
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 13.49,
+    "pressure": 1015,
+    "humidity": 33,
+    "temp_min": 13,
+    "temp_max": 14
+  },
+  "visibility": 48279,
+  "wind": {
+    "speed": 2.1,
+    "deg": 340
+  },
+  "clouds": {
+    "all": 75
+  },
+  "dt": 1525647600,
+  "sys": {
+    "type": 1,
+    "id": 3846,
+    "message": 0.0053,
+    "country": "CA",
+    "sunrise": 1525684844,
+    "sunset": 1525737801
+  },
+  "id": 6325485,
+  "name": "Charlesbourg",
+  "cod": 200
+}

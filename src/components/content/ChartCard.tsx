@@ -55,7 +55,7 @@ export default class ChartCard extends React.Component<IChartCardProps, IChartCa
         icon = 'fas fa-thermometer-half';
         break;
       case 'humidty':
-        icon = 'fas fa-tint';
+        icon = 'fas fa-umbrella';
         break;
       default:
         break;

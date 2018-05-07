@@ -166,6 +166,14 @@ module.exports = {
               },
             ],
           },
+          {
+            test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            loader: require.resolve('file-loader'),
+            options: {
+              limit: 10000,
+              name: 'static/fonts/[name].[ext]',
+            },
+          },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -225,7 +233,13 @@ module.exports = {
                 },
               },
               {
+                loader: require.resolve('resolve-url-loader'),
+              },
+              {
                 loader: require.resolve('sass-loader'),
+                options: {
+                  sourceMap: true,
+                },
               },
             ],
           },

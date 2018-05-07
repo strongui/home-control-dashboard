@@ -64,4 +64,78 @@
       }
     }
   }
+
+  // Weather Card
+  &.weather {
+    .update {
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      color: #999999;
+      padding: 0.15rem 0.3rem;
+      font-size: .7rem;
+      &:hover, :focus, :active, .focus, .active {
+        color: #474747;
+      }
+    }
+    .date {
+      border-bottom: solid 1px #ddd;
+      color: #888888;
+      font-size: .92em;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+    .icon {
+      font-size: 3em;
+    }
+    .title {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .sub-title {
+      font-size: 1.1em;
+      font-style: italic;
+      color: #6d6d6d;
+    }
+    .temperature {
+      font-size: 3em;
+      line-height: .8em;
+      small {
+        font-size: 0.6em;
+        color: #888888;
+      }
+    }
+    .humidty, .temp, .wind {
+      font-size: .8em;
+    }
+    &.minimal {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      .card-body {
+        padding: 0;
+      }
+      .col-sm-6, .col-sm-3 {
+        width: 100% !important;
+        flex: none;
+        max-width: 100%;
+        text-align: center;
+      }
+      .date {
+        text-transform: uppercase;
+        padding-top: 10px;
+        border-top: solid 1px #ddd;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .temperature {
+        font-size: 1.3em;
+      }
+      .description, .humidty, .temp, .wind {
+        display: none;
+      }
+    }
+  }
 }

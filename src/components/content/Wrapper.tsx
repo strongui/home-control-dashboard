@@ -4,6 +4,7 @@ import ChartCards from './ChartCards';
 import ChartCardsControlled from './ChartCardsControlled';
 import IconCards from './IconCards';
 import Status from './Status';
+import Weather from './Weather';
 
 export interface IWrapperProps {
   status: string;
@@ -41,6 +42,8 @@ export default class Wrapper extends React.Component<IWrapperProps, any> {
           title="Weather Forecast"
           description="Upcoming weather conditions for your area."
         />
+        <Weather />
+        <hr />
       </div>
     );
   }
