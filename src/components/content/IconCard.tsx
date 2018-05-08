@@ -2,7 +2,9 @@ import * as React from 'react';
 export interface IIconCardProps {
   error?: string;
   icon: string;
-  on: boolean;
+  id?: number;
+  monitored?: boolean;
+  on?: boolean;
   title: string;
   type: string;
 }
@@ -21,7 +23,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
   }
 
   componentDidMount() {
-    this.setState({ isOn: this.props.on });
+    this.setState({ isOn: this.props.on ? this.props.on : false });
   }
 
   toggle() {
@@ -30,10 +32,11 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
 
   render() {
     const { isOn } = this.state;
-    const { error, icon, title, type } = this.props;
-    const cls = isOn
-      ? `bg-${error ? 'danger' : type} text-white`
-      : `bg-${error ? 'danger text-white' : 'default inactive'}`;
+    const { error, icon, monitored, title, type } = this.props;
+    const cls =
+      isOn || (monitored && !error)
+        ? `bg-${error ? 'danger' : type} text-white`
+        : `bg-${error ? 'danger text-white' : 'default inactive'}`;
 
     const errorLabel = <span className="badge badge-warning">{error}</span>;
     const toggleLabel = (
@@ -46,6 +49,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
         </span>
       </label>
     );
+    const monitorLabel = <span className="badge badge-success"> No problems detected </span>;
 
     return (
       <div className={`card ${cls} o-hidden h-100`}>
@@ -57,7 +61,9 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
         </div>
         <div className={`card-footer${isOn ? ' text-white' : ''} clearfix small z-1 pt-2 pb-2`}>
           <span className="float-left mt-1">Current status</span>
-          <span className="float-right">{error ? errorLabel : toggleLabel}</span>
+          <span className="float-right">
+            {error ? errorLabel : monitored ? monitorLabel : toggleLabel}
+          </span>
         </div>
       </div>
     );

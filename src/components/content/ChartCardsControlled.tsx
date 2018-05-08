@@ -1,47 +1,17 @@
 import * as React from 'react';
-import ChartCard from './ChartCard';
+import ChartCard, { IChartCardProps } from './ChartCard';
 
-export default class ChartCardsControlled extends React.Component<{}, any> {
+export interface IChartCardsControlledProps {
+  cards: IChartCardProps[];
+}
+
+export default class ChartCardsControlled extends React.Component<IChartCardsControlledProps, {}> {
   render() {
-    return (
-      <div className="row">
-        <div className="col-xl-4 col-sm-6 mb-3">
-          <ChartCard
-            controled={true}
-            id="second-floor-temp"
-            min={0}
-            max={40}
-            description="Control second floor temperature."
-            title="Second Floor"
-            type="temperature"
-            value={11}
-          />
-        </div>
-        <div className="col-xl-4 col-sm-6 mb-3">
-          <ChartCard
-            controled={true}
-            id="first-floor-temp"
-            min={0}
-            max={40}
-            description="Control first floor temperature."
-            title="First Floor"
-            type="temperature"
-            value={11}
-          />
-        </div>
-        <div className="col-xl-4 col-sm-6 mb-3">
-          <ChartCard
-            controled={true}
-            id="basement-temp"
-            min={0}
-            max={40}
-            description="Control basement temperature."
-            title="Basement"
-            type="temperature"
-            value={11}
-          />
-        </div>
+    const cards = this.props.cards.map(chartCard => (
+      <div className="col-xl-4 col-sm-6 mb-3" key={chartCard.id}>
+        <ChartCard {...chartCard} />
       </div>
-    );
+    ));
+    return <div className="row">{cards}</div>;
   }
 }

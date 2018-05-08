@@ -5,12 +5,13 @@ import Knob from 'react-canvas-knob';
 export interface IChartCardProps {
   controled?: boolean;
   description?: string;
+  disabled?: boolean;
   error?: string;
   id?: string;
   max?: number;
   min?: number;
   title: string;
-  type: 'temperature' | 'humidty';
+  type: string;
   value: number;
 }
 

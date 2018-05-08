@@ -1,18 +1,32 @@
 import * as React from 'react';
 import Callout from './Callout';
-import ChartCards from './ChartCards';
-import ChartCardsControlled from './ChartCardsControlled';
-import IconCards from './IconCards';
-import Status from './Status';
+import Controls from './Controls';
 import Weather from './Weather';
+import Loading from '../Loading';
+import Status from './Status';
+
+import { IChartCardProps } from './ChartCard';
+import { IIconCardProps } from './IconCard';
 
 export interface IWrapperProps {
+  chartCards?: IChartCardProps[];
+  chartCardsControlled?: IChartCardProps[];
+  controlsInitialized: boolean;
+  iconCards?: IIconCardProps[];
+  iconCardsMonitored?: IIconCardProps[];
   status: string;
 }
 
 export default class Wrapper extends React.Component<IWrapperProps, any> {
   render() {
-    const { status } = this.props;
+    const {
+      chartCards,
+      chartCardsControlled,
+      controlsInitialized,
+      iconCards,
+      iconCardsMonitored,
+      status,
+    } = this.props;
     return (
       <div className="container-fluid">
         <ol className="breadcrumb">
@@ -21,22 +35,29 @@ export default class Wrapper extends React.Component<IWrapperProps, any> {
           </li>
           <li className="breadcrumb-item active">System Status</li>
         </ol>
+
         <Callout
           type="info"
           title="System Status"
           description="Overal system status and main system controls."
           titleExtra={<Status className="ml-2" status={status} />}
         />
-        <ChartCards />
-        <IconCards />
-        <hr />
-        <Callout
-          type="success"
-          title="Temperature Controls"
-          description="Controls for all available temperature zones."
-        />
-        <ChartCardsControlled />
-        <hr />
+
+        {controlsInitialized &&
+        chartCards &&
+        chartCardsControlled &&
+        iconCards &&
+        iconCardsMonitored ? (
+          <Controls
+            chartCards={chartCards}
+            chartCardsControlled={chartCardsControlled}
+            iconCards={iconCards}
+            iconCardsMonitored={iconCardsMonitored}
+          />
+        ) : (
+          <Loading />
+        )}
+
         <Callout
           type="success-secondary"
           title="Weather Forecast"
