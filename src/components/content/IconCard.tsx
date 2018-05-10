@@ -49,7 +49,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
         </span>
       </label>
     );
-    const monitorLabel = <span className="badge badge-success"> No problems detected </span>;
+    const monitorLabel = <span className=""> No problems detected </span>;
 
     return (
       <div className={`card ${cls} o-hidden h-100`}>
@@ -59,8 +59,18 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
           </div>
           <h5 className="mr-5 mb-0">{title}</h5>
         </div>
-        <div className={`card-footer${isOn ? ' text-white' : ''} clearfix small z-1 pt-2 pb-2`}>
-          <span className="float-left mt-1">Current status</span>
+        <div
+          className={`card-footer position-relative${
+            isOn ? ' text-white' : ''
+          } clearfix small z-1 pt-2 pb-2`}
+        >
+          {monitored &&
+            !error && (
+              <div className="scanner-dot">
+                <div className="dot" />
+              </div>
+            )}
+          <span className={`float-left${monitored ? '' : ' mt-2'}`}>Current status</span>
           <span className="float-right">
             {error ? errorLabel : monitored ? monitorLabel : toggleLabel}
           </span>

@@ -26,23 +26,16 @@ $rhythm-unit: 'em';
 // http://compass-style.org/reference/compass/support/
 $critical-usage-threshold: 0.01;
 
-$browser-minimum-versions: (
-  'chrome':  null,
-  'firefox': null,
-  'ie':      null,
-  'safari':  null,
-  'opera':   null
-);
-
+$browser-minimum-versions: ('chrome': null, 'firefox': null, 'ie': null, 'safari': null, 'opera': null);
 
 // The default font family.
 $base-font-family: sans-serif !default;
 
 // The font sizes for h1-h6.
-$h1-font-size: 2    * $base-font-size !default;
-$h2-font-size: 1.5  * $base-font-size !default;
+$h1-font-size: 2 * $base-font-size !default;
+$h2-font-size: 1.5 * $base-font-size !default;
 $h3-font-size: 1.17 * $base-font-size !default;
-$h4-font-size: 1    * $base-font-size !default;
+$h4-font-size: 1 * $base-font-size !default;
 $h5-font-size: 0.83 * $base-font-size !default;
 $h6-font-size: 0.67 * $base-font-size !default;
 
@@ -56,7 +49,6 @@ $indent-amount: 40px !default;
 // $normalize-vertical-rhythm to be automatically set to true.
 $normalize-vertical-rhythm: false !default;
 
-
 /// Container's maximum width
 /// @type Length
 $max-width: 1180px !default;
@@ -64,11 +56,7 @@ $max-width: 1180px !default;
 /// Breakpoints map
 /// @prop {String} keys - Keys are identifiers mapped to a given length
 /// @prop {Map} values - Values are actual breakpoints expressed in pixels
-$breakpoints: (
-  'small': 320px,
-  'medium': 768px,
-  'large': 1024px,
-) !default;
+$breakpoints: ('small': 320px, 'medium': 768px, 'large': 1024px) !default;
 
 //* Break Points *//
 $mobile-small-width: 479px;
@@ -78,10 +66,28 @@ $desktop-width: 992px;
 $menu-custom-min-width: 1350px;
 $largedesktop-width: 1200px;
 
-
-
 /// Relative or absolute URL where all assets are served from
 /// @type String
 /// @example scss - When using a CDN
 ///   $base-url: 'http://cdn.example.com/assets/';
 $base-url: '/assets/' !default;
+
+$white: #fff;
+$black: #000;
+$blue: #4285f4;
+$indigo: #6610f2;
+$purple: #a6c;
+$pink: #e83e8c;
+$red: #ff3547;
+$orange: #fd7e14;
+$yellow: #f80;
+$green: #00c851;
+$teal: #20c997;
+$cyan: #33b5e5;
+$greenMeadow: #26c6da;
+
+$gitGrey: #f6f8fa;
+
+$secondary: $purple;
+
+$wrapperBg: #f7f7f7;

@@ -1,21 +1,3 @@
-$white:   #fff;
-$black:   #000;
-$blue:    #4285f4;
-$indigo:  #6610f2;
-$purple:  #a6c;
-$pink:    #e83e8c;
-$red:     #ff3547;
-$orange:  #fd7e14;
-$yellow:  #f80;
-$green:   #00c851;
-$teal:    #20c997;
-$cyan:    #33b5e5;
-$greenMeadow: #26c6da;
-
-$gitGrey: #f6f8fa;
-
-$secondary:     $purple;
-
 /*
   $primary:       $blue !default;
   $success:       $green !default;
@@ -26,10 +8,9 @@ $secondary:     $purple;
   $dark:          $gray-800 !default;
 */
 
-$card-cap-bg: rgba($black, .03) !default;;
+$card-cap-bg: rgba($black, .03) !default;
 $card-bg: $white;
 
 .bg-success-secondary {
-  background-color: $greenMeadow !important;
+	background-color: $greenMeadow !important;
 }
-
