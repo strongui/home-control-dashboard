@@ -63,7 +63,7 @@ class Notification extends React.Component<INotificationProps, INotificationStat
         <li className={`nav-item dropdown${expanded ? ' show' : ''}`} data-tip={`No new ${title}`} data-for={tooltipId}>
           <span className="nav-link no-items">
             <span className={`fas fa-${icon}`} aria-hidden="true" />
-            <span className="d-lg-none pl-3">{title}</span>
+            <span className="d-lg-none">{title}</span>
           </span>
           <ReactTooltip id={tooltipId} />
         </li>
@@ -84,7 +84,7 @@ class Notification extends React.Component<INotificationProps, INotificationStat
           onClick={this.toggle}
         >
           <span className={`fas fa-${icon}`} aria-hidden="true" />
-          <span className="d-lg-none pl-3">
+          <span className="d-lg-none">
             {title}
             {notificationCount > 0 && (
               <span className={`ml-2 badge badge-pill badge-${type}`}>{notificationCount} New</span>

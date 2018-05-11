@@ -33,7 +33,7 @@ export default class TopMenu extends React.Component<ITopMenuProps, {}> {
 
         <li className="nav-item">
           <a className="nav-link" data-toggle="modal" data-target="#exampleModal">
-            <span className="fas fa-sign-out-alt mr-3" aria-hidden="true" />Logout
+            <span className="fas fa-sign-out-alt" aria-hidden="true" />Logout
           </a>
         </li>
       </ul>

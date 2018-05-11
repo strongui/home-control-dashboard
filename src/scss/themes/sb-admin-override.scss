@@ -36,9 +36,6 @@ h6,
 	background: $wrapperBg;
 }
 
-.nav-link-text {
-	margin-left: 10px;
-}
 nav {
 	.dropdown-item {
 		white-space: normal;
@@ -77,12 +74,19 @@ nav {
 		max-height: 75vh;
 	}
 	.nav-link {
+		> .fas {
+			width: 30px;
+		}
 		&.no-items {
 			&:after {
 				content: '' !important;
 			}
 		}
 	}
+}
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
+	color: rgba(255, 255, 255, 0.5);
 }
 
 @media (min-width: 992px) {
