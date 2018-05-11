@@ -1,9 +1,11 @@
+import { IDismissNotification } from '../Layout';
 import { INotification } from './Notification';
+import { Link } from 'react-router-dom';
 import * as React from 'react';
 import SideMenu from './SideMenu';
 import SidenavToggler from './SidenavToggler';
 import TopMenu from './TopMenu';
-import { IDismissNotification } from '../Layout';
+
 interface IHeaderState {
   collapsed: boolean;
 }
@@ -31,7 +33,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     const { alerts, dismissNotification, messages } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-        <a className="navbar-brand" href="index.html">
+        <Link className="navbar-brand" to="/">
           <span className="fas fa-bolt" aria-hidden="true" />
           <div className="scan-wrapper">
             <div className="focus">Climate Control Dashboard</div>
@@ -39,7 +41,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               <div className="text">Climate Control Dashboard</div>
             </div>
           </div>
-        </a>
+        </Link>
         <button
           onClick={this.toggle}
           className={`navbar-toggler navbar-toggler-right${collapsed ? ' collapsed' : ''}`}

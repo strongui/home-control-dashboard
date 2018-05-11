@@ -1,13 +1,15 @@
 // import axios from 'axios';
-import * as React from 'react';
-import Footer from './footer/Footer';
-import Header from './header/Header';
-import Wrapper from './content/Wrapper';
+const alertsJson = require('./data/alerts.json');
+const messagesJson = require('./data/messages.json');
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { IChartCardProps } from './content/ChartCard';
 import { IIconCardProps } from './content/IconCard';
 import { INotification } from './header/Notification';
-const messagesJson = require('./data/messages.json');
-const alertsJson = require('./data/alerts.json');
+import * as React from 'react';
+import Api from './pages/Api';
+import Dashboard from './pages/Dashboard';
+import Footer from './footer/Footer';
+import Header from './header/Header';
 
 export interface ILayoutState {
   alerts?: INotification[];
@@ -232,24 +234,34 @@ class Layout extends React.Component<{}, ILayoutState> {
       status,
     } = this.state;
     return (
-      <div className="App">
-        <Header
-          alerts={alerts}
-          dismissNotification={this.dismissNotification}
-          messages={messages}
-        />
-        <div className="content-wrapper">
-          <Wrapper
-            chartCards={chartCards}
-            chartCardsControlled={chartCardsControlled}
-            controlsInitialized={controlsInitialized}
-            iconCards={iconCards}
-            iconCardsMonitored={iconCardsMonitored}
-            status={status}
+      <Router>
+        <div className="App">
+          <Header
+            alerts={alerts}
+            dismissNotification={this.dismissNotification}
+            messages={messages}
           />
-          <Footer />
+          <div className="content-wrapper">
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Dashboard
+                  {...props}
+                  chartCards={chartCards}
+                  chartCardsControlled={chartCardsControlled}
+                  controlsInitialized={controlsInitialized}
+                  iconCards={iconCards}
+                  iconCardsMonitored={iconCardsMonitored}
+                  status={status}
+                />
+              )}
+            />
+            <Route path="/api" component={Api} />
+            <Footer />
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
