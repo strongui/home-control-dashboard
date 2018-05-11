@@ -1,25 +1,33 @@
 import * as React from 'react';
-import Notification from './Notification';
+import Notification, { INotification } from './Notification';
+import { IDismissNotification } from '../Layout';
+export interface ITopMenuProps {
+  alerts?: INotification[];
+  dismissNotification: IDismissNotification;
+  messages?: INotification[];
+}
 
-const messages = require('./data/messages.json');
-const alerts = require('./data/alerts.json');
-
-export default class TopMenu extends React.Component<{}, any> {
+export default class TopMenu extends React.Component<ITopMenuProps, {}> {
   render() {
+    const { alerts = [], dismissNotification, messages = [] } = this.props;
     return (
       <ul className="navbar-nav ml-auto">
         <Notification
-          title="Messages"
-          notificationCount={messages.length}
+          dismissNotification={dismissNotification}
           icon="envelope"
+          id="messages"
+          notificationCount={messages.length}
           notifications={messages}
+          title="Messages"
         />
 
         <Notification
-          title="Alerts"
-          notificationCount={alerts.length}
+          dismissNotification={dismissNotification}
           icon="bell"
+          id="alerts"
+          notificationCount={alerts.length}
           notifications={alerts}
+          title="Alerts"
           type="warning"
         />
 

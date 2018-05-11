@@ -32,7 +32,6 @@ export default class VideoFeed extends React.PureComponent<IVideoFeedProps, IVid
     clearInterval(this.interval);
   }
 
-
   nextCam() {
     this.setState((prevState, props) => {
       const totalImgs = props.images.length;

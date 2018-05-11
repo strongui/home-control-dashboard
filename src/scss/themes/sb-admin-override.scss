@@ -43,11 +43,19 @@ nav {
 	.dropdown-item {
 		white-space: normal;
 		min-width: 300px;
+		position: relative;
+		padding: 0.25rem 1.8rem;
 		&.active,
 		&:active {
+			background-color: $greenMeadow;
 			.text-muted {
 				color: #d0d7e6 !important;
 			}
+		}
+		.close {
+			position: absolute;
+			top: 0px;
+			right: 5px;
 		}
 	}
 	ul {

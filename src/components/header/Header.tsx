@@ -1,13 +1,19 @@
+import { INotification } from './Notification';
 import * as React from 'react';
 import SideMenu from './SideMenu';
 import SidenavToggler from './SidenavToggler';
 import TopMenu from './TopMenu';
-
+import { IDismissNotification } from '../Layout';
 interface IHeaderState {
   collapsed: boolean;
 }
-class Header extends React.Component<{}, IHeaderState> {
-  constructor(props: {}) {
+interface IHeaderProps {
+  alerts?: INotification[];
+  messages?: INotification[];
+  dismissNotification: IDismissNotification;
+}
+class Header extends React.Component<IHeaderProps, IHeaderState> {
+  constructor(props: IHeaderProps) {
     super(props);
     this.state = { collapsed: true };
     this.toggle = this.toggle.bind(this);
@@ -22,6 +28,7 @@ class Header extends React.Component<{}, IHeaderState> {
 
   render() {
     const { collapsed } = this.state;
+    const { alerts, dismissNotification, messages } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <a className="navbar-brand" href="index.html">
@@ -51,7 +58,7 @@ class Header extends React.Component<{}, IHeaderState> {
         >
           <SideMenu />
           <SidenavToggler />
-          <TopMenu />
+          <TopMenu alerts={alerts} dismissNotification={dismissNotification} messages={messages} />
         </div>
       </nav>
     );

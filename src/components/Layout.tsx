@@ -5,13 +5,18 @@ import Header from './header/Header';
 import Wrapper from './content/Wrapper';
 import { IChartCardProps } from './content/ChartCard';
 import { IIconCardProps } from './content/IconCard';
+import { INotification } from './header/Notification';
+const messagesJson = require('./data/messages.json');
+const alertsJson = require('./data/alerts.json');
 
 export interface ILayoutState {
+  alerts?: INotification[];
   chartCards?: IChartCardProps[];
   chartCardsControlled?: IChartCardProps[];
   controlsInitialized: boolean;
   iconCards?: IIconCardProps[];
   iconCardsMonitored?: IIconCardProps[];
+  messages?: INotification[];
   status: string;
   user?: { name: string, username: string, sex: string } | null;
 }
@@ -26,6 +31,8 @@ export interface IApiResponse {
   outsideTemp: number;
 }
 
+export type IDismissNotification = (notification: string, id: number) => void;
+
 function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -38,6 +45,7 @@ class Layout extends React.Component<{}, ILayoutState> {
       status: 'offline',
     };
     this.buildNewState = this.buildNewState.bind(this);
+    this.dismissNotification = this.dismissNotification.bind(this);
     this.syncState = this.syncState.bind(this);
   }
 
@@ -168,15 +176,24 @@ class Layout extends React.Component<{}, ILayoutState> {
     ];
 
     return {
+      alerts: alertsJson,
       chartCards,
       chartCardsControlled,
       controlsInitialized: true,
       iconCards,
       iconCardsMonitored,
+      messages: messagesJson,
       status,
       temp: Math.floor(Math.random() * 10) + 1,
       user: null,
     };
+  }
+
+  dismissNotification(notification: string, id: number) {
+    this.setState({
+      ...this.state,
+      [notification]: this.state[notification].filter((obj: INotification) => obj.key !== id),
+    });
   }
 
   syncState() {
@@ -204,17 +221,23 @@ class Layout extends React.Component<{}, ILayoutState> {
 
   render() {
     const {
+      // user,
+      alerts,
       chartCards,
       chartCardsControlled,
       controlsInitialized,
       iconCards,
       iconCardsMonitored,
+      messages,
       status,
-      // user,
     } = this.state;
     return (
       <div className="App">
-        <Header />
+        <Header
+          alerts={alerts}
+          dismissNotification={this.dismissNotification}
+          messages={messages}
+        />
         <div className="content-wrapper">
           <Wrapper
             chartCards={chartCards}
