@@ -1,22 +1,24 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-
+// import { NavLink } from 'react-router-dom';
+import NavLink from './NavLink';
 export default class SideMenu extends React.Component<{}, any> {
   render() {
     return (
       <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li className="nav-item">
-          <Link to="/" className="nav-link">
-            <span className="fas fa-tachometer-alt" aria-hidden="true" />
-            <span className="nav-link-text">Dashboard</span>
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/api" className="nav-link">
-            <span className="fas fa-clipboard-list" aria-hidden="true" />
-            <span className="nav-link-text">API</span>
-          </Link>
-        </li>
+        <NavLink to="/">
+          <span className="fas fa-tachometer-alt" aria-hidden="true" />
+          <span className="nav-link-text">Dashboard</span>
+        </NavLink>
+
+        <NavLink to="/api">
+          <span className="fas fa-clipboard-list" aria-hidden="true" />
+          <span className="nav-link-text">API</span>
+        </NavLink>
+
+        <NavLink to="/someUnknown">
+          <span className="fas fa-exclamation-circle" aria-hidden="true" />
+          <span className="nav-link-text">Error 404</span>
+        </NavLink>
       </ul>
     );
   }

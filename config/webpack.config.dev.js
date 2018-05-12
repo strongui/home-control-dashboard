@@ -57,6 +57,10 @@ module.exports = {
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
   ],
+  // historyApiFallback is used so that the SPA works well and any non found index.html/PATH will render to index.html and thus init our bundle.js
+  devServer: {
+    historyApiFallback: true,
+  },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,

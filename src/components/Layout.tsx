@@ -1,13 +1,14 @@
 // import axios from 'axios';
 const alertsJson = require('./data/alerts.json');
 const messagesJson = require('./data/messages.json');
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { IChartCardProps } from './content/ChartCard';
 import { IIconCardProps } from './content/IconCard';
 import { INotification } from './header/Notification';
 import * as React from 'react';
 import Api from './pages/Api';
 import Dashboard from './pages/Dashboard';
+import Error404 from './pages/Error404';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 
@@ -233,6 +234,7 @@ class Layout extends React.Component<{}, ILayoutState> {
       messages,
       status,
     } = this.state;
+
     return (
       <Router>
         <div className="App">
@@ -242,22 +244,25 @@ class Layout extends React.Component<{}, ILayoutState> {
             messages={messages}
           />
           <div className="content-wrapper">
-            <Route
-              exact
-              path="/"
-              render={props => (
-                <Dashboard
-                  {...props}
-                  chartCards={chartCards}
-                  chartCardsControlled={chartCardsControlled}
-                  controlsInitialized={controlsInitialized}
-                  iconCards={iconCards}
-                  iconCardsMonitored={iconCardsMonitored}
-                  status={status}
-                />
-              )}
-            />
-            <Route path="/api" component={Api} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <Dashboard
+                    {...props}
+                    chartCards={chartCards}
+                    chartCardsControlled={chartCardsControlled}
+                    controlsInitialized={controlsInitialized}
+                    iconCards={iconCards}
+                    iconCardsMonitored={iconCardsMonitored}
+                    status={status}
+                  />
+                )}
+              />
+              <Route path="/api" component={Api} />
+              <Route component={Error404} />
+            </Switch>
             <Footer />
           </div>
         </div>

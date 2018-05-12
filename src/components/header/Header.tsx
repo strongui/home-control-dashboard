@@ -36,9 +36,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         <Link className="navbar-brand" to="/">
           <span className="fas fa-bolt" aria-hidden="true" />
           <div className="scan-wrapper">
-            <div className="focus">Climate Control Dashboard</div>
+            <div className="focus">Home Control Dashboard</div>
             <div className="mask">
-              <div className="text">Climate Control Dashboard</div>
+              <div className="text">Home Control Dashboard</div>
             </div>
           </div>
         </Link>

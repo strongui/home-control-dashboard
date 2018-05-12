@@ -34,6 +34,10 @@ h6,
 
 .content-wrapper {
 	background: $wrapperBg;
+	padding-top: 0;
+	> .container-fluid {
+		padding-top: 15px;
+	}
 }
 
 nav {
@@ -58,7 +62,12 @@ nav {
 	ul {
 		&.navbar-nav {
 			.nav-item {
-				margin-right: 15px;
+				&.active {
+					a {
+						color: white !important;
+						font-weight: bold;
+					}
+				}
 			}
 		}
 	}
@@ -91,6 +100,6 @@ nav {
 
 @media (min-width: 992px) {
 	.content-wrapper {
-		margin-left: 265px;
+		margin-left: 250px;
 	}
 }
