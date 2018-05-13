@@ -1,18 +1,21 @@
 [
   {
-    "key": 1,
+    "id": 1,
+    "key": "message",
     "title": "David Miller",
     "date": "11:21 AM",
     "content": "Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!"
   },
   {
-    "key": 2,
+    "id": 2,
+    "key": "message",
     "title": "Jane Smith",
     "date": "12:35 PM",
     "content": "I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!"
   },
   {
-    "key": 3,
+    "id": 3,
+    "key": "message",
     "title": "David Miller",
     "date": "8:21 PM",
     "content": "I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution."

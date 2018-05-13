@@ -1,15 +1,19 @@
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 // tslint:disable-next-line import-name
 import Knob from 'react-canvas-knob';
-
 export interface IChartCardProps {
   controled?: boolean;
   description?: string;
   disabled?: boolean;
   error?: string;
-  id?: string;
+  id: number;
+  ident: string;
   max?: number;
   min?: number;
+  store?: IAppState;
+  storeKey?: string;
   title: string;
   type: string;
   value: number;
@@ -19,7 +23,7 @@ export interface IChartCardState {
   value: number;
 }
 
-export default class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
+class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
   private timeout: any;
   constructor(props: IChartCardProps) {
     super(props);
@@ -27,7 +31,6 @@ export default class ChartCard extends React.Component<IChartCardProps, IChartCa
       value: 0,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.postChange = this.postChange.bind(this);
   }
 
   componentDidMount() {
@@ -37,14 +40,9 @@ export default class ChartCard extends React.Component<IChartCardProps, IChartCa
   handleChange(newValue: number) {
     this.setState({ value: newValue });
     clearTimeout(this.timeout);
-    this.timeout = setTimeout(this.postChange, 500);
-  }
-
-  postChange() {
-    // tslint:disable-next-line no-console
-    console.log('%cPosting new values to server!', 'color: white; background-color: #26c6da ');
-    // tslint:disable-next-line no-console
-    console.dir({ id: this.props.id, value: this.state.value });
+    this.timeout = setTimeout(() => {
+      this.props.store!.appStore.setValue(this.props.storeKey!, this.props.ident, this.props.id, newValue);
+    }, 500);
   }
 
   render() {
@@ -139,3 +137,5 @@ export default class ChartCard extends React.Component<IChartCardProps, IChartCa
     );
   }
 }
+
+export default inject('store')(observer(ChartCard));

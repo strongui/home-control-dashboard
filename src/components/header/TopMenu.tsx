@@ -1,21 +1,23 @@
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import Notification, { INotification } from './Notification';
-import { IDismissNotification } from '../Layout';
+import Notification from './Notification';
+
 export interface ITopMenuProps {
-  alerts?: INotification[];
-  dismissNotification: IDismissNotification;
-  messages?: INotification[];
+  store?: IAppState;
 }
 
-export default class TopMenu extends React.Component<ITopMenuProps, {}> {
+class TopMenu extends React.Component<ITopMenuProps, {}> {
   render() {
-    const { alerts = [], dismissNotification, messages = [] } = this.props;
+    const { store } = this.props;
+    const { alerts = [], dismissNotification, messages = [] } = store!.appStore;
     return (
       <ul className="navbar-nav ml-auto">
         <Notification
           dismissNotification={dismissNotification}
           icon="envelope"
-          id="messages"
+          id={1}
+          ident="messages"
           notificationCount={messages.length}
           notifications={messages}
           title="Messages"
@@ -24,7 +26,8 @@ export default class TopMenu extends React.Component<ITopMenuProps, {}> {
         <Notification
           dismissNotification={dismissNotification}
           icon="bell"
-          id="alerts"
+          id={2}
+          ident="alerts"
           notificationCount={alerts.length}
           notifications={alerts}
           title="Alerts"
@@ -40,3 +43,5 @@ export default class TopMenu extends React.Component<ITopMenuProps, {}> {
     );
   }
 }
+
+export default inject('store')(observer(TopMenu));

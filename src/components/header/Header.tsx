@@ -1,36 +1,19 @@
-import { IDismissNotification } from '../Layout';
-import { INotification } from './Notification';
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import * as React from 'react';
 import SideMenu from './SideMenu';
 import SidenavToggler from './SidenavToggler';
 import TopMenu from './TopMenu';
 
-interface IHeaderState {
-  collapsed: boolean;
-}
 interface IHeaderProps {
-  alerts?: INotification[];
-  messages?: INotification[];
-  dismissNotification: IDismissNotification;
+  store?: IAppState;
 }
-class Header extends React.Component<IHeaderProps, IHeaderState> {
-  constructor(props: IHeaderProps) {
-    super(props);
-    this.state = { collapsed: true };
-    this.toggle = this.toggle.bind(this);
-  }
 
-  toggle() {
-    if (document.body.classList.contains('sidenav-toggled')) {
-      document.body.classList.remove('sidenav-toggled');
-    }
-    this.setState({ collapsed: !this.state.collapsed });
-  }
-
+class Header extends React.Component<IHeaderProps, {}> {
   render() {
-    const { collapsed } = this.state;
-    const { alerts, dismissNotification, messages } = this.props;
+    const { store } = this.props;
+    const { menuCollapsed, collapseMenu } = store!.uiStore;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <Link className="navbar-brand" to="/">
@@ -43,28 +26,28 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           </div>
         </Link>
         <button
-          onClick={this.toggle}
-          className={`navbar-toggler navbar-toggler-right${collapsed ? ' collapsed' : ''}`}
+          onClick={collapseMenu}
+          className={`navbar-toggler navbar-toggler-right${menuCollapsed ? ' collapsed' : ''}`}
           type="button"
           data-toggle="collapse"
           data-target="#navbarResponsive"
           aria-controls="navbarResponsive"
-          aria-expanded={!collapsed}
+          aria-expanded={!menuCollapsed}
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
         </button>
         <div
-          className={`navbar-collapse${collapsed ? ' collapse' : ' show'}`}
+          className={`navbar-collapse${menuCollapsed ? ' collapse' : ' show'}`}
           id="navbarResponsive"
         >
           <SideMenu />
           <SidenavToggler />
-          <TopMenu alerts={alerts} dismissNotification={dismissNotification} messages={messages} />
+          <TopMenu />
         </div>
       </nav>
     );
   }
 }
 
-export default Header;
+export default inject('store')(observer(Header));

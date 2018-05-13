@@ -3,13 +3,14 @@ import IconCard, { IIconCardProps } from './IconCard';
 
 export interface IconCardsProps {
   cards: IIconCardProps[];
+  storeKey: string;
 }
 
 export default class IconCards extends React.Component<IconCardsProps, {}> {
   render() {
     const cards = this.props.cards.map(iconCard => (
       <div className="col-xl-3 col-sm-6 mb-3" key={iconCard.id}>
-        <IconCard {...iconCard} />
+        <IconCard storeKey={this.props.storeKey} {...iconCard} />
       </div>
     ));
 

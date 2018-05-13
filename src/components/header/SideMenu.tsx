@@ -10,6 +10,16 @@ export default class SideMenu extends React.Component<{}, any> {
           <span className="nav-link-text">Dashboard</span>
         </NavLink>
 
+        <NavLink to="/lights">
+          <span className="fas fa-lightbulb" aria-hidden="true" />
+          <span className="nav-link-text">Lights</span>
+        </NavLink>
+
+        <NavLink to="/weather">
+          <span className="fas fa-sun" aria-hidden="true" />
+          <span className="nav-link-text">Weather</span>
+        </NavLink>
+
         <NavLink to="/api">
           <span className="fas fa-clipboard-list" aria-hidden="true" />
           <span className="nav-link-text">API</span>

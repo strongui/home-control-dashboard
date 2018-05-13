@@ -1,4 +1,4 @@
-import { IDismissNotification } from '../Layout';
+import { IDismissNotification } from '../../store/AppState';
 import * as React from 'react';
 import * as ReactTooltip from 'react-tooltip';
 import reactOnclickoutside from 'react-onclickoutside';
@@ -8,7 +8,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 export interface INotificationProps {
   dismissNotification: IDismissNotification;
   icon?: string;
-  id: string;
+  id: number;
+  ident: string;
   link?: string;
   notificationCount: number;
   notifications?: INotification[];
@@ -17,7 +18,8 @@ export interface INotificationProps {
 }
 
 export interface INotification {
-  key: number;
+  id: number;
+  ident: string;
   title: string;
   date: string;
   content: string;
@@ -53,10 +55,11 @@ class Notification extends React.Component<INotificationProps, INotificationStat
       link = '#',
       notificationCount = 0,
       notifications = [],
+      ident,
       title,
       type = 'primary',
     } = this.props;
-    const tooltipId = `tooltip-${this.props.id}`;
+    const tooltipId = `tooltip-${ident}-${this.props.id}`;
 
     if (!notificationCount) {
       return (
@@ -99,10 +102,10 @@ class Notification extends React.Component<INotificationProps, INotificationStat
           <div className="dropdown-divider" />
             <TransitionGroup>
               {notifications.map(notificationObj => (
-                <CSSTransition timeout={300} classNames="fade" key={notificationObj.key}>
+                <CSSTransition timeout={300} classNames="fade" key={notificationObj.id}>
                   <div>
                     <div className="dropdown-item">
-                      <button type="button" className="close" aria-label="Dismiss" onClick={() => dismissNotification(this.props.id, notificationObj.key)}>
+                      <button type="button" className="close" aria-label="Dismiss" onClick={() => dismissNotification(this.props.ident, notificationObj.id)}>
                         <span aria-hidden="true">&times;</span>
                       </button>
                       <strong>{notificationObj.title}</strong>

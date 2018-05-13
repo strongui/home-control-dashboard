@@ -16,14 +16,14 @@ export interface ICity {
   country: string;
 }
 
-export interface IWeather {
+export interface IWeatherStation {
   id: 802;
   main: string;
   description: string;
   icon: string;
 }
 
-export interface IWeatherObj {
+export interface IWeatherStationObj {
   dt: number;
   main: {
     temp: number,
@@ -35,7 +35,7 @@ export interface IWeatherObj {
     humidity: number,
     temp_kf: number,
   };
-  weather: IWeather[];
+  weather: IWeatherStation[];
   clouds: {
     all: number,
   };
@@ -54,20 +54,20 @@ export interface IForecastObj {
   cod: string;
   message: number;
   cnt: number;
-  list: IWeatherObj[];
+  list: IWeatherStationObj[];
   city: ICity;
 }
 
-export interface IWeatherState {
+export interface IWeatherStationState {
   error?: string | null;
   forecast?: IForecastObj;
   lastUpdate?: number;
   loaded: boolean;
   updating: boolean;
-  weather?: IWeatherObj;
+  weather?: IWeatherStationObj;
 }
 
-export default class Weather extends React.Component<{}, IWeatherState> {
+export default class WeatherStation extends React.Component<{}, IWeatherStationState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -111,7 +111,7 @@ export default class Weather extends React.Component<{}, IWeatherState> {
           lastUpdate: now.valueOf(),
           loaded: true,
           updating: false,
-          weather: weather.data as IWeatherObj,
+          weather: weather.data as IWeatherStationObj,
         });
       }),
     );

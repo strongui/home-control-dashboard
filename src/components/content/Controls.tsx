@@ -1,5 +1,5 @@
-import { IChartCardProps } from './ChartCard';
-import { IIconCardProps } from './IconCard';
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import Callout from './Callout';
 import ChartCards from './ChartCards';
@@ -8,35 +8,40 @@ import IconCards from './IconCards';
 import LiveMonitors from './LiveMonitors';
 
 export interface IControlsProps {
-  chartCards: IChartCardProps[];
-  chartCardsControlled: IChartCardProps[];
-  iconCards: IIconCardProps[];
-  iconCardsMonitored: IIconCardProps[];
+  store?: IAppState;
 }
 
-export default class Controls extends React.PureComponent<IControlsProps, {}> {
+class Controls extends React.Component<IControlsProps, {}> {
   render() {
-    const { chartCards, chartCardsControlled, iconCards, iconCardsMonitored } = this.props;
+    const { store } = this.props;
+    const {
+      chartCards = [],
+      chartCardsControlled = [],
+      iconCards = [],
+      iconCardsMonitored = [],
+    } = store!.appStore;
     return (
       <div>
-        <ChartCards cards={chartCards} />
-        <IconCards cards={iconCards} />
+        <ChartCards storeKey="chartCards" cards={chartCards} />
+        <IconCards storeKey="iconCards" cards={iconCards} />
         <hr />
         <Callout
           type="success"
           title="Temperature Controls"
           description="Controls for all available temperature zones."
         />
-        <ChartCardsControlled cards={chartCardsControlled} />
+        <ChartCardsControlled storeKey="chartCardsControlled" cards={chartCardsControlled} />
         <hr />
         <Callout
           type="warning"
           title="Live Monitoring"
           description="All passive monitors currently active."
         />
-        <LiveMonitors cards={iconCardsMonitored} />
+        <LiveMonitors storeKey="iconCardsMonitored" cards={iconCardsMonitored} />
         <hr />
       </div>
     );
   }
 }
+
+export default inject('store')(observer(Controls));

@@ -7,13 +7,14 @@ import entryJpg from '../../images/entry.jpg';
 
 export interface ILiveMonitorsProps {
   cards: IIconCardProps[];
+  storeKey: string;
 }
 
 export default class LiveMonitors extends React.Component<ILiveMonitorsProps, {}> {
   render() {
     const cards = this.props.cards.map(iconCard => (
       <div className="col-sm-12 mb-3" key={iconCard.id}>
-        <IconCard {...iconCard} />
+        <IconCard storeKey={this.props.storeKey} {...iconCard} />
       </div>
     ));
     const images = [

@@ -1,38 +1,23 @@
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 export interface IIconCardProps {
   error?: string;
   icon: string;
-  id?: number;
+  id: number;
+  ident: string;
   monitored?: boolean;
-  on?: boolean;
+  store?: IAppState;
+  storeKey?: string;
   title: string;
   type: string;
+  value?: boolean;
 }
 
-export interface IIconCardState {
-  isOn: boolean;
-}
-
-export default class IconCard extends React.Component<IIconCardProps, IIconCardState> {
-  constructor(props: IIconCardProps) {
-    super(props);
-    this.state = {
-      isOn: false,
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  componentDidMount() {
-    this.setState({ isOn: this.props.on ? this.props.on : false });
-  }
-
-  toggle() {
-    this.setState({ isOn: !this.state.isOn });
-  }
-
+class IconCard extends React.Component<IIconCardProps, {}> {
   render() {
-    const { isOn } = this.state;
-    const { error, icon, monitored, title, type } = this.props;
+    const { error, icon, monitored, title, type, id, ident, value, storeKey } = this.props;
+    const isOn = value === true;
     const cls =
       isOn || (monitored && !error)
         ? `bg-${error ? 'danger' : type} text-white`
@@ -41,7 +26,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
     const errorLabel = <span className="badge badge-warning">{error}</span>;
     const toggleLabel = (
       <label className="switch-light switch-material">
-        <input type="checkbox" checked={isOn} onChange={this.toggle} />
+        <input type="checkbox" checked={isOn} onChange={() => { this.props.store!.appStore.setValue(storeKey!, ident, id, !isOn); }} />
         <span>
           <span>Off</span>
           <span>On</span>
@@ -49,7 +34,7 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
         </span>
       </label>
     );
-    const monitorLabel = <span className=""> No problems detected </span>;
+    const monitorLabel = <span> No problems detected </span>;
 
     return (
       <div className={`card ${cls} o-hidden h-100`}>
@@ -79,3 +64,5 @@ export default class IconCard extends React.Component<IIconCardProps, IIconCardS
     );
   }
 }
+
+export default inject('store')(observer(IconCard));

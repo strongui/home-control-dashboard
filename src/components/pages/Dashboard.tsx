@@ -1,32 +1,19 @@
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import Callout from '../content/Callout';
 import Controls from '../content/Controls';
-import Weather from '../content/Weather';
 import Loading from '../Loading';
 import Status from '../content/Status';
 
-import { IChartCardProps } from '../content/ChartCard';
-import { IIconCardProps } from '../content/IconCard';
-
 export interface IDashboardProps {
-  chartCards?: IChartCardProps[];
-  chartCardsControlled?: IChartCardProps[];
-  controlsInitialized: boolean;
-  iconCards?: IIconCardProps[];
-  iconCardsMonitored?: IIconCardProps[];
-  status: string;
+  store?: IAppState;
 }
 
-export default class Dashboard extends React.Component<IDashboardProps, {}> {
+class Dashboard extends React.Component<IDashboardProps, {}> {
   render() {
-    const {
-      chartCards,
-      chartCardsControlled,
-      controlsInitialized,
-      iconCards,
-      iconCardsMonitored,
-      status,
-    } = this.props;
+    const { store } = this.props;
+    const { controlsInitialized, status } = store!.appStore;
     return (
       <div className="container-fluid">
         <ol className="breadcrumb">
@@ -43,29 +30,11 @@ export default class Dashboard extends React.Component<IDashboardProps, {}> {
           titleExtra={<Status className="ml-2" status={status} />}
         />
 
-        {controlsInitialized &&
-        chartCards &&
-        chartCardsControlled &&
-        iconCards &&
-        iconCardsMonitored ? (
-          <Controls
-            chartCards={chartCards}
-            chartCardsControlled={chartCardsControlled}
-            iconCards={iconCards}
-            iconCardsMonitored={iconCardsMonitored}
-          />
-        ) : (
-          <Loading />
-        )}
-
-        <Callout
-          type="success-secondary"
-          title="Weather Forecast"
-          description="Upcoming weather conditions for your area."
-        />
-        <Weather />
+        {controlsInitialized ? <Controls /> : <Loading />}
         <hr />
       </div>
     );
   }
 }
+
+export default inject('store')(observer(Dashboard));
