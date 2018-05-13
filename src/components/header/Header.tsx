@@ -7,13 +7,13 @@ import SidenavToggler from './SidenavToggler';
 import TopMenu from './TopMenu';
 
 interface IHeaderProps {
+  location: Location;
   store?: IAppState;
-  pathname: string;
 }
 
 class Header extends React.Component<IHeaderProps, {}> {
   render() {
-    const { store } = this.props;
+    const { location, store } = this.props;
     const { menuCollapsed, collapseMenu } = store!.uiStore;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -42,7 +42,7 @@ class Header extends React.Component<IHeaderProps, {}> {
           className={`navbar-collapse${menuCollapsed ? ' collapse' : ' show'}`}
           id="navbarResponsive"
         >
-          <SideMenu pathname={this.props.pathname}/>
+          <SideMenu location={location} />
           <SidenavToggler />
           <TopMenu />
         </div>

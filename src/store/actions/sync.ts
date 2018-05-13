@@ -1,7 +1,10 @@
 const alertsJson = require('../data/alerts.json');
+const lightsJson = require('../data/lights.json');
 const messagesJson = require('../data/messages.json');
+const monitorsJson = require('../data/monitors.json');
 import { IChartCardProps } from '../../components/content/ChartCard';
 import { IIconCardProps } from '../../components/content/IconCard';
+import { ILightSwitch } from '../../components/content/LightSwitch';
 import { INotification } from '../../components/header/Notification';
 
 export interface IApiResponse {
@@ -18,9 +21,9 @@ interface ISyncResponse {
   alerts: INotification[];
   chartCards: IChartCardProps[];
   chartCardsControlled: IChartCardProps[];
-  controlsInitialized: true;
   iconCards: IIconCardProps[];
   iconCardsMonitored: IIconCardProps[];
+  lights: ILightSwitch[];
   messages: INotification[];
   status: string;
 }
@@ -92,33 +95,7 @@ function buildNewState(obj: IApiResponse): ISyncResponse {
     },
   ];
 
-  const iconCardsMonitored = [
-    {
-      icon: 'fas fa-tint',
-      id: 1,
-      ident: 'waterSensor',
-      monitored: true,
-      title: 'Basement water sensor',
-      type: 'success-secondary',
-    },
-    {
-      icon: 'fas fa-smoking',
-      id: 2,
-      ident: 'smokeDetector',
-      monitored: true,
-      title: 'Smoke detectors',
-      type: 'success-secondary',
-    },
-    {
-      error: 'Intruder detected!',
-      icon: 'fas fa-bell',
-      id: 3,
-      ident: 'securitySystem',
-      monitored: true,
-      title: 'Security system',
-      type: 'success-secondary',
-    },
-  ];
+  const iconCardsMonitored = monitorsJson;
 
   const chartCardsControlled = [
     {
@@ -163,9 +140,9 @@ function buildNewState(obj: IApiResponse): ISyncResponse {
     alerts: alertsJson,
     chartCards,
     chartCardsControlled,
-    controlsInitialized: true,
     iconCards,
     iconCardsMonitored,
+    lights: lightsJson,
     messages: messagesJson,
     status,
   };

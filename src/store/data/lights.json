@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "ident": "livingRoom",
+    "label": "Living room",
+    "value": true
+  },
+  {
+    "group": "kitchen",
+    "groupLabel": "Kitchen",
+    "id": 2,
+    "ident": "kitchenOne",
+    "label": "Kitchen Main",
+    "value": true
+  },
+  {
+    "group": "kitchen",
+    "groupLabel": "Kitchen",
+    "id": 3,
+    "ident": "kitchenTwo",
+    "label": "Kitchen Secondary",
+    "value": true
+  },
+  {
+    "group": "kitchen",
+    "groupLabel": "Kitchen",
+    "id": 4,
+    "ident": "kitchenThree",
+    "label": "Kitchen Stove",
+    "value": false
+  },
+  {
+    "id": 5,
+    "ident": "bathroomMain",
+    "label": "Master bathroom",
+    "value": false
+  },
+  {
+    "id": 6,
+    "ident": "bathroomGuest",
+    "label": "Guest bathroom",
+    "value": false
+  },
+  {
+    "id": 7,
+    "ident": "hallway",
+    "label": "Hallway",
+    "value": true
+  },
+  {
+    "group": "basement",
+    "groupLabel": "Basement",
+    "id": 8,
+    "ident": "basementOne",
+    "label": "Basement Light 1",
+    "value": false
+  },
+  {
+    "group": "basement",
+    "groupLabel": "Basement",
+    "id": 9,
+    "ident": "basementTwo",
+    "label": "Basement Light 2",
+    "value": false
+  },
+  {
+    "group": "office",
+    "groupLabel": "Office",
+    "id": 10,
+    "ident": "officeOne",
+    "label": "Office Light 1",
+    "value": false
+  },
+  {
+    "group": "office",
+    "groupLabel": "Office",
+    "id": 11,
+    "ident": "officeTwo",
+    "label": "Office Light 2",
+    "value": false
+  }
+]

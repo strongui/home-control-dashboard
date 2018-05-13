@@ -1,0 +1,27 @@
+[
+  {
+    "icon": "fas fa-tint",
+    "id": 1,
+    "ident": "waterSensor",
+    "monitored": true,
+    "title": "Basement water sensor",
+    "type": "success-secondary"
+  },
+  {
+    "icon": "fas fa-smoking",
+    "id": 2,
+    "ident": "smokeDetector",
+    "monitored": true,
+    "title": "Smoke detectors",
+    "type": "success-secondary"
+  },
+  {
+    "error": "Intruder detected!",
+    "icon": "fas fa-bell",
+    "id": 3,
+    "ident": "securitySystem",
+    "monitored": true,
+    "title": "Security system",
+    "type": "success-secondary"
+  }
+]

@@ -41,7 +41,12 @@ class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
     this.setState({ value: newValue });
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      this.props.store!.appStore.setValue(this.props.storeKey!, this.props.ident, this.props.id, newValue);
+      this.props.store!.appStore.setValue(
+        this.props.storeKey!,
+        this.props.ident,
+        this.props.id,
+        newValue,
+      );
     }, 500);
   }
 

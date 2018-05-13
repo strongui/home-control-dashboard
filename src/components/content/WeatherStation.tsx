@@ -11,8 +11,8 @@ export interface ICity {
   id: number;
   name: string;
   coord: {
-    lat: number,
-    lon: number,
+    lat: number;
+    lon: number;
   };
   country: string;
 }
@@ -27,26 +27,26 @@ export interface IWeatherStation {
 export interface IWeatherStationObj {
   dt: number;
   main: {
-    temp: number,
-    temp_min: number,
-    temp_max: number,
-    pressure: number,
-    sea_level: number,
-    grnd_level: number,
-    humidity: number,
-    temp_kf: number,
+    temp: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    sea_level: number;
+    grnd_level: number;
+    humidity: number;
+    temp_kf: number;
   };
   weather: IWeatherStation[];
   clouds: {
-    all: number,
+    all: number;
   };
   wind: {
-    speed: number,
-    deg: number,
+    speed: number;
+    deg: number;
   };
   rain: { [key: string]: number };
   sys: {
-    pod: string,
+    pod: string;
   };
   dt_txt: string;
 }
@@ -66,7 +66,14 @@ export interface IWeatherStationProps {
 class WeatherStation extends React.Component<IWeatherStationProps, {}> {
   render() {
     const { store } = this.props;
-    const { error, loaded, updating, forecast, currentWeather, lastUpdate } = store!.appStore.weather;
+    const {
+      error,
+      loaded,
+      updating,
+      forecast,
+      currentWeather,
+      lastUpdate,
+    } = store!.appStore.weather;
 
     if (error) return <Error title={error} />;
     if (!loaded || (!forecast || !currentWeather)) return <Loading />;

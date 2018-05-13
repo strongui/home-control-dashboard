@@ -2,7 +2,7 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "noSemi": true,
-  "parser": "babylon",
+  "parser": "typescript",
   "printWidth": 100,
   "proseWrap": "always",
   "rcVerbose": true,

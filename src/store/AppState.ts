@@ -1,10 +1,14 @@
-import { action, computed, decorate, observable } from 'mobx';
+import { action, computed, configure, decorate, observable } from 'mobx';
 import { IChartCardProps } from '../components/content/ChartCard';
-import { IIconCardProps } from '../components/content/IconCard';
-import { INotification } from '../components/header/Notification';
 import { IForecastObj, IWeatherStationObj } from '../components/content/WeatherStation';
+import { IIconCardProps } from '../components/content/IconCard';
+import { ILightSwitch } from '../components/content/LightSwitch';
+import { INotification } from '../components/header/Notification';
 import sync from './actions/sync';
 import syncWeather from './actions/syncWeather';
+
+// don't allow state modifications outside actions
+configure({ enforceActions: true });
 
 export type IDismissNotification = (notification: string, id: number) => void;
 
@@ -43,6 +47,7 @@ export interface IAppState {
   dismissNotification: (notification: string, id: number) => void;
   iconCards?: IIconCardProps[];
   iconCardsMonitored?: IIconCardProps[];
+  lights?: ILightSwitch[];
   loadWeather: () => void;
   messages?: INotification[];
   setValue: (objKey: string, ident: string, id: number, value: any) => void;
@@ -61,6 +66,7 @@ class AppState {
   controlsInitialized = false;
   iconCards: IIconCardProps[];
   iconCardsMonitored: IIconCardProps[];
+  lights: ILightSwitch[];
   messages: INotification[];
   status = 'offline';
   user: IUserObj;
@@ -79,13 +85,21 @@ class AppState {
   }
 
   setValue(objKey: string, ident: string, id: number, value: any) {
-    this[objKey] = this[objKey].map(
-      (obj: IGenericObj) => (obj.id === id ? { ...obj, value } : obj),
-    );
     // tslint:disable-next-line no-console
     console.log('%cPosting new values to server!', 'color: white; background-color: #26c6da ');
     // tslint:disable-next-line no-console
+    console.log(
+      '%c' + `${ident} is changing to ${value}`,
+      'color: white; background-color: #33b5e5 ',
+    );
+    // tslint:disable-next-line no-console
     console.dir({ objKey, ident, id, value });
+    // tslint:disable-next-line no-console
+    console.log('******************');
+
+    this[objKey] = this[objKey].map(
+      (obj: IGenericObj) => (obj.id === id ? { ...obj, value } : obj),
+    );
   }
 
   dismissNotification(notification: string, targetId: number) {
@@ -97,23 +111,28 @@ class AppState {
 
     this.weather.updating = true;
     this.weather.error = null;
+
     syncWeather()
       .then(response => {
         const { currentWeather, forecast } = response;
         const now = new Date();
 
-        this.weather.currentWeather = currentWeather;
-        this.weather.error = null;
-        this.weather.forecast = forecast;
-        this.weather.lastUpdate = now.valueOf();
+        action('Sync Weather', () => {
+          this.weather.currentWeather = currentWeather;
+          this.weather.error = null;
+          this.weather.forecast = forecast;
+          this.weather.lastUpdate = now.valueOf();
 
-        this.weather.loaded = true;
-        this.weather.updating = false;
+          this.weather.loaded = true;
+          this.weather.updating = false;
+        })();
       })
       .catch(err => {
-        this.weather.error = err;
-        this.weather.loaded = true;
-        this.weather.updating = false;
+        action('Sync Weather Failed', () => {
+          this.weather.error = err;
+          this.weather.loaded = true;
+          this.weather.updating = false;
+        })();
       });
   }
 
@@ -123,21 +142,25 @@ class AppState {
         alerts,
         chartCards,
         chartCardsControlled,
-        controlsInitialized,
         iconCards,
         iconCardsMonitored,
+        lights,
         messages,
         status,
       } = response;
 
-      this.alerts = alerts;
-      this.chartCards = chartCards;
-      this.chartCardsControlled = chartCardsControlled;
-      this.controlsInitialized = controlsInitialized;
-      this.iconCards = iconCards;
-      this.iconCardsMonitored = iconCardsMonitored;
-      this.messages = messages;
-      this.status = status;
+      action('Sync State With Server', () => {
+        this.alerts = alerts;
+        this.chartCards = chartCards;
+        this.chartCardsControlled = chartCardsControlled;
+        this.iconCards = iconCards;
+        this.iconCardsMonitored = iconCardsMonitored;
+        this.lights = lights;
+        this.messages = messages;
+        this.status = status;
+
+        this.controlsInitialized = true;
+      })();
     });
   }
 }
@@ -150,6 +173,7 @@ export default decorate(AppState, {
   dismissNotification: action,
   iconCards: observable,
   iconCardsMonitored: observable,
+  lights: observable,
   loadWeather: action,
   messages: observable,
   setValue: action,

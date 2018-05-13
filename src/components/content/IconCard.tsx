@@ -26,7 +26,13 @@ class IconCard extends React.Component<IIconCardProps, {}> {
     const errorLabel = <span className="badge badge-warning">{error}</span>;
     const toggleLabel = (
       <label className="switch-light switch-material">
-        <input type="checkbox" checked={isOn} onChange={() => { this.props.store!.appStore.setValue(storeKey!, ident, id, !isOn); }} />
+        <input
+          type="checkbox"
+          checked={isOn}
+          onChange={() => {
+            this.props.store!.appStore.setValue(storeKey!, ident, id, !isOn);
+          }}
+        />
         <span>
           <span>Off</span>
           <span>On</span>

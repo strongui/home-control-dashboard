@@ -13,7 +13,7 @@ const SidenavToggler: React.SFC<ISidenavTogglerProps> = ({ store }) => {
         <a
           className="nav-link text-center"
           id="sidenavToggler"
-          onClick={store!.uiStore.toggleSidenav }
+          onClick={store!.uiStore.toggleSidenav}
         >
           <i className="fa fa-fw fa-angle-left" aria-hidden="true" />
         </a>

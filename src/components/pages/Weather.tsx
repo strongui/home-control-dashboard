@@ -9,15 +9,18 @@ export interface IWeatherStationProps {
   store?: IAppState;
 }
 class Weather extends React.Component<IWeatherStationProps, {}> {
+  componentDidMount() {
+    if (this.props.store) this.props.store.appStore.loadWeather();
+  }
+
   render() {
-    this.props.store!.appStore.loadWeather();
     return (
       <div className="container-fluid">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
             <Link to="/weather">Weather</Link>
           </li>
-          <li className="breadcrumb-item active">How to use</li>
+          <li className="breadcrumb-item active">Plan for the week</li>
         </ol>
         <Callout
           type="success-secondary"

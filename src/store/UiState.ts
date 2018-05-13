@@ -1,4 +1,7 @@
-import { action, computed, decorate, observable } from 'mobx';
+import { action, computed, configure, decorate, observable } from 'mobx';
+
+// don't allow state modifications outside actions
+configure({ enforceActions: true });
 
 export interface IUiState {
   appIsInSync: boolean;
