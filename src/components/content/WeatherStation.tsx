@@ -1,8 +1,9 @@
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import axios from 'axios';
-import WeatherCard from './WeatherCard';
 import Error from '../Error';
 import Loading from '../Loading';
+import WeatherCard from './WeatherCard';
 // const forecast = require('./data/forecast.json');
 // const weather = require('./data/weather.json');
 
@@ -58,70 +59,17 @@ export interface IForecastObj {
   city: ICity;
 }
 
-export interface IWeatherStationState {
-  error?: string | null;
-  forecast?: IForecastObj;
-  lastUpdate?: number;
-  loaded: boolean;
-  updating: boolean;
-  weather?: IWeatherStationObj;
+export interface IWeatherStationProps {
+  store?: IAppState;
 }
 
-export default class WeatherStation extends React.Component<{}, IWeatherStationState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      error: null,
-      loaded: false,
-      updating: true,
-    };
-
-    this.updateWeather = this.updateWeather.bind(this);
-  }
-
-  componentDidMount() {
-    this.updateWeather();
-  }
-
-  updateWeather() {
-    this.setState({
-      ...this.state,
-      error: null,
-      updating: true,
-    });
-
-    function getWeather() {
-      return axios.get(
-        'http://api.openweathermap.org/data/2.5/weather?lat=46.8921&lon=-71.2732&mode=json&units=metric&APPID=a40aead15bf642aab90b78be6ff65135',
-      );
-    }
-
-    function getForecast() {
-      return axios.get(
-        'http://api.openweathermap.org/data/2.5/forecast?lat=46.8921&lon=-71.2732&mode=json&units=metric&APPID=a40aead15bf642aab90b78be6ff65135',
-      );
-    }
-
-    axios.all([getWeather(), getForecast()]).then(
-      axios.spread((weather, forecast) => {
-        const now = new Date();
-        this.setState({
-          error: null,
-          forecast: forecast.data as IForecastObj,
-          lastUpdate: now.valueOf(),
-          loaded: true,
-          updating: false,
-          weather: weather.data as IWeatherStationObj,
-        });
-      }),
-    );
-  }
-
+class WeatherStation extends React.Component<IWeatherStationProps, {}> {
   render() {
-    const { error, loaded, updating, forecast, weather, lastUpdate } = this.state;
+    const { store } = this.props;
+    const { error, loaded, updating, forecast, currentWeather, lastUpdate } = store!.appStore.weather;
 
     if (error) return <Error title={error} />;
-    if (!loaded || (!forecast || !weather)) return <Loading />;
+    if (!loaded || (!forecast || !currentWeather)) return <Loading />;
 
     const { city } = forecast;
     const { name } = city;
@@ -154,21 +102,21 @@ export default class WeatherStation extends React.Component<{}, IWeatherStationS
       <div className="row">
         <div className="col-md-5 col-sm-12 mb-3">
           <WeatherCard
-            date={weather.dt}
+            date={currentWeather.dt}
             header="Current conditions"
-            high={Math.round(weather.main.temp_max)}
-            humidity={weather.main.humidity}
-            icon={weather.weather[0].id}
+            high={Math.round(currentWeather.main.temp_max)}
+            humidity={currentWeather.main.humidity}
+            icon={currentWeather.weather[0].id}
             lastUpdate={lastUpdate}
-            low={Math.round(weather.main.temp_min)}
-            subTitle={`${weather.weather[0].description
+            low={Math.round(currentWeather.main.temp_min)}
+            subTitle={`${currentWeather.weather[0].description
               .charAt(0)
-              .toUpperCase()}${weather.weather[0].description.slice(1)}`}
-            temp={Math.round(weather.main.temp)}
+              .toUpperCase()}${currentWeather.weather[0].description.slice(1)}`}
+            temp={Math.round(currentWeather.main.temp)}
             title={name}
-            update={this.updateWeather}
+            update={this.props.store!.appStore.loadWeather}
             updating={updating}
-            wind={Math.round(weather.wind.speed)}
+            wind={Math.round(currentWeather.wind.speed)}
           />
         </div>
         <div className="col-md-7 col-sm-12">
@@ -185,3 +133,5 @@ export default class WeatherStation extends React.Component<{}, IWeatherStationS
     );
   }
 }
+
+export default inject('store')(observer(WeatherStation));

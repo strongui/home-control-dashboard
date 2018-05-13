@@ -1,10 +1,16 @@
-import * as React from 'react';
+import { IAppState } from '../../store';
+import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import * as React from 'react';
 import Callout from '../content/Callout';
 import WeatherStation from '../content/WeatherStation';
 
-export default class Weather extends React.Component<{}, {}> {
-  render(): any {
+export interface IWeatherStationProps {
+  store?: IAppState;
+}
+class Weather extends React.Component<IWeatherStationProps, {}> {
+  render() {
+    this.props.store!.appStore.loadWeather();
     return (
       <div className="container-fluid">
         <ol className="breadcrumb">
@@ -23,3 +29,5 @@ export default class Weather extends React.Component<{}, {}> {
     );
   }
 }
+
+export default inject('store')(observer(Weather));

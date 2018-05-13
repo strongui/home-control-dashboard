@@ -1,5 +1,5 @@
-import UiState, { IUiState } from './UiState';
 import AppState, { IAppState } from './AppState';
+import UiState, { IUiState } from './UiState';
 
 export interface IAppState {
   appStore: IAppState;

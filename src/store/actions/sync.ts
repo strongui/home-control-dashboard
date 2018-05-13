@@ -1,5 +1,5 @@
-const alertsJson = require('../../components/data/alerts.json');
-const messagesJson = require('../../components/data/messages.json');
+const alertsJson = require('../data/alerts.json');
+const messagesJson = require('../data/messages.json');
 import { IChartCardProps } from '../../components/content/ChartCard';
 import { IIconCardProps } from '../../components/content/IconCard';
 import { INotification } from '../../components/header/Notification';

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import Api from './pages/Api';
 import Dashboard from './pages/Dashboard';
@@ -8,24 +8,22 @@ import Header from './header/Header';
 import Lights from './pages/Lights';
 import Weather from './pages/Weather';
 
-export default class Layout extends React.Component<{}, {}> {
+export default class Layout extends React.Component<{ pathname: string }, {}> {
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Header />
-          <div className="content-wrapper">
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route path="/api" component={Api} />
-              <Route path="/lights" component={Lights} />
-              <Route path="/weather" component={Weather} />
-              <Route component={Error404} />
-            </Switch>
-            <Footer />
-          </div>
+      <div className="App">
+        <Header pathname={this.props.pathname} />
+        <div className="content-wrapper">
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/api" component={Api} />
+            <Route path="/lights" component={Lights} />
+            <Route path="/weather" component={Weather} />
+            <Route component={Error404} />
+          </Switch>
+          <Footer />
         </div>
-      </Router>
+      </div>
     );
   }
 }

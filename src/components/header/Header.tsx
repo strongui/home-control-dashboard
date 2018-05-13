@@ -8,6 +8,7 @@ import TopMenu from './TopMenu';
 
 interface IHeaderProps {
   store?: IAppState;
+  pathname: string;
 }
 
 class Header extends React.Component<IHeaderProps, {}> {
@@ -41,7 +42,7 @@ class Header extends React.Component<IHeaderProps, {}> {
           className={`navbar-collapse${menuCollapsed ? ' collapse' : ' show'}`}
           id="navbarResponsive"
         >
-          <SideMenu />
+          <SideMenu pathname={this.props.pathname}/>
           <SidenavToggler />
           <TopMenu />
         </div>

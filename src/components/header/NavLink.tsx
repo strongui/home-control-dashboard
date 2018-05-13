@@ -1,17 +1,14 @@
-import * as React from 'react';
 import { Link } from 'react-router-dom';
+import * as React from 'react';
 
 export interface INavLinkProps {
   to: string;
+  pathname: string;
 }
 
-export default class NavLinkDeux extends React.Component<INavLinkProps, any> {
-  static contextTypes = {
-    router: () => undefined,
-  };
-
+export default class NavLink extends React.Component<INavLinkProps, any> {
   render() {
-    const isActive = this.context.router.route.location.pathname === this.props.to;
+    const isActive = this.props.pathname === this.props.to;
     const className = isActive ? ' active' : '';
 
     return (
