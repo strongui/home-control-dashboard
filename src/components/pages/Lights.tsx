@@ -52,16 +52,18 @@ class Lights extends React.Component<ILightsProps, {}> {
         </ol>
         <article>
           {cardRows.map((row, i) => (
-            <div className="row" key={`lights-row-${i}`}>
+            <div className="row row-eq-height" key={`lights-row-${i}`}>
               {row.map(group => {
                 const firstLight = group[0];
                 return (
                   <div className="col-md-4 mb-3" key={`lights-column-${firstLight.group}`}>
-                    <div className="card">
-                      <div className="card-body">
-                        <h5 className="card-title">
+                    <div className="card h-100 zIndex1">
+                      <div className="card-header">
+                        <h5 className="card-title mb-0">
                           {firstLight.groupLabel ? firstLight.groupLabel : 'Lights'}
                         </h5>
+                      </div>
+                      <div className="card-body">
                         <fieldset>
                           {group.map(light => (
                             <LightSwitch key={`light-${light.id}`} storeKey="lights" {...light} />

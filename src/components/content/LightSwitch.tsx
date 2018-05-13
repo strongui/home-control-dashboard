@@ -27,10 +27,12 @@ class LightSwitch extends React.Component<ILightSwitchProps, {}> {
           name="switch"
           id={switchId}
           checked={value}
+          className="light-switch"
           onChange={() => this.props.store!.appStore.setValue(storeKey, ident, id, !value)}
         />
         <label className="switch" htmlFor={switchId}>
-          {label}
+          <span className="text">{label}</span>
+          <span className="indicator" />
         </label>
       </div>
     );

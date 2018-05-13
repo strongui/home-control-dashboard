@@ -45,7 +45,7 @@ nav {
 		white-space: normal;
 		min-width: 300px;
 		position: relative;
-		padding: 0.25rem 1.8rem;
+		padding: 0.5rem 2.5rem 0.25rem 1.5rem;
 		&.active,
 		&:active {
 			background-color: $greenMeadow;
@@ -56,7 +56,7 @@ nav {
 		.close {
 			position: absolute;
 			top: 0px;
-			right: 5px;
+			right: 15px;
 		}
 	}
 	ul {

@@ -19,7 +19,11 @@ const storeInstance = new store();
 const history = syncHistoryWithStore(browserHistory, routingStore);
 
 ReactDOM.render(
-  <Provider routing={routingStore} store={storeInstance}><Router history={history}><App /></Router></Provider>,
+  <Provider routing={routingStore} store={storeInstance}>
+    <Router history={history}>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById('root') as HTMLElement,
 );
 

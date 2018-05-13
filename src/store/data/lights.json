@@ -78,5 +78,13 @@
     "ident": "officeTwo",
     "label": "Office Light 2",
     "value": false
+  },
+  {
+    "group": "basement",
+    "groupLabel": "Basement",
+    "id": 12,
+    "ident": "basementThree",
+    "label": "Basement Light 3",
+    "value": false
   }
 ]
