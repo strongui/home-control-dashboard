@@ -4,8 +4,6 @@ import * as React from 'react';
 import Error from '../Error';
 import Loading from '../Loading';
 import WeatherCard from './WeatherCard';
-// const forecast = require('./data/forecast.json');
-// const weather = require('./data/weather.json');
 
 export interface ICity {
   id: number;

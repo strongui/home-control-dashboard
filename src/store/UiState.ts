@@ -1,4 +1,5 @@
-import { action, computed, configure, decorate, observable } from 'mobx';
+const mobx = require('mobx');
+const { action, computed, configure, decorate, observable } = mobx;
 
 // don't allow state modifications outside actions
 configure({ enforceActions: true });
@@ -12,8 +13,8 @@ export interface IUiState {
   sidenavToggled: boolean;
   toggleSidenav: () => void;
   windowDimensions: {
-    height: number,
-    width: number,
+    height: number;
+    width: number;
   };
 }
 

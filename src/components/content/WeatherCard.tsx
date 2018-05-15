@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import * as moment from 'moment';
 const moment = require('moment');
 
 export interface IWeatherCardProps {

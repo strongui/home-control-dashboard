@@ -24,7 +24,6 @@
     "jest": "^22.4.3",
     "mobx": "^4.2.1",
     "mobx-react": "^5.1.2",
-    "mobx-react-devtools": "^5.0.1",
     "mobx-react-router": "^4.0.3",
     "moment": "^2.22.1",
     "npm": "^6.0.1",

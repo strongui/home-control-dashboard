@@ -3,118 +3,119 @@ import { Link } from 'react-router-dom';
 // tslint:disable-next-line import-name
 import Particles from 'react-particles-js';
 
-export default class Error404 extends React.Component<{}, {}> {
-  render() {
-    const particleOps: any = {
-      particles: {
-        color: {
-          value: '#ffffff',
-        },
-        interactivity: {
-          detect_on: 'canvas',
-          events: {
-            onclick: {
-              enable: false,
-              mode: 'repulse',
-            },
-            onhover: {
-              enable: false,
-              mode: 'bubble',
-            },
-            resize: false,
-          },
-          modes: {
-            bubble: {
-              distance: 250,
-              duration: 2,
-              opacity: 0,
-              size: 0,
-              speed: 3,
-            },
-            grab: {
-              distance: 400,
-              line_linked: {
-                opacity: 1,
-              },
-            },
-            push: {
-              particles_nb: 4,
-            },
-            remove: {
-              particles_nb: 2,
-            },
-            repulse: {
-              distance: 400,
-              duration: 0.4,
-            },
-          },
-        },
-        line_linked: {
-          color: '#ffffff',
-          distance: 150,
+export const particleOps = {
+  particles: {
+    color: {
+      value: '#ffffff',
+    },
+    interactivity: {
+      detect_on: 'canvas',
+      events: {
+        onclick: {
           enable: false,
-          opacity: 0.4,
-          width: 1,
+          mode: 'repulse',
         },
-        move: {
-          attract: {
-            enable: false,
-            rotateX: 600,
-            rotateY: 600,
-          },
-          bounce: false,
-          direction: 'none',
-          enable: true,
-          out_mode: 'out',
-          random: true,
-          speed: 0.17,
-          straight: false,
+        onhover: {
+          enable: false,
+          mode: 'bubble',
         },
-        number: {
-          density: {
-            enable: true,
-            value_area: 800,
-          },
-          value: 160,
+        resize: false,
+      },
+      modes: {
+        bubble: {
+          distance: 250,
+          duration: 2,
+          opacity: 0,
+          size: 0,
+          speed: 3,
         },
-        opacity: {
-          anim: {
-            enable: true,
-            opacity_min: 0,
-            speed: 1,
-            sync: false,
+        grab: {
+          distance: 400,
+          line_linked: {
+            opacity: 1,
           },
-          random: true,
-          value: 1,
         },
-        shape: {
-          image: {
-            height: 100,
-            src: 'img/github.svg',
-            width: 100,
-          },
-          polygon: {
-            nb_sides: 5,
-          },
-          stroke: {
-            color: '#000000',
-            width: 0,
-          },
-          type: 'circle',
+        push: {
+          particles_nb: 4,
         },
-        size: {
-          anim: {
-            enable: false,
-            size_min: 0.3,
-            speed: 4,
-            sync: false,
-          },
-          random: true,
-          value: 3,
+        remove: {
+          particles_nb: 2,
+        },
+        repulse: {
+          distance: 400,
+          duration: 0.4,
         },
       },
-      retina_detect: true,
-    };
+    },
+    line_linked: {
+      color: '#ffffff',
+      distance: 150,
+      enable: false,
+      opacity: 0.4,
+      width: 1,
+    },
+    move: {
+      attract: {
+        enable: false,
+        rotateX: 600,
+        rotateY: 600,
+      },
+      bounce: false,
+      direction: 'none',
+      enable: true,
+      out_mode: 'out',
+      random: true,
+      speed: 0.17,
+      straight: false,
+    },
+    number: {
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+      value: 160,
+    },
+    opacity: {
+      anim: {
+        enable: true,
+        opacity_min: 0,
+        speed: 1,
+        sync: false,
+      },
+      random: true,
+      value: 1,
+    },
+    shape: {
+      image: {
+        height: 100,
+        src: 'img/github.svg',
+        width: 100,
+      },
+      polygon: {
+        nb_sides: 5,
+      },
+      stroke: {
+        color: '#000000',
+        width: 0,
+      },
+      type: 'circle',
+    },
+    size: {
+      anim: {
+        enable: false,
+        size_min: 0.3,
+        speed: 4,
+        sync: false,
+      },
+      random: true,
+      value: 3,
+    },
+  },
+  retina_detect: true,
+};
+
+export default class Error404 extends React.Component<{}, {}> {
+  render() {
     return (
       <div className="container-fluid permission_denied">
         <Particles className="particles-js" params={particleOps} />

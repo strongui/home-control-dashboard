@@ -1,9 +1,12 @@
-import { action, computed, configure, decorate, observable } from 'mobx';
+const mobx = require('mobx');
+const { action, computed, configure, decorate, observable } = mobx;
+
 import { IChartCardProps } from '../components/content/ChartCard';
 import { IForecastObj, IWeatherStationObj } from '../components/content/WeatherStation';
 import { IIconCardProps } from '../components/content/IconCard';
 import { ILightSwitch } from '../components/content/LightSwitch';
 import { INotification } from '../components/header/Notification';
+import doLogin from './actions/doLogin';
 import sync from './actions/sync';
 import syncWeather from './actions/syncWeather';
 
@@ -19,11 +22,12 @@ export interface IGenericObj {
 }
 
 export interface IUserObj {
-  lastname: string;
+  error?: string;
+  lastname?: string;
   loggedIn: boolean;
-  name: string;
-  sex: string;
-  username: string;
+  name?: string;
+  sex?: string;
+  username?: string;
 }
 
 export interface IWeatherBase {
@@ -47,13 +51,17 @@ export interface IAppState {
   dismissNotification: (notification: string, id: number) => void;
   iconCards?: IIconCardProps[];
   iconCardsMonitored?: IIconCardProps[];
+  isLoggedIn: boolean;
   lights?: ILightSwitch[];
   loadWeather: () => void;
+  login: (username: string, password: string, forceFail?: boolean) => Promise<IUserObj>;
+  logout: () => void;
   messages?: INotification[];
   setValue: (objKey: string, ident: string, id: number, value: any) => void;
   status: string;
   syncStateWithServer: (latency?: number) => void;
   user?: IUserObj;
+  userFullName: () => string;
   weather: IWeather;
 }
 
@@ -69,19 +77,38 @@ class AppState {
   lights: ILightSwitch[];
   messages: INotification[];
   status = 'offline';
-  user: IUserObj;
+  user: IUserObj = { loggedIn: false };
   weather: IWeather = { loaded: false, updating: false };
 
   constructor(rootStore: any) {
     this.dismissNotification = this.dismissNotification.bind(this);
+    this.loadWeather = this.loadWeather.bind(this);
+    this.login = this.login.bind(this);
     this.rootStore = rootStore;
     this.setValue = this.setValue.bind(this);
     this.syncStateWithServer = this.syncStateWithServer.bind(this);
-    this.loadWeather = this.loadWeather.bind(this);
   }
 
   get userFullName() {
     return this.user ? `${this.user.name} ${this.user.lastname}` : '';
+  }
+
+  get isLoggedIn() {
+    return this.user && this.user.loggedIn;
+  }
+
+  login(username: string, password: string, forceFail?: boolean) {
+    return new Promise((resolve, reject) => {
+      doLogin(username, password, forceFail).then(response => {
+        action('Login User', () => {
+          this.user = response;
+        })();
+      });
+    });
+  }
+
+  logout() {
+    this.user = { loggedIn: false };
   }
 
   setValue(objKey: string, ident: string, id: number, value: any) {
@@ -173,8 +200,11 @@ export default decorate(AppState, {
   dismissNotification: action,
   iconCards: observable,
   iconCardsMonitored: observable,
+  isLoggedIn: computed,
   lights: observable,
   loadWeather: action,
+  login: action,
+  logout: action,
   messages: observable,
   setValue: action,
   status: observable,

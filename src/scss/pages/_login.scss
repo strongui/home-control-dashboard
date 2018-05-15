@@ -1,0 +1,24 @@
+body {
+  &.login {
+    background-color: $gray-900!important;
+    height: 100%;
+    margin-bottom: 0;
+    padding-top: 0;
+    .App {
+      height: 100%;
+    }
+    .content-wrapper {
+      margin-left: 0 ;
+      height: 100%;
+    }
+    footer {
+      width: 100%;
+      background: $gray-900 !important;
+      color: white;
+    }
+  }
+}
+
+.card-login {
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important;
+}

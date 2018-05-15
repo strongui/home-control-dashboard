@@ -43,11 +43,12 @@ export default class Api extends React.Component<{}, {}> {
               <h2>Build WIth</h2>
               <hr />
               <ul>
-                <li>React</li>
                 <li>Bootstrap 4</li>
                 <li>Fontawesome</li>
-                <li>Owfont</li>
+                <li>MobX</li>
                 <li>Openweathermap</li>
+                <li>Owfont</li>
+                <li>React</li>
               </ul>
               <h3>Authors</h3>
               <ul>

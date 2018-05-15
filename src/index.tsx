@@ -1,6 +1,5 @@
-import './index.css';
-import { Router } from 'react-router-dom';
 import { Provider } from 'mobx-react';
+import { Router } from 'react-router-dom';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
@@ -9,14 +8,14 @@ import store from './store';
 
 // tslint:disable-next-line no-implicit-dependencies no-submodule-imports
 import createBrowserHistory from 'history/createBrowserHistory';
-import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 
+const mobxReactRouter = require('mobx-react-router');
 const browserHistory = createBrowserHistory();
-const routingStore = new RouterStore();
+const routingStore = new mobxReactRouter.RouterStore();
 
 const storeInstance = new store();
 
-const history = syncHistoryWithStore(browserHistory, routingStore);
+const history = mobxReactRouter.syncHistoryWithStore(browserHistory, routingStore);
 
 ReactDOM.render(
   <Provider routing={routingStore} store={storeInstance}>
