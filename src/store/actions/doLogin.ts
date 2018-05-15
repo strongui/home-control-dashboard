@@ -7,7 +7,7 @@ export default function doLogin(
 ): Promise<IUserObj> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (forceFail || (username !== 'arnold' && password !== 'test')) {
+      if (forceFail || (username !== 'arnold' || password !== 'test')) {
         resolve({
           error: 'Username or password are invalid.',
           loggedIn: false,
@@ -21,6 +21,6 @@ export default function doLogin(
           username,
         });
       }
-    }, 2000);
+    }, 1000);
   });
 }

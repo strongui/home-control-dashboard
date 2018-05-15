@@ -1,7 +1,7 @@
 {
   "author": "Amir Karamuja",
   "bugs": {
-    "url": "https://github.com/strongui/climate-control-dashboard/issues"
+    "url": "https://github.com/strongui/home-control-dashboard/issues"
   },
   "dependencies": {
     "autoprefixer": "^7.2.6",
@@ -83,19 +83,19 @@
     "tslint-config-airbnb": "^5.8.0",
     "typescript": "^2.8.3"
   },
-  "homepage": "https://github.com/strongui/climate-control-dashboard#readme",
+  "homepage": "https://github.com/strongui/home-control-dashboard#readme",
   "keywords": [
     "dashboard",
-    "climate",
+    "home",
     "control"
   ],
   "license": "ISC",
   "main": "src/App.tsx",
-  "name": "climate-control-dashboard",
+  "name": "home-control-dashboard",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/strongui/climate-control-dashboard.git"
+    "url": "git+https://github.com/strongui/home-control-dashboard.git"
   },
   "scripts": {
     "watch": "cross-env NODE_ENV=development webpack-dev-server --inline --config config/webpack.config.dev.js",
@@ -144,7 +144,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "C:\\Users\\Amir\\Documents\\GitHub\\climate-control-dashboard\\tsconfig.test.json"
+        "tsConfigFile": "C:\\Users\\Amir\\Documents\\GitHub\\home-control-dashboard\\tsconfig.test.json"
       }
     }
   },

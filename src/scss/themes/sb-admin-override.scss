@@ -1,6 +1,3 @@
-html,body,#root {
-	height: 100%;
-}
 body {
 	font-family: $text-font-stack !important;
 }
@@ -86,6 +83,10 @@ nav {
 		max-height: 75vh;
 	}
 	.nav-link {
+		&.button {
+			background: no-repeat;
+    	border: none;
+		}
 		> .fas {
 			width: 30px;
 		}

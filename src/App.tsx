@@ -30,6 +30,19 @@ class App extends React.Component<IAppProps, {}> {
     }
   }
 
+  componentDidUpdate(prevProps: IAppProps) {
+    if (prevProps.store) {
+      if (!prevProps.store.appStore.isLoggedIn) {
+        document.body.classList.add('login', 'bg-dark');
+      } else {
+        document.body.classList.remove('login', 'bg-dark');
+        if (!prevProps.store.appStore.controlsInitialized) {
+          prevProps.store.appStore.syncStateWithServer(0);
+        }
+      }
+    }
+  }
+
   render() {
     const { routing, store } = this.props;
     const location: Location = routing ? routing.history.location : {};
@@ -40,10 +53,10 @@ class App extends React.Component<IAppProps, {}> {
         {isLoggedIn && <Header location={location} />}
         <div className="content-wrapper">
           <Switch>
-            <Route isLoggedIn={isLoggedIn} exact path="/" component={Dashboard} />
+            <PrivateRoute isLoggedIn={isLoggedIn} exact path="/" component={Dashboard} />
             <PrivateRoute isLoggedIn={isLoggedIn} path="/api" component={Api} />
             <PrivateRoute isLoggedIn={isLoggedIn} path="/lights" component={Lights} />
-            <Route isLoggedIn={isLoggedIn} path="/weather" component={Weather} />
+            <PrivateRoute isLoggedIn={isLoggedIn} path="/weather" component={Weather} />
             <Route path="/login" component={Login} />
             <Route component={Error404} />
           </Switch>

@@ -14,7 +14,18 @@ export default class PrivateRoute extends React.Component<IPrivateRouteProps, {}
     return (
       <Route
         {...rest}
-        render={(props: any) => (isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />)}
+        render={(props: any) =>
+          isLoggedIn ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: props.location },
+              }}
+            />
+          )
+        }
       />
     );
   }

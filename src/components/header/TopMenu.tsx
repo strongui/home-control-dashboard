@@ -1,5 +1,6 @@
 import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { Redirect } from 'react-router-dom';
 import * as React from 'react';
 import Notification from './Notification';
 
@@ -8,6 +9,10 @@ export interface ITopMenuProps {
 }
 
 class TopMenu extends React.Component<ITopMenuProps, {}> {
+  logout() {
+    this.props.store!.appStore.logout().then(() => <Redirect to="/" />);
+  }
+
   render() {
     const { store } = this.props;
     const { alerts = [], dismissNotification, messages = [] } = store!.appStore;
@@ -35,9 +40,9 @@ class TopMenu extends React.Component<ITopMenuProps, {}> {
         />
 
         <li className="nav-item">
-          <a className="nav-link" data-toggle="modal" data-target="#exampleModal">
+          <button className="nav-link button" onClick={this.logout.bind(this)}>
             <span className="fas fa-sign-out-alt" aria-hidden="true" />Logout
-          </a>
+          </button>
         </li>
       </ul>
     );

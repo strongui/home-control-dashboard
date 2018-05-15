@@ -55,7 +55,7 @@ export interface IAppState {
   lights?: ILightSwitch[];
   loadWeather: () => void;
   login: (username: string, password: string, forceFail?: boolean) => Promise<IUserObj>;
-  logout: () => void;
+  logout: () => Promise<void>;
   messages?: INotification[];
   setValue: (objKey: string, ident: string, id: number, value: any) => void;
   status: string;
@@ -103,12 +103,14 @@ class AppState {
         action('Login User', () => {
           this.user = response;
         })();
+        resolve(response);
       });
     });
   }
 
   logout() {
     this.user = { loggedIn: false };
+    return Promise.resolve();
   }
 
   setValue(objKey: string, ident: string, id: number, value: any) {
