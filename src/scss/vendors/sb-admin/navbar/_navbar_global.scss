@@ -65,6 +65,17 @@
           top: 5px;
           left: 21px;
           font-size: 10px;
+          .heartbeat {
+            border-radius: 70px;
+            border-style: solid;
+            border-width: 5px;
+            height: 21px;
+            position: absolute;
+            right: -4px;
+            top: -3px;
+            width: 21px;
+            z-index: 10;
+          }
         }
       }
       &.show > .nav-link:after {
@@ -134,8 +145,11 @@
             text-align: center;
           }
         }
-        .dropdown-menu > .dropdown-item > .dropdown-message {
-          max-width: 300px;
+        .dropdown-menu {
+          display: block;
+          > .dropdown-item > .dropdown-message {
+            max-width: 300px;
+          }
         }
       }
     }

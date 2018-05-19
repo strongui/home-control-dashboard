@@ -97,11 +97,12 @@ class Notification extends React.Component<INotificationProps, INotificationStat
             )}
           </span>
           <span className={`indicator text-${type} d-none d-lg-block`}>
+            <span className="heartbeat" />
             <span className="fa fa-fw fa-circle" aria-hidden="true" />
           </span>
         </a>
         <div
-          className={`dropdown-menu dropdown-menu-right${expanded ? ' show' : ''}`}
+          className={`dropdown-menu dropdown-menu-right scale-up${expanded ? ' show' : ''}`}
           aria-labelledby={id}
         >
           <h6 className="dropdown-header">New {title}:</h6>
