@@ -99,6 +99,7 @@ class AppState {
   }
 
   login(username: string, password: string, forceFail?: boolean) {
+    this.user = { ...this.user, error: null };
     return new Promise((resolve, reject) => {
       doLogin(username, password, forceFail).then(response => {
         action('Login User', () => {
