@@ -12,8 +12,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const postcssSmartImport = require('postcss-smart-import');
-const precss = require('precss');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -57,10 +55,6 @@ module.exports = {
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
   ],
-  // historyApiFallback is used so that the SPA works well and any non found index.html/PATH will render to index.html and thus init our bundle.js
-  devServer: {
-    historyApiFallback: true,
-  },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
@@ -184,7 +178,7 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
-            test: /\.css$/,
+            test: /\.(css|scss)$/,
             use: [
               require.resolve('style-loader'),
               {
@@ -199,6 +193,7 @@ module.exports = {
                   // Necessary for external CSS imports to work
                   // https://github.com/facebookincubator/create-react-app/issues/2677
                   ident: 'postcss',
+                  sourceMap: true,
                   plugins: () => [
                     require('postcss-flexbugs-fixes'),
                     autoprefixer({
@@ -213,36 +208,17 @@ module.exports = {
                   ],
                 },
               },
-            ],
-          },
-          {
-            test: /\.scss$/,
-            exclude: /node_modules/,
-            use: [
-              {
-                loader: require.resolve('style-loader'),
-              },
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                },
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  plugins() {
-                    return [postcssSmartImport, autoprefixer, precss];
-                  },
-                },
-              },
               {
                 loader: require.resolve('resolve-url-loader'),
-              },
-              {
-                loader: require.resolve('sass-loader'),
                 options: {
                   sourceMap: true,
+                },
+              },
+              {
+                loader: 'sass-loader',
+                options: {
+                  sourceMap: true,
+                  includePaths: [path.resolve(__dirname, './sass')],
                 },
               },
             ],

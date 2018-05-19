@@ -13,6 +13,7 @@ export default function doLogin(
           loggedIn: false,
         });
       } else {
+        window.localStorage.setItem('hccLoggedIn', 'true');
         resolve({
           lastname: 'Schwarzenegger',
           loggedIn: true,

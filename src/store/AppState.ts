@@ -6,6 +6,7 @@ import { IForecastObj, IWeatherStationObj } from '../components/content/WeatherS
 import { IIconCardProps } from '../components/content/IconCard';
 import { ILightSwitch } from '../components/content/LightSwitch';
 import { INotification } from '../components/header/Notification';
+import { IAppState } from './AppState';
 import doLogin from './actions/doLogin';
 import sync from './actions/sync';
 import syncWeather from './actions/syncWeather';
@@ -66,7 +67,7 @@ export interface IAppState {
 }
 
 class AppState {
-  rootStore: any;
+  rootStore: IAppState;
 
   alerts: INotification[];
   chartCards: IChartCardProps[];
@@ -77,10 +78,10 @@ class AppState {
   lights: ILightSwitch[];
   messages: INotification[];
   status = 'offline';
-  user: IUserObj = { loggedIn: false };
+  user: IUserObj = { loggedIn: localStorage.getItem('hccLoggedIn') === 'true' ? true : false };
   weather: IWeather = { loaded: false, updating: false };
 
-  constructor(rootStore: any) {
+  constructor(rootStore: IAppState) {
     this.dismissNotification = this.dismissNotification.bind(this);
     this.loadWeather = this.loadWeather.bind(this);
     this.login = this.login.bind(this);
@@ -109,6 +110,7 @@ class AppState {
   }
 
   logout() {
+    window.localStorage.setItem('hccLoggedIn', 'false');
     this.user = { loggedIn: false };
     return Promise.resolve();
   }

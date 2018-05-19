@@ -52,7 +52,6 @@ class Notification extends React.Component<INotificationProps, INotificationStat
     const {
       dismissNotification,
       icon = 'exclamation-triangle',
-      link = '#',
       notificationCount = 0,
       notifications = [],
       ident,
@@ -63,7 +62,11 @@ class Notification extends React.Component<INotificationProps, INotificationStat
 
     if (!notificationCount) {
       return (
-        <li className={`nav-item dropdown${expanded ? ' show' : ''}`} data-tip={`No new ${title}`} data-for={tooltipId}>
+        <li
+          className={`nav-item dropdown${expanded ? ' show' : ''}`}
+          data-tip={`No new ${title}`}
+          data-for={tooltipId}
+        >
           <span className="nav-link no-items">
             <span className={`fas fa-${icon}`} aria-hidden="true" />
             <span className="d-lg-none">{title}</span>
@@ -97,27 +100,35 @@ class Notification extends React.Component<INotificationProps, INotificationStat
             <span className="fa fa-fw fa-circle" aria-hidden="true" />
           </span>
         </a>
-        <div className={`dropdown-menu dropdown-menu-right${expanded ? ' show' : ''}`} aria-labelledby={id}>
+        <div
+          className={`dropdown-menu dropdown-menu-right${expanded ? ' show' : ''}`}
+          aria-labelledby={id}
+        >
           <h6 className="dropdown-header">New {title}:</h6>
           <div className="dropdown-divider" />
-            <TransitionGroup>
-              {notifications.map(notificationObj => (
-                <CSSTransition timeout={300} classNames="fade" key={notificationObj.id}>
-                  <div>
-                    <div className="dropdown-item">
-                      <button type="button" className="close" aria-label="Dismiss" onClick={() => dismissNotification(this.props.ident, notificationObj.id)}>
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      <strong>{notificationObj.title}</strong>
-                      <span className="small float-right text-muted">{notificationObj.date}</span>
-                      <div className="dropdown-message small">{notificationObj.content}</div>
-                    </div>
-                    <div className="dropdown-divider" />
+          <TransitionGroup>
+            {notifications.map(notificationObj => (
+              <CSSTransition timeout={300} classNames="fade" key={notificationObj.id}>
+                <div>
+                  <div className="dropdown-item">
+                    <button
+                      type="button"
+                      className="close"
+                      aria-label="Dismiss"
+                      onClick={() => dismissNotification(this.props.ident, notificationObj.id)}
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{notificationObj.title}</strong>
+                    <span className="small float-right text-muted">{notificationObj.date}</span>
+                    <div className="dropdown-message small">{notificationObj.content}</div>
                   </div>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-          <a className="dropdown-item small" href={link}>
+                  <div className="dropdown-divider" />
+                </div>
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+          <a className="dropdown-item small" href="javascript:;">
             View all {title.toLowerCase()}
           </a>
         </div>

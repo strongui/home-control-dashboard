@@ -122,7 +122,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
           ref="submit"
           onClick={() => {
             // tslint:disable-next-line no-unused-expression
-            submitDisabled ? () => undefined : this.handleSubmit();
+            submitDisabled ? (): undefined => undefined : this.handleSubmit();
           }}
         >
           {submitting ? <span className="fas fa-spinner fa-pulse" aria-hidden="true" /> : 'Login'}

@@ -2,7 +2,7 @@ import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 // tslint:disable-next-line import-name
-import Knob from 'react-canvas-knob';
+import Knob from './Knob';
 export interface IChartCardProps {
   controled?: boolean;
   description?: string;
@@ -105,6 +105,7 @@ class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
           <span className={icon} aria-hidden="true" />
         </div>
         {controled ? (
+          // @ts-ignore
           <Knob
             angleArc={250}
             angleOffset={-125}

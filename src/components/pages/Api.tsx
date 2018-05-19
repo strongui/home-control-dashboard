@@ -48,6 +48,7 @@ export default class Api extends React.Component<{}, {}> {
                 <li>MobX</li>
                 <li>Openweathermap</li>
                 <li>Owfont</li>
+                <li>React-Router</li>
                 <li>React</li>
               </ul>
               <h3>Authors</h3>

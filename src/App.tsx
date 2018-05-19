@@ -15,6 +15,7 @@ import Login from './components/pages/Login';
 import Weather from './components/pages/Weather';
 
 import PrivateRoute from './HOC/PrivateRoute';
+
 export interface IAppProps {
   store?: IAppState;
   routing?: any;
@@ -26,6 +27,9 @@ class App extends React.Component<IAppProps, {}> {
       // this.props.store.appStore.syncStateWithServer(0)
       if (!this.props.store.appStore.isLoggedIn) {
         document.body.classList.add('login', 'bg-dark');
+      }
+      if (!this.props.store.appStore.controlsInitialized && this.props.store.appStore.isLoggedIn) {
+        this.props.store.appStore.syncStateWithServer(0);
       }
     }
   }

@@ -58,7 +58,7 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry: [require.resolve('./polyfills'), paths.appIndexScss, paths.appIndexJs],
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -160,9 +160,18 @@ module.exports = {
                 options: {
                   // disable type checker - we will use it in fork plugin
                   transpileOnly: true,
+                  configFile: paths.appTsProdConfig,
                 },
               },
             ],
+          },
+          {
+            test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            loader: require.resolve('file-loader'),
+            options: {
+              limit: 10000,
+              name: 'static/fonts/[name].[ext]',
+            },
           },
           // The notation here is somewhat confusing.
           // "postcss" loader applies autoprefixer to our CSS.
@@ -177,7 +186,7 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: /\.(css|scss)$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
@@ -202,6 +211,7 @@ module.exports = {
                         // Necessary for external CSS imports to work
                         // https://github.com/facebookincubator/create-react-app/issues/2677
                         ident: 'postcss',
+                        sourceMap: shouldUseSourceMap,
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
                           autoprefixer({
@@ -214,6 +224,19 @@ module.exports = {
                             flexbox: 'no-2009',
                           }),
                         ],
+                      },
+                    },
+                    {
+                      loader: require.resolve('resolve-url-loader'),
+                      options: {
+                        sourceMap: shouldUseSourceMap,
+                      },
+                    },
+                    {
+                      loader: 'sass-loader',
+                      options: {
+                        sourceMap: shouldUseSourceMap,
+                        includePaths: [path.resolve(__dirname, './sass')],
                       },
                     },
                   ],
@@ -358,7 +381,7 @@ module.exports = {
     // Perform type checking and linting in a separate process to speed up compilation
     new ForkTsCheckerWebpackPlugin({
       async: false,
-      tsconfig: paths.appTsConfig,
+      tsconfig: paths.appTsProdConfig,
       tslint: paths.appTsLint,
     }),
   ],

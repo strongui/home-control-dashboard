@@ -17,7 +17,7 @@ export interface IIconCardProps {
 class IconCard extends React.Component<IIconCardProps, {}> {
   render() {
     const { error, icon, monitored, title, type, id, ident, value, storeKey } = this.props;
-    const isOn = value === true;
+    const isOn = value;
     const cls =
       isOn || (monitored && !error)
         ? `bg-${error ? 'danger' : type} text-white`

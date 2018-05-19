@@ -1,5 +1,5 @@
 {
-  "defaultSeverity": "warning",
+  "defaultSeverity": "error",
   "extends": ["tslint-eslint-rules", "tslint:latest", "tslint-config-airbnb"],
   "rules": {
     "max-line-length": {
@@ -15,6 +15,7 @@
     "member-access": [true, "no-public"],
     "align": [true, "elements", "members", "parameters", "statements"],
     "no-var-requires": false,
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "no-console": [true, "log", "error"],
     "ordered-imports": [
       true,
@@ -39,7 +40,11 @@
       }
     ],
     "quotemark": [true, "single", "avoid-escape", "jsx-double"],
-    "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
     "variable-name": [
       true,
       "ban-keywords",

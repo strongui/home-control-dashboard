@@ -1,5 +1,6 @@
 const mobx = require('mobx');
 const { action, computed, configure, decorate, observable } = mobx;
+import { IAppState } from './AppState';
 
 // don't allow state modifications outside actions
 configure({ enforceActions: true });
@@ -19,7 +20,7 @@ export interface IUiState {
 }
 
 class UiState {
-  rootStore: any;
+  rootStore: IAppState;
 
   language = 'en_US';
   menuCollapsed = true;
@@ -33,7 +34,7 @@ class UiState {
     width: window.innerWidth,
   };
 
-  constructor(rootStore: any) {
+  constructor(rootStore: IAppState) {
     this.rootStore = rootStore;
     window.onresize = () => {
       this.windowDimensions = this._windowDimensions;

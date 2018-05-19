@@ -2,8 +2,8 @@ import AppState, { IAppState } from './AppState';
 import UiState, { IUiState } from './UiState';
 
 export interface IAppState {
-  appStore: IAppState;
-  uiStore: IUiState;
+  appStore?: IAppState;
+  uiStore?: IUiState;
 }
 
 class RootStore {
