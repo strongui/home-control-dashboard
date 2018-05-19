@@ -64,12 +64,32 @@ nav {
 			.nav-item {
 				&.active {
 					a {
-						color: white !important;
+						color: $white !important;
 						font-weight: bold;
+					}
+				}
+				&.user {
+					cursor: default;
+					.nav-link {
+						padding: 0 !important;
+					}
+					.profile-img {
+						padding: 10px 30px;
+					}
+					.name {
+						color: $white;
+						width: 100%;
+						padding: 6px 30px;
+						background: rgba(0, 0, 0, 0.5);
+						display: block;
+						font-size: .8rem;
 					}
 				}
 			}
 		}
+	}
+	.navbar-toggler {
+		z-index: 10;
 	}
 }
 
@@ -105,5 +125,14 @@ nav {
 @media (min-width: 992px) {
 	.content-wrapper {
 		margin-left: 250px;
+	}
+	nav {
+		ul.navbar-nav {
+			.nav-item.user {
+				.profile-img {
+					padding: 25px 30px;
+				}
+			}
+		}
 	}
 }

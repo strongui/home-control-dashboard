@@ -16,7 +16,17 @@
     "align": [true, "elements", "members", "parameters", "statements"],
     "no-var-requires": false,
     "semicolon": [true, "always", "ignore-bound-class-methods"],
-    "no-console": [true, "log", "error"],
+    "no-console": {
+      "severity": "warning",
+      "options": [
+        "debug",
+        "info",
+        "log",
+        "time",
+        "timeEnd",
+        "trace"
+      ]
+    },
     "ordered-imports": [
       true,
       {

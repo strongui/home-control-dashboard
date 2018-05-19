@@ -1,11 +1,10 @@
 import * as React from 'react';
-// import { NavLink } from 'react-router-dom';
 import NavLink from './NavLink';
 
 export default class SideMenu extends React.Component<{ location: Location }, any> {
   render() {
     return (
-      <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
+      <ul className="navbar-nav navbar-sidenav">
         <NavLink location={this.props.location} to="/">
           <span className="fas fa-tachometer-alt" aria-hidden="true" />
           <span className="nav-link-text">Dashboard</span>

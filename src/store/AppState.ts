@@ -7,7 +7,7 @@ import { IIconCardProps } from '../components/content/IconCard';
 import { ILightSwitch } from '../components/content/LightSwitch';
 import { INotification } from '../components/header/Notification';
 import { IAppState } from './AppState';
-import doLogin from './actions/doLogin';
+import doLogin, { arnold } from './actions/doLogin';
 import sync from './actions/sync';
 import syncWeather from './actions/syncWeather';
 
@@ -78,7 +78,7 @@ class AppState {
   lights: ILightSwitch[];
   messages: INotification[];
   status = 'offline';
-  user: IUserObj = { loggedIn: localStorage.getItem('hccLoggedIn') === 'true' ? true : false };
+  user: IUserObj = localStorage.getItem('hccLoggedIn') === 'true' ? arnold : { loggedIn: false };
   weather: IWeather = { loaded: false, updating: false };
 
   constructor(rootStore: IAppState) {

@@ -1,5 +1,13 @@
 import { IUserObj } from '../AppState';
 
+export const arnold = {
+  lastname: 'Schwarzenegger',
+  loggedIn: true,
+  name: 'Arnold',
+  sex: 'M',
+  username: 'arnold',
+};
+
 export default function doLogin(
   username: string,
   password: string,
@@ -14,13 +22,7 @@ export default function doLogin(
         });
       } else {
         window.localStorage.setItem('hccLoggedIn', 'true');
-        resolve({
-          lastname: 'Schwarzenegger',
-          loggedIn: true,
-          name: 'Arnold',
-          sex: 'M',
-          username,
-        });
+        resolve(arnold);
       }
     }, 1000);
   });
