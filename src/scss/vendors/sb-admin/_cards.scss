@@ -1,13 +1,15 @@
 // Styling for custom cards
 // Custom class for the background icon in card blocks
 .card-body-icon {
-  position: absolute;
-  z-index: 0;
-  top: -25px;
-  right: -25px;
-
-  font-size: 5rem;
   @include rotate;
+  font-size: 5rem;
+  position: absolute;
+  right: -25px;
+  top: -25px;
+  z-index: 0;
+  &.upside {
+    @include rotate-upside;
+  }
 }
 
 // Override breakpoints for card columns to work well with sidebar

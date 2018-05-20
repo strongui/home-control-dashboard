@@ -3,3 +3,9 @@
   -ms-transform: rotate(15deg);
   transform: rotate(15deg);
 }
+
+@mixin rotate-upside {
+  -webkit-transform: rotate(195deg);
+  -ms-transform: rotate(195deg);
+  transform: rotate(195deg);
+}

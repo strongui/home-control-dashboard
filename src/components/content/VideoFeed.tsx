@@ -49,7 +49,14 @@ export default class VideoFeed extends React.PureComponent<IVideoFeedProps, IVid
     const { description, link, name } = randomImage;
 
     return (
-      <div className="card video-feed">
+      <div className="card video-feed o-hidden">
+        <div className="card-body bg-warning">
+          <div className="card-body-icon text-white">
+            <span className="fas fa-video" aria-hidden="true" />
+          </div>
+          <h4 className="text-white card-title">Video feed</h4>
+          <h6 className="card-subtitle text-white m-b-0 op-5">Uptime: 38 days</h6>
+        </div>
         <div className="rec">
           <div className="dot" /> REC{' '}
         </div>

@@ -1,0 +1,10 @@
+.circle-icon {
+  border-radius: 50%;
+  border: solid 1px #e5e5e5;
+  font-size: 2rem;
+  padding: 15px;
+  &.medium {
+    font-size: 2.5rem;
+    padding: 25px;
+  }
+}

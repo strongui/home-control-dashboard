@@ -1,9 +1,10 @@
 import * as React from 'react';
-import IconCard, { IIconCardProps } from './IconCard';
-import VideoFeed from './VideoFeed';
-import houseJpg from '../../images/house.jpg';
-import livingroomJpg from '../../images/livingroom.jpg';
 import entryJpg from '../../images/entry.jpg';
+import houseJpg from '../../images/house.jpg';
+import IconCard, { IIconCardProps } from './IconCard';
+import livingroomJpg from '../../images/livingroom.jpg';
+import Power from './Power';
+import VideoFeed from './VideoFeed';
 
 export interface ILiveMonitorsProps {
   cards: IIconCardProps[];
@@ -40,10 +41,13 @@ export default class LiveMonitors extends React.Component<ILiveMonitorsProps, {}
 
     return (
       <div className="row">
-        <div className="col-xl-4 col-md-6 col-sm-12 mb-3">
+        <div className="col-xl-3 col-md-4 col-sm-12 mb-3">
           <div className="row">{cards}</div>
         </div>
-        <div className="col-xl-8 col-md-6 col-sm-12 mb-3">
+        <div className="col-xl-5 col-md-5 col-sm-12 mb-3">
+          <Power />
+        </div>
+        <div className="col-xl-4 col-md-3 col-sm-12 mb-3">
           <VideoFeed images={images} />
         </div>
       </div>
