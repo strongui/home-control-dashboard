@@ -129,7 +129,7 @@ export default class Power extends React.Component<{}, IPowerState> {
         },
         {
           data: [968, 1073, 1125, 827, 912],
-          fillColor: 'rgba(151,187,205,0.2)',
+          fillColor: 'rgba(38,198,218,0.2)',
           label: `${this.date.getFullYear() - 1} kWh used`,
           pointColor: 'rgba(151,187,205,1)',
           pointHighlightFill: '#fff',
@@ -197,9 +197,20 @@ export default class Power extends React.Component<{}, IPowerState> {
               <div className="col-md-6 col-sm-12">
                 <h6 className="mb-3">{monthName} cost</h6>
                 <span
-                  className="fas fa-hand-holding-usd circle-icon medium text-danger mb-2"
-                  aria-hidden="true"
-                />
+                  style={{
+                    display: 'inline-block',
+                    height: '124px',
+                    overflow: 'hidden',
+                    padding: '2px',
+                    textAlign: 'center',
+                    width: '124px',
+                  }}
+                >
+                  <span
+                    className="fas fa-hand-holding-usd circle-icon medium text-danger mb-2"
+                    aria-hidden="true"
+                  />
+                </span>
                 <h4 className="total text-nowrap">{this.powerCost(total)} $</h4>
                 <small className="hours text-nowrap mb-3">{total} kW</small>
               </div>

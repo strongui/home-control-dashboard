@@ -38,7 +38,6 @@ class Controls extends React.Component<IControlsProps, {}> {
           description="All passive monitors currently active."
         />
         <LiveMonitors storeKey="iconCardsMonitored" cards={iconCardsMonitored} />
-        <hr />
       </div>
     );
   }
