@@ -1,5 +1,5 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import * as React from 'react';
 import Error from '../Error';
 import Loading from '../Loading';
@@ -57,11 +57,15 @@ export interface IForecastObj {
   city: ICity;
 }
 
-export interface IWeatherStationProps {
-  store?: IAppState;
-}
+interface IWeatherStationOwnProps {}
 
-class WeatherStation extends React.Component<IWeatherStationProps, {}> {
+export type IWeatherStationProps = IWeatherStationOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class WeatherStation extends React.Component<IWeatherStationProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { store } = this.props;
     const {
@@ -74,14 +78,14 @@ class WeatherStation extends React.Component<IWeatherStationProps, {}> {
     } = store!.appStore.weather;
 
     if (error) return <Error title={error} />;
-    if (!loaded || (!forecast || !currentWeather)) return <Loading />;
+    if (!loaded || !forecast || !currentWeather) return <Loading />;
 
     const { city } = forecast;
     const { name } = city;
-    const listItems = forecast.list.filter(obj => {
+    const listItems = forecast.list.filter((obj) => {
       return obj.dt_txt.split(' ')[1] === '12:00:00';
     });
-    const weatherCards = listItems.map(obj => {
+    const weatherCards = listItems.map((obj) => {
       return (
         <div className="d-flex justify-content-around" key={obj.dt}>
           <WeatherCard
@@ -138,5 +142,3 @@ class WeatherStation extends React.Component<IWeatherStationProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(WeatherStation));

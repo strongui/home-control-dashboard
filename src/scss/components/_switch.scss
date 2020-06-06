@@ -2,21 +2,44 @@
   &:hover {
     cursor: pointer;
   }
+  div {
+    top: -0.1875rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: #fafafa;
+    box-shadow: 0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
+      0 0.1875rem 0.125rem -0.125rem rgba(0, 0, 0, 0.2), 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.12);
+    transition: right 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    right: 50%;
+    z-index: 1;
+    display: block;
+    padding: 0;
+  }
   input {
     &:checked {
       ~ span {
         background: rgba(59, 59, 59, 0.5);
         border-color: rgba(59, 59, 59, 0.6);
-        a {
+        a,
+        div {
           background: #414141;
           animation: pulse 2s infinite;
+        }
+        div {
+          right: 0;
+          box-shadow: 0 0.1875rem 0.25rem 0 rgba(0, 0, 0, 0.14),
+            0 0.1875rem 0.1875rem -0.125rem rgba(0, 0, 0, 0.2),
+            0 0.0625rem 0.375rem 0 rgba(0, 0, 0, 0.12);
         }
       }
     }
     &:not(:checked) {
       ~ span {
         &:hover {
-          a {
+          a,
+          div {
             background: #aeaeae;
           }
         }
@@ -34,7 +57,7 @@
       z-index: 1;
       top: -1px;
       text-transform: uppercase;
-      font-size: .6rem;
+      font-size: 0.6rem;
       &:first-child {
         right: 2px;
       }

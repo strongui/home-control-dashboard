@@ -1,14 +1,18 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import { Link } from 'react-router-dom';
 import * as React from 'react';
 import Callout from '../content/Callout';
 import WeatherStation from '../content/WeatherStation';
 
-export interface IWeatherStationProps {
-  store?: IAppState;
-}
-class Weather extends React.Component<IWeatherStationProps, {}> {
+interface IWeatherStationOwnProps {}
+
+export type IWeatherStationProps = IWeatherStationOwnProps & IRootStore;
+@inject('store')
+@observer
+export default class Weather extends React.Component<IWeatherStationProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   componentDidMount() {
     if (this.props.store) this.props.store.appStore.loadWeather();
   }
@@ -32,5 +36,3 @@ class Weather extends React.Component<IWeatherStationProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(Weather));

@@ -1,5 +1,5 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import * as React from 'react';
 import Callout from './Callout';
 import ChartCards from './ChartCards';
@@ -7,11 +7,15 @@ import ChartCardsControlled from './ChartCardsControlled';
 import IconCards from './IconCards';
 import LiveMonitors from './LiveMonitors';
 
-export interface IControlsProps {
-  store?: IAppState;
-}
+interface IControlsOwnProps {}
 
-class Controls extends React.Component<IControlsProps, {}> {
+export type IControlsProps = IControlsOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class Controls extends React.Component<IControlsProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { store } = this.props;
     const {
@@ -42,5 +46,3 @@ class Controls extends React.Component<IControlsProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(Controls));

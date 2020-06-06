@@ -1,24 +1,66 @@
-.st0{fill:none;}
-.st1{fill:#504E55;}
-.st2{fill:#F39E72;}
-.st3{fill:#FFFFFF;}
-.st4{opacity:0.24;}
-.st5{fill:#77574E;}
-.st6{fill:#FBD68D;}
-.st7{fill:#ECECEC;}
-.st8{fill:#F4A89C;}
-.st9{fill:#CFC9E5;}
-.st10{opacity:0.28;}
-.st11{opacity:0.25;}
-.st12{fill:#6F635C;}
-.st13{fill:#DAE7BE;}
-.st14{fill:#FFE0A6;}
-.st15{fill:#5F5E60;}
-.st16{fill:#CFE1AF;}
-.st17{fill:#EBE9F5;}
-.st18{fill:#53515A;}
-.st19{opacity:0.42;}
-.st20{fill:#53515B;}
+.st0 {
+  fill: none;
+}
+.st1 {
+  fill: #504e55;
+}
+.st2 {
+  fill: #f39e72;
+}
+.st3 {
+  fill: #ffffff;
+}
+.st4 {
+  opacity: 0.24;
+}
+.st5 {
+  fill: #77574e;
+}
+.st6 {
+  fill: #fbd68d;
+}
+.st7 {
+  fill: #ececec;
+}
+.st8 {
+  fill: #f4a89c;
+}
+.st9 {
+  fill: #cfc9e5;
+}
+.st10 {
+  opacity: 0.28;
+}
+.st11 {
+  opacity: 0.25;
+}
+.st12 {
+  fill: #6f635c;
+}
+.st13 {
+  fill: #dae7be;
+}
+.st14 {
+  fill: #ffe0a6;
+}
+.st15 {
+  fill: #5f5e60;
+}
+.st16 {
+  fill: #cfe1af;
+}
+.st17 {
+  fill: #ebe9f5;
+}
+.st18 {
+  fill: #53515a;
+}
+.st19 {
+  opacity: 0.42;
+}
+.st20 {
+  fill: #53515b;
+}
 
 .particle-error,
 .permission_denied,
@@ -34,12 +76,13 @@
 
 .permission_denied {
   background: $gray-900 !important;
-  min-height: calc(100vh - 56px - 56px);
+  // min-height: calc(100vh - 56px - 56px);
+  min-height: 100vh;
   a {
     text-decoration: none;
   }
   h1 {
-    text-align:center;
+    text-align: center;
     color: #fff;
     font-size: 100px;
     margin-bottom: 0px;
@@ -48,7 +91,7 @@
   h3 {
     text-align: center;
     color: #fff;
-    font-size:19px;
+    font-size: 19px;
     line-height: 23px;
     max-width: 330px;
     margin: 0px auto 30px auto;
@@ -57,10 +100,10 @@
     span {
       position: relative;
       width: 65px;
-      display:inline-block;
+      display: inline-block;
       &:after {
         content: '';
-        border-bottom: 3px solid #FFBB39;
+        border-bottom: 3px solid #ffbb39;
         position: absolute;
         left: 0;
         top: 43%;
@@ -71,7 +114,7 @@
   .stars {
     animation: sparkle 1.6s infinite ease-in-out alternate;
   }
-  +.sticky-footer {
+  + .sticky-footer {
     background: $gray-900 !important;
     color: white;
   }
@@ -90,7 +133,7 @@
   background: none;
   color: #fff;
   padding: 12px 0px 10px 0px;
-  border: 1px solid #fff;;
+  border: 1px solid #fff;
   outline: none;
   border-radius: 7px;
   width: 150px;
@@ -103,10 +146,10 @@
   margin-top: 25px;
   font-weight: 400;
   &:hover {
-    color: #FFBB39;
-    border-color: #FFBB39;
+    color: #ffbb39;
+    border-color: #ffbb39;
     cursor: pointer;
-    opacity: 1.0;
+    opacity: 1;
   }
 }
 
@@ -124,7 +167,7 @@
       font-size: 75px;
     }
     h3 {
-      font-size:16px;
+      font-size: 16px;
       width: 200px;
       margin: 0 auto;
       line-height: 23px;

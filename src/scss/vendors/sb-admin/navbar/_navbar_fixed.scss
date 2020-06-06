@@ -32,7 +32,7 @@
       background-color: $gray-900;
       a {
         i {
-          color: $gray-500;;
+          color: $gray-500;
         }
       }
     }
@@ -49,7 +49,7 @@
   }
 }
 
-body.sidenav-toggled {
+body.side-nav-closed {
   #mainNav.fixed-top {
     .sidenav-toggler {
       overflow-x: hidden;
@@ -67,7 +67,7 @@ body.sidenav-toggled {
         -o-transform: scaleX(-1);
         transform: scaleX(-1);
         filter: FlipH;
-        -ms-filter:  'FlipH';
+        -ms-filter: 'FlipH';
       }
     }
   }

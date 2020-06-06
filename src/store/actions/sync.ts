@@ -1,12 +1,12 @@
+import { IChartCardOwnProps } from '../../components/content/ChartCard';
+import { IIconCardOwnProps } from '../../components/content/IconCard';
+import { ILightSwitch } from '../../components/content/LightSwitch';
+import { INotification } from '../../components/header/Notification';
+
 const alertsJson = require('../data/alerts.json');
 const lightsJson = require('../data/lights.json');
 const messagesJson = require('../data/messages.json');
 const monitorsJson = require('../data/monitors.json');
-import { IChartCardProps } from '../../components/content/ChartCard';
-import { IIconCardProps } from '../../components/content/IconCard';
-import { ILightSwitch } from '../../components/content/LightSwitch';
-import { INotification } from '../../components/header/Notification';
-
 export interface IApiResponse {
   coolingCompressorOn: boolean;
   fanOn: boolean;
@@ -19,10 +19,10 @@ export interface IApiResponse {
 
 interface ISyncResponse {
   alerts: INotification[];
-  chartCards: IChartCardProps[];
-  chartCardsControlled: IChartCardProps[];
-  iconCards: IIconCardProps[];
-  iconCardsMonitored: IIconCardProps[];
+  chartCards: IChartCardOwnProps[];
+  chartCardsControlled: IChartCardOwnProps[];
+  iconCards: IIconCardOwnProps[];
+  iconCardsMonitored: IIconCardOwnProps[];
   lights: ILightSwitch[];
   messages: INotification[];
   status: string;
@@ -149,7 +149,7 @@ function buildNewState(obj: IApiResponse): ISyncResponse {
 }
 
 function fakeFetch(ms: number): Promise<IApiResponse> {
-  return new Promise(resolve =>
+  return new Promise((resolve) =>
     setTimeout(() => {
       resolve({
         coolingCompressorOn: false,
@@ -160,7 +160,7 @@ function fakeFetch(ms: number): Promise<IApiResponse> {
         outsideHumidity: randomIntFromInterval(34, 89),
         outsideTemp: randomIntFromInterval(7, 25),
       });
-    }, ms),
+    }, ms)
   );
 }
 
@@ -170,7 +170,7 @@ function randomIntFromInterval(min: number, max: number) {
 
 export default function sync(latency = 0): Promise<ISyncResponse> {
   return new Promise((resolve, reject) => {
-    fakeFetch(latency).then(response => {
+    fakeFetch(latency).then((response) => {
       const newState = buildNewState(response);
       resolve(newState);
     });

@@ -1,6 +1,6 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import { IRootStore, storeDefaultProps } from '../../store';
 
 export interface ILightSwitch {
   group?: string;
@@ -11,12 +11,17 @@ export interface ILightSwitch {
   value: boolean;
 }
 
-export interface ILightSwitchProps extends ILightSwitch {
-  store?: IAppState;
+interface ILightSwitchOwnProps extends ILightSwitch {
   storeKey: string;
 }
 
-class LightSwitch extends React.Component<ILightSwitchProps, {}> {
+export type ILightSwitchProps = ILightSwitchOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class LightSwitch extends React.Component<ILightSwitchProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { id, ident, label, storeKey, value } = this.props;
     const switchId = `lightswitch-${storeKey}-${id}`;
@@ -38,5 +43,3 @@ class LightSwitch extends React.Component<ILightSwitchProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(LightSwitch));

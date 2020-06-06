@@ -9,7 +9,7 @@
   }
 }
 
-body.sidenav-toggled {
+body.side-nav-closed {
   #mainNav.static-top {
     #sidenavToggler {
       i {
@@ -18,7 +18,7 @@ body.sidenav-toggled {
         -o-transform: scaleX(-1);
         transform: scaleX(-1);
         filter: FlipH;
-        -ms-filter:  'FlipH';
+        -ms-filter: 'FlipH';
       }
     }
   }

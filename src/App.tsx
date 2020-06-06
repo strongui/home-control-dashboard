@@ -1,27 +1,26 @@
-import { IAppState } from './store/';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, IRouting, storeDefaultProps, routingDefaultProps } from './store';
 import { Route, Switch } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import * as React from 'react';
 import Api from './components/pages/Api';
 import Dashboard from './components/pages/Dashboard';
-// tslint:disable-next-line import-name
-// import DevTools from 'mobx-react-devtools';
 import Error404 from './components/pages/Error404';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Lights from './components/pages/Lights';
 import Login from './components/pages/Login';
+import PrivateRoute from './HOC/PrivateRoute';
 import Weather from './components/pages/Weather';
 
-import PrivateRoute from './HOC/PrivateRoute';
+interface IAppOwnProps {}
 
-export interface IAppProps {
-  store?: IAppState;
-  routing?: any;
-}
+type IAppProps = IAppOwnProps & IRootStore & IRouting;
 
-class App extends React.Component<IAppProps, {}> {
+@inject('store', 'routing')
+@observer
+export default class App extends React.Component<IAppProps> {
+  static defaultProps = { ...routingDefaultProps, ...storeDefaultProps };
+
   componentDidMount() {
     if (this.props.store) {
       // this.props.store.appStore.syncStateWithServer(0)
@@ -49,7 +48,7 @@ class App extends React.Component<IAppProps, {}> {
 
   render() {
     const { routing, store } = this.props;
-    const location: Location = routing ? routing.history.location : {};
+    const { location } = routing;
     const isLoggedIn = store ? store.appStore.isLoggedIn : false;
 
     return (
@@ -71,5 +70,4 @@ class App extends React.Component<IAppProps, {}> {
   }
 }
 
-// @ts-ignore
-export default inject('store', 'routing')(withRouter(observer(App)));
+// export default inject('store', 'routing')(observer(App));

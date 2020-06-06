@@ -1,9 +1,8 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import * as React from 'react';
-// tslint:disable-next-line import-name
 import Knob from './Knob';
-export interface IChartCardProps {
+export interface IChartCardOwnProps {
   controled?: boolean;
   description?: string;
   disabled?: boolean;
@@ -12,18 +11,23 @@ export interface IChartCardProps {
   ident: string;
   max?: number;
   min?: number;
-  store?: IAppState;
   storeKey?: string;
   title: string;
   type: string;
   value: number;
 }
 
+export type IChartCardProps = IChartCardOwnProps & IRootStore;
+
 export interface IChartCardState {
   value: number;
 }
 
-class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
+@inject('store')
+@observer
+export default class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
+  static defaultProps = storeDefaultProps;
+
   private timeout: any;
   constructor(props: IChartCardProps) {
     super(props);
@@ -45,7 +49,7 @@ class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
         this.props.storeKey!,
         this.props.ident,
         this.props.id,
-        newValue,
+        newValue
       );
     }, 500);
   }
@@ -143,5 +147,3 @@ class ChartCard extends React.Component<IChartCardProps, IChartCardState> {
     );
   }
 }
-
-export default inject('store')(observer(ChartCard));

@@ -1,20 +1,26 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import * as React from 'react';
-export interface IIconCardProps {
+
+export interface IIconCardOwnProps {
   error?: string;
   icon: string;
   id: number;
   ident: string;
   monitored?: boolean;
-  store?: IAppState;
   storeKey?: string;
   title: string;
   type: string;
   value?: boolean;
 }
 
-class IconCard extends React.Component<IIconCardProps, {}> {
+export type IIconCardProps = IIconCardOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class IconCard extends React.Component<IIconCardProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { error, icon, monitored, title, type, id, ident, value, storeKey } = this.props;
     const isOn = value;
@@ -36,7 +42,7 @@ class IconCard extends React.Component<IIconCardProps, {}> {
         <span>
           <span>Off</span>
           <span>On</span>
-          <a />
+          <div />
         </span>
       </label>
     );
@@ -55,12 +61,11 @@ class IconCard extends React.Component<IIconCardProps, {}> {
             isOn ? ' text-white' : ''
           } clearfix small z-1 pt-2 pb-2`}
         >
-          {monitored &&
-            !error && (
-              <div className="scanner-dot">
-                <div className="dot" />
-              </div>
-            )}
+          {monitored && !error && (
+            <div className="scanner-dot">
+              <div className="dot" />
+            </div>
+          )}
           <span className={`float-left${monitored ? '' : ' mt-2'}`}>Current status</span>
           <span className="float-right">
             {error ? errorLabel : monitored ? monitorLabel : toggleLabel}
@@ -70,5 +75,3 @@ class IconCard extends React.Component<IIconCardProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(IconCard));

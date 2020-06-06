@@ -1,25 +1,29 @@
-import * as React from 'react';
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
+import * as React from 'react';
 
-export interface ISidenavTogglerProps {
-  store?: IAppState;
-}
+interface ISideNavTogglerOwnProps {}
 
-const SidenavToggler: React.SFC<ISidenavTogglerProps> = ({ store }) => {
+export type ISideNavTogglerProps = ISideNavTogglerOwnProps & Partial<IRootStore>;
+
+const SideNavToggler = ({ store = storeDefaultProps.store }: ISideNavTogglerProps) => {
+  const { uiStore } = store;
+  const { sideNavOpen, toggleSideNav } = uiStore;
+
   return (
     <ul className="navbar-nav sidenav-toggler">
       <li className="nav-item">
-        <a
+        <div
+          role="button"
           className="nav-link text-center"
-          id="sidenavToggler"
-          onClick={store!.uiStore.toggleSidenav}
+          id="sideNavToggler"
+          onClick={toggleSideNav}
         >
-          <i className="fa fa-fw fa-angle-left" aria-hidden="true" />
-        </a>
+          <i className={`fa fa-fw fa-angle-${sideNavOpen ? 'left' : 'right'}`} aria-hidden="true" />
+        </div>
       </li>
     </ul>
   );
 };
 
-export default inject('store')(observer(SidenavToggler));
+export default inject('store')(observer(SideNavToggler));

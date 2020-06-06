@@ -1,19 +1,19 @@
 import * as React from 'react';
 import entryJpg from '../../images/entry.jpg';
 import houseJpg from '../../images/house.jpg';
-import IconCard, { IIconCardProps } from './IconCard';
+import IconCard, { IIconCardOwnProps } from './IconCard';
 import livingroomJpg from '../../images/livingroom.jpg';
 import Power from './Power';
 import VideoFeed from './VideoFeed';
 
 export interface ILiveMonitorsProps {
-  cards: IIconCardProps[];
+  cards: IIconCardOwnProps[];
   storeKey: string;
 }
 
 export default class LiveMonitors extends React.Component<ILiveMonitorsProps, {}> {
   render() {
-    const cards = this.props.cards.map(iconCard => (
+    const cards = this.props.cards.map((iconCard) => (
       <div className="col-sm-12 mb-3" key={iconCard.id}>
         <IconCard storeKey={this.props.storeKey} {...iconCard} />
       </div>

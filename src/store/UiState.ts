@@ -1,61 +1,50 @@
-const mobx = require('mobx');
-const { action, computed, configure, decorate, observable } = mobx;
-import { IAppState } from './AppState';
+import { action, computed, configure, observable } from 'mobx';
+import RootStore from '.';
 
 // don't allow state modifications outside actions
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
-export interface IUiState {
-  appIsInSync: boolean;
-  collapseMenu: () => void;
-  language: string;
-  menuCollapsed: boolean;
-  pendingRequestCount: number;
-  sidenavToggled: boolean;
-  toggleSidenav: () => void;
-  windowDimensions: {
-    height: number;
-    width: number;
-  };
-}
+export default class UiState {
+  rootStore: RootStore;
 
-class UiState {
-  rootStore: IAppState;
-
-  language = 'en_US';
-  menuCollapsed = true;
-  pendingRequestCount = 0;
-  sidenavToggled = false;
+  @observable language = 'en_US';
+  @observable menuCollapsed = true;
+  @observable pendingRequestCount = 0;
+  @observable sideNavOpen = true;
 
   // .struct makes sure observer won't be signaled unless the
   // dimensions object changed in a deepEqual manner
-  windowDimensions = {
+  @observable.struct windowDimensions = {
     height: window.innerHeight,
     width: window.innerWidth,
   };
 
-  constructor(rootStore: IAppState) {
+  constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     window.onresize = () => {
-      this.windowDimensions = this._windowDimensions;
+      this.setWindowDimensions();
+      if (this.windowDimensions.width < 992 && !this.sideNavOpen) {
+        this.toggleSideNav();
+      }
     };
     this.collapseMenu = this.collapseMenu.bind(this);
-    this.toggleSidenav = this.toggleSidenav.bind(this);
+    this.toggleSideNav = this.toggleSideNav.bind(this);
   }
 
-  collapseMenu() {
+  @action collapseMenu() {
     this.menuCollapsed = !this.menuCollapsed;
-    if (this.sidenavToggled) {
-      this.toggleSidenav();
-    }
   }
 
-  toggleSidenav() {
-    this.sidenavToggled = !this.sidenavToggled;
-    if (this.sidenavToggled) {
-      document.body.classList.add('sidenav-toggled');
+  @action setWindowDimensions() {
+    this.windowDimensions = this._windowDimensions;
+  }
+
+  @action toggleSideNav() {
+    this.sideNavOpen = !this.sideNavOpen;
+    if (!this.sideNavOpen) {
+      document.body.classList.add('side-nav-closed');
     } else {
-      document.body.classList.remove('sidenav-toggled');
+      document.body.classList.remove('side-nav-closed');
     }
   }
 
@@ -66,18 +55,7 @@ class UiState {
     };
   }
 
-  get appIsInSync() {
+  @computed get appIsInSync() {
     return this.pendingRequestCount === 0;
   }
 }
-
-export default decorate(UiState, {
-  appIsInSync: computed,
-  collapseMenu: action,
-  language: observable,
-  menuCollapsed: observable,
-  pendingRequestCount: observable,
-  sidenavToggled: observable,
-  toggleSidenav: action,
-  windowDimensions: observable.struct,
-});

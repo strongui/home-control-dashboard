@@ -1,11 +1,11 @@
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { IDismissNotification } from '../../store/AppState';
 import * as React from 'react';
-import * as ReactTooltip from 'react-tooltip';
 import reactOnclickoutside from 'react-onclickoutside';
-// tslint:disable-next-line import-name
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import ReactTooltip from 'react-tooltip';
 
 export interface INotificationProps {
+  closeOnOutsideClick?: boolean;
   dismissNotification: IDismissNotification;
   icon?: string;
   id: number;
@@ -44,7 +44,8 @@ class Notification extends React.Component<INotificationProps, INotificationStat
   }
 
   handleClickOutside(e: React.MouseEvent<HTMLElement>) {
-    if (this.state.expanded) this.toggle();
+    const { closeOnOutsideClick = true } = this.props;
+    if (this.state.expanded && closeOnOutsideClick) this.toggle();
   }
 
   render() {
@@ -80,13 +81,12 @@ class Notification extends React.Component<INotificationProps, INotificationStat
 
     return (
       <li className={`nav-item dropdown${expanded ? ' show' : ''}`}>
-        <a
-          className="nav-link dropdown-toggle mr-lg-2"
-          id={id}
-          href="#"
-          data-toggle="dropdown"
-          aria-haspopup="true"
+        <button
           aria-expanded={expanded}
+          aria-haspopup="true"
+          className="nav-link dropdown-toggle mr-lg-2 w-100 text-left border-0 bg-transparent outline-0"
+          data-toggle="dropdown"
+          id={id}
           onClick={this.toggle}
         >
           <span className={`fas fa-${icon}`} aria-hidden="true" />
@@ -100,7 +100,7 @@ class Notification extends React.Component<INotificationProps, INotificationStat
             <span className="heartbeat" />
             <span className="fa fa-fw fa-circle" aria-hidden="true" />
           </span>
-        </a>
+        </button>
         <div
           className={`dropdown-menu dropdown-menu-right scale-up${expanded ? ' show' : ''}`}
           aria-labelledby={id}
@@ -108,7 +108,7 @@ class Notification extends React.Component<INotificationProps, INotificationStat
           <h6 className="dropdown-header">New {title}:</h6>
           <div className="dropdown-divider" />
           <TransitionGroup>
-            {notifications.map(notificationObj => (
+            {notifications.map((notificationObj) => (
               <CSSTransition timeout={300} classNames="fade" key={notificationObj.id}>
                 <div>
                   <div className="dropdown-item">
@@ -129,9 +129,7 @@ class Notification extends React.Component<INotificationProps, INotificationStat
               </CSSTransition>
             ))}
           </TransitionGroup>
-          <a className="dropdown-item small" href="javascript:;">
-            View all {title.toLowerCase()}
-          </a>
+          <button className="dropdown-item small">View all {title.toLowerCase()}</button>
         </div>
       </li>
     );

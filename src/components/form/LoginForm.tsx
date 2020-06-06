@@ -1,12 +1,12 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import * as React from 'react';
 
-export interface ILoginFormProps {
-  store?: IAppState;
-}
+interface ILoginFormOwnProps {}
 
-export interface ILoginFormPropsState {
+export type ILoginFormProps = ILoginFormOwnProps & IRootStore;
+
+interface ILoginFormPropsState {
   error?: string | null;
   password?: string;
   pristine: boolean;
@@ -14,7 +14,11 @@ export interface ILoginFormPropsState {
   username?: string;
 }
 
-class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
+@inject('store')
+@observer
+export default class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
+  static defaultProps = storeDefaultProps;
+
   constructor(props: ILoginFormProps) {
     super(props);
     this.state = { username: '', password: '', pristine: true, submitting: false };
@@ -48,7 +52,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
     });
     this.props
       .store!.appStore.login(this.state.username as string, this.state.password as string)
-      .then(response => {
+      .then((response) => {
         const { error } = response;
         if (error) {
           this.setState({
@@ -90,8 +94,8 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
               type="text"
               placeholder="Enter username"
               value={username}
-              onChange={e => this.handleChange(e, 'username')}
-              onKeyPress={e => this.handleKeyPress(e, 'username')}
+              onChange={(e) => this.handleChange(e, 'username')}
+              onKeyPress={(e) => this.handleKeyPress(e, 'username')}
               ref="username"
             />
           </div>
@@ -110,20 +114,18 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={e => this.handleChange(e, 'password')}
-              onKeyPress={e => this.handleKeyPress(e, 'password')}
+              onChange={(e) => this.handleChange(e, 'password')}
+              onKeyPress={(e) => this.handleKeyPress(e, 'password')}
               ref="password"
             />
           </div>
         </div>
         <button
-          type="button"
           className={`btn btn-primary btn-block${submitDisabled ? ' disabled' : ''}`}
+          disabled={submitDisabled}
+          onClick={this.handleSubmit}
           ref="submit"
-          onClick={() => {
-            // tslint:disable-next-line no-unused-expression
-            submitDisabled ? (): undefined => undefined : this.handleSubmit();
-          }}
+          type="button"
         >
           {submitting ? <span className="fas fa-spinner fa-pulse" aria-hidden="true" /> : 'Login'}
         </button>
@@ -131,5 +133,3 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
     );
   }
 }
-
-export default inject('store')(observer(LoginForm));

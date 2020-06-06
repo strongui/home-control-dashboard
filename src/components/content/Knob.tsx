@@ -3,16 +3,16 @@ import * as React from 'react';
 export interface IKnobProps {
   value: number;
   onChange: (newValue: number) => any;
-  onChangeEnd?: (newValue: number) => void;
-  min?: number;
-  max?: number;
-  step?: number;
-  log?: boolean;
-  width?: number;
-  height?: number;
-  thickness?: number;
+  onChangeEnd: (newValue: number) => void;
+  min: number;
+  max: number;
+  step: number;
+  log: boolean;
+  width: number;
+  height: number;
+  thickness: number;
   lineCap?: 'butt' | 'round';
-  bgColor?: string;
+  bgColor: string;
   fgColor?: string;
   inputColor?: string;
   font?: string;
@@ -24,8 +24,8 @@ export interface IKnobProps {
   disableTextInput?: boolean;
   displayInput?: boolean;
   displayCustom?: () => any;
-  angleArc?: number;
-  angleOffset?: number;
+  angleArc: number;
+  angleOffset: number;
   disableMouseWheel?: boolean;
   title?: string;
   className?: string | undefined;
@@ -68,12 +68,12 @@ class Knob extends React.Component<IKnobProps, {}> {
   private digits: number;
   private endAngle: number;
   private h: number;
-  private lineWidth: number;
-  private radius: number;
+  private lineWidth: number = 1;
+  private radius: number = 50;
   private startAngle: number;
-  private touchIndex: number;
+  private touchIndex: number = -1;
   private w: number;
-  private xy: number;
+  private xy: number = 0;
 
   constructor(props: IKnobProps) {
     super(props);
@@ -83,17 +83,17 @@ class Knob extends React.Component<IKnobProps, {}> {
       this.props.cursor === true
         ? 0.3
         : typeof this.props.cursor === 'number'
-          ? this.props.cursor / 100
-          : 0.3;
-    this.angleArc = this.props.angleArc * Math.PI / 180;
-    this.angleOffset = this.props.angleOffset * Math.PI / 180;
+        ? this.props.cursor / 100
+        : 0.3;
+    this.angleArc = (this.props.angleArc * Math.PI) / 180;
+    this.angleOffset = (this.props.angleOffset * Math.PI) / 180;
     this.startAngle = 1.5 * Math.PI + this.angleOffset;
     this.endAngle = 1.5 * Math.PI + this.angleOffset + this.angleArc;
     this.digits =
       Math.max(
         String(Math.abs(this.props.min)).length,
         String(Math.abs(this.props.max)).length,
-        2,
+        2
       ) + 2;
   }
 
@@ -104,16 +104,13 @@ class Knob extends React.Component<IKnobProps, {}> {
     }
   }
 
-  componentWillReceiveProps(nextProps: IKnobProps) {
-    if (nextProps.width && this.w !== nextProps.width) {
-      this.w = nextProps.width;
+  componentDidUpdate(prevProps: IKnobProps) {
+    if (this.props.width && this.w !== this.props.width) {
+      this.w = this.props.width;
     }
-    if (nextProps.height && this.h !== nextProps.height) {
-      this.h = nextProps.height;
+    if (this.props.height && this.h !== this.props.height) {
+      this.h = this.props.height;
     }
-  }
-
-  componentDidUpdate() {
     this.drawCanvas();
   }
 
@@ -125,7 +122,7 @@ class Knob extends React.Component<IKnobProps, {}> {
     let startAngle;
     let endAngle;
     const angle = !this.props.log
-      ? (v - this.props.min) * this.angleArc / (this.props.max - this.props.min)
+      ? ((v - this.props.min) * this.angleArc) / (this.props.max - this.props.min)
       : Math.log(Math.pow(v / this.props.min, this.angleArc)) /
         Math.log(this.props.max / this.props.min);
     if (!this.props.clockwise) {
@@ -148,10 +145,7 @@ class Knob extends React.Component<IKnobProps, {}> {
 
   // Calculate ratio to scale canvas to avoid blurriness on HiDPI devices
   getCanvasScale = (ctx: any) => {
-    const devicePixelRatio =
-      window.devicePixelRatio ||
-      window.screen.deviceXDPI / window.screen.logicalXDPI || // IE10
-      1;
+    const devicePixelRatio = window.devicePixelRatio || 1;
     const backingStoreRatio = ctx.webkitBackingStorePixelRatio || 1;
     return devicePixelRatio / backingStoreRatio;
   };
@@ -163,7 +157,7 @@ class Knob extends React.Component<IKnobProps, {}> {
       : Math.pow(
           this.props.step,
           // tslint:disable-next-line no-bitwise
-          ~~((Math.abs(v) < 1 ? -0.5 : 0.5) + Math.log(v) / Math.log(this.props.step)),
+          ~~((Math.abs(v) < 1 ? -0.5 : 0.5) + Math.log(v) / Math.log(this.props.step))
         );
     val = Math.max(Math.min(val, this.props.max), this.props.min);
     if (isNaN(val)) {
@@ -186,7 +180,7 @@ class Knob extends React.Component<IKnobProps, {}> {
       a += Math.PI * 2;
     }
     const val = !this.props.log
-      ? a * (this.props.max - this.props.min) / this.angleArc + this.props.min
+      ? (a * (this.props.max - this.props.min)) / this.angleArc + this.props.min
       : Math.pow(this.props.max / this.props.min, a / this.angleArc) * this.props.min;
     return this.coerceToStep(val);
   };
@@ -239,7 +233,7 @@ class Knob extends React.Component<IKnobProps, {}> {
   };
 
   handleTextInput = (
-    e: React.KeyboardEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>,
+    e: React.KeyboardEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>
   ) => {
     const val =
       Math.max(Math.min(+e.currentTarget.value, this.props.max), this.props.min) || this.props.min;
@@ -251,14 +245,14 @@ class Knob extends React.Component<IKnobProps, {}> {
     if (e.deltaX > 0 || e.deltaY > 0) {
       this.props.onChange(
         this.coerceToStep(
-          !this.props.log ? this.props.value + this.props.step : this.props.value * this.props.step,
-        ),
+          !this.props.log ? this.props.value + this.props.step : this.props.value * this.props.step
+        )
       );
     } else if (e.deltaX < 0 || e.deltaY < 0) {
       this.props.onChange(
         this.coerceToStep(
-          !this.props.log ? this.props.value - this.props.step : this.props.value / this.props.step,
-        ),
+          !this.props.log ? this.props.value - this.props.step : this.props.value / this.props.step
+        )
       );
     }
   };
@@ -268,15 +262,15 @@ class Knob extends React.Component<IKnobProps, {}> {
       e.preventDefault();
       this.props.onChange(
         this.coerceToStep(
-          !this.props.log ? this.props.value - this.props.step : this.props.value / this.props.step,
-        ),
+          !this.props.log ? this.props.value - this.props.step : this.props.value / this.props.step
+        )
       );
     } else if (e.keyCode === 38 || e.keyCode === 39) {
       e.preventDefault();
       this.props.onChange(
         this.coerceToStep(
-          !this.props.log ? this.props.value + this.props.step : this.props.value * this.props.step,
-        ),
+          !this.props.log ? this.props.value + this.props.step : this.props.value * this.props.step
+        )
       );
     }
   };
@@ -293,7 +287,7 @@ class Knob extends React.Component<IKnobProps, {}> {
     // tslint:disable-next-line no-bitwise
     height: `${(this.w / 3) >> 0}px`,
     // tslint:disable-next-line no-bitwise
-    marginLeft: `-${(this.w * 3 / 4 + 2) >> 0}px`,
+    marginLeft: `-${((this.w * 3) / 4 + 2) >> 0}px`,
     // tslint:disable-next-line no-bitwise
     marginTop: `${(this.w / 3) >> 0}px`,
     padding: '0px',
@@ -324,7 +318,7 @@ class Knob extends React.Component<IKnobProps, {}> {
       this.radius,
       this.endAngle - 0.00001,
       this.startAngle + 0.00001,
-      true,
+      true
     );
     ctx.stroke();
     // foreground arc
@@ -367,7 +361,7 @@ class Knob extends React.Component<IKnobProps, {}> {
         onWheel={readOnly || disableMouseWheel ? () => undefined : this.handleWheel}
       >
         <canvas
-          ref={ref => {
+          ref={(ref) => {
             this.canvasRef = ref;
           }}
           className={canvasClassName}

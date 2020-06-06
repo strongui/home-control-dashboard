@@ -1,18 +1,24 @@
-import AppState, { IAppState } from './AppState';
-import UiState, { IUiState } from './UiState';
+import { History } from 'history';
+import AppState from './AppState';
+import UiState from './UiState';
 
-export interface IAppState {
-  appStore?: IAppState;
-  uiStore?: IUiState;
-}
+export type IRootStore = {
+  store: RootStore;
+};
+export const storeDefaultProps = { store: (null as unknown) as RootStore };
+
+export type IRouting = {
+  routing: { history: History; location: Location };
+};
+export const routingDefaultProps = { routing: (null as unknown) as IRouting };
 
 class RootStore {
-  appStore: IAppState;
-  uiStore: IUiState;
+  appStore: AppState;
+  uiStore: UiState;
 
   constructor() {
-    this.appStore = new (AppState as any)(this);
-    this.uiStore = new (UiState as any)(this);
+    this.appStore = new AppState(this);
+    this.uiStore = new UiState(this);
   }
 }
 

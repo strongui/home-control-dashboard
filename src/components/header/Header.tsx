@@ -1,17 +1,38 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import { Link } from 'react-router-dom';
 import * as React from 'react';
 import SideMenu from './SideMenu';
-import SidenavToggler from './SidenavToggler';
+import SideNavToggler from './SideNavToggler';
 import TopMenu from './TopMenu';
 
-interface IHeaderProps {
+interface IHeaderOwnProps {
   location: Location;
-  store?: IAppState;
 }
 
-class Header extends React.Component<IHeaderProps, {}> {
+export type IHeaderProps = IHeaderOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class Header extends React.Component<IHeaderProps, {}> {
+  static defaultProps = storeDefaultProps;
+
+  constructor(props: IHeaderProps) {
+    super(props);
+
+    this.handleMenuClick = this.handleMenuClick.bind(this);
+  }
+
+  handleMenuClick(event: React.MouseEvent<HTMLElement>) {
+    const { store } = this.props;
+    const { uiStore } = store;
+    const { menuCollapsed, collapseMenu, windowDimensions } = uiStore;
+    const { width } = windowDimensions;
+    if (width < 992 && !menuCollapsed) {
+      collapseMenu();
+    }
+  }
+
   render() {
     const { location, store } = this.props;
     const { menuCollapsed, collapseMenu } = store!.uiStore;
@@ -42,13 +63,11 @@ class Header extends React.Component<IHeaderProps, {}> {
           className={`navbar-collapse${menuCollapsed ? ' collapse' : ' show'}`}
           id="navbarResponsive"
         >
-          <SideMenu location={location} />
-          <SidenavToggler />
+          <SideMenu location={location} onMenuClick={this.handleMenuClick} />
+          <SideNavToggler />
           <TopMenu />
         </div>
       </nav>
     );
   }
 }
-
-export default inject('store')(observer(Header));

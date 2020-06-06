@@ -1,16 +1,21 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
+import { Link } from 'react-router-dom';
 import * as React from 'react';
 import Callout from '../content/Callout';
 import Controls from '../content/Controls';
 import Loading from '../Loading';
 import Status from '../content/Status';
 
-export interface IDashboardProps {
-  store?: IAppState;
-}
+interface IDashboardOwnProps {}
 
-class Dashboard extends React.Component<IDashboardProps, {}> {
+export type IDashboardProps = IDashboardOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class Dashboard extends React.Component<IDashboardProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { store } = this.props;
     const { controlsInitialized, status } = store!.appStore;
@@ -18,7 +23,7 @@ class Dashboard extends React.Component<IDashboardProps, {}> {
       <div className="container-fluid">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="#">Dashboard</a>
+            <Link to="/">Dashboard</Link>
           </li>
           <li className="breadcrumb-item active">System Status</li>
         </ol>
@@ -36,5 +41,3 @@ class Dashboard extends React.Component<IDashboardProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(Dashboard));

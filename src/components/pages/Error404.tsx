@@ -1,51 +1,16 @@
-import * as React from 'react';
 import { Link } from 'react-router-dom';
-// tslint:disable-next-line import-name
-import Particles from 'react-particles-js';
+import * as React from 'react';
+import Particles, {
+  IParticlesParams,
+  MoveDirection,
+  OutMode,
+  InteractivityDetect,
+} from 'react-particles-js';
 
-export const particleOps = {
+export const particleOps: IParticlesParams = {
   particles: {
     color: {
       value: '#ffffff',
-    },
-    interactivity: {
-      detect_on: 'canvas',
-      events: {
-        onclick: {
-          enable: false,
-          mode: 'repulse',
-        },
-        onhover: {
-          enable: false,
-          mode: 'bubble',
-        },
-        resize: false,
-      },
-      modes: {
-        bubble: {
-          distance: 250,
-          duration: 2,
-          opacity: 0,
-          size: 0,
-          speed: 3,
-        },
-        grab: {
-          distance: 400,
-          line_linked: {
-            opacity: 1,
-          },
-        },
-        push: {
-          particles_nb: 4,
-        },
-        remove: {
-          particles_nb: 2,
-        },
-        repulse: {
-          distance: 400,
-          duration: 0.4,
-        },
-      },
     },
     line_linked: {
       color: '#ffffff',
@@ -61,9 +26,9 @@ export const particleOps = {
         rotateY: 600,
       },
       bounce: false,
-      direction: 'none',
+      direction: MoveDirection.none,
       enable: true,
-      out_mode: 'out',
+      out_mode: OutMode.out,
       random: true,
       speed: 0.17,
       straight: false,
@@ -109,6 +74,44 @@ export const particleOps = {
       },
       random: true,
       value: 3,
+    },
+  },
+  interactivity: {
+    detect_on: InteractivityDetect.canvas,
+    events: {
+      onclick: {
+        enable: false,
+        mode: 'repulse',
+      },
+      onhover: {
+        enable: false,
+        mode: 'bubble',
+      },
+      resize: false,
+    },
+    modes: {
+      bubble: {
+        distance: 250,
+        duration: 2,
+        opacity: 0,
+        size: 0,
+      },
+      grab: {
+        distance: 400,
+        line_linked: {
+          opacity: 1,
+        },
+      },
+      push: {
+        particles_nb: 4,
+      },
+      remove: {
+        particles_nb: 2,
+      },
+      repulse: {
+        distance: 400,
+        duration: 0.4,
+      },
     },
   },
   retina_detect: true,

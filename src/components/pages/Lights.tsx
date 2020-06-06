@@ -1,26 +1,31 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
+import { IRootStore, storeDefaultProps } from '../../store';
 import { Link } from 'react-router-dom';
-import LightSwitch, { ILightSwitch } from '../content/LightSwitch';
 import * as React from 'react';
+import LightSwitch, { ILightSwitch } from '../content/LightSwitch';
 
-export interface ILightsProps {
-  store?: IAppState;
-}
-class Lights extends React.Component<ILightsProps, {}> {
+interface ILightsOwnProps {}
+
+export type ILightsProps = ILightsOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class Lights extends React.Component<ILightsProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { store } = this.props;
     const { lights = [] } = store!.appStore;
-    const groups = {};
+    const groups: { [key: string]: ILightSwitch[] } = {};
 
-    lights.map(light => {
+    for (const light of lights) {
       const group = light.group ? light.group : 'noGroup';
       if (groups.hasOwnProperty(group)) {
         groups[group].push(light);
       } else {
         groups[group] = [light];
       }
-    });
+    }
 
     const groupsArr = [];
     for (const groupKey in groups) {
@@ -53,7 +58,7 @@ class Lights extends React.Component<ILightsProps, {}> {
         <article>
           {cardRows.map((row, i) => (
             <div className="row row-eq-height" key={`lights-row-${i}`}>
-              {row.map(group => {
+              {row.map((group) => {
                 const firstLight = group[0];
                 return (
                   <div className="col-md-4 mb-3" key={`lights-column-${firstLight.group}`}>
@@ -65,7 +70,7 @@ class Lights extends React.Component<ILightsProps, {}> {
                       </div>
                       <div className="card-body">
                         <fieldset>
-                          {group.map(light => (
+                          {group.map((light) => (
                             <LightSwitch key={`light-${light.id}`} storeKey="lights" {...light} />
                           ))}
                         </fieldset>
@@ -81,5 +86,3 @@ class Lights extends React.Component<ILightsProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(Lights));

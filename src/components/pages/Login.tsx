@@ -1,16 +1,20 @@
-import { IAppState } from '../../store';
 import { inject, observer } from 'mobx-react';
-import { Redirect } from 'react-router-dom';
+import { IRootStore, storeDefaultProps } from '../../store';
 import { particleOps } from './Error404';
+import { Redirect } from 'react-router-dom';
 import * as React from 'react';
 import LoginForm from '../form/LoginForm';
-// tslint:disable-next-line import-name
 import Particles from 'react-particles-js';
 
-export interface ILoginProps {
-  store?: IAppState;
-}
-class Login extends React.Component<ILoginProps, {}> {
+interface ILoginOwnProps {}
+
+export type ILoginProps = ILoginOwnProps & IRootStore;
+
+@inject('store')
+@observer
+export default class Login extends React.Component<ILoginProps, {}> {
+  static defaultProps = storeDefaultProps;
+
   render() {
     const { from } = (this.props as any).location.state || { from: { pathname: '/' } };
     const logginCls = this.props.store && this.props.store.appStore.user.error ? ' shake' : '';
@@ -34,5 +38,3 @@ class Login extends React.Component<ILoginProps, {}> {
     );
   }
 }
-
-export default inject('store')(observer(Login));

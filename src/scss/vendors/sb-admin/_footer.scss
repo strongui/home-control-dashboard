@@ -14,7 +14,7 @@ footer.sticky-footer {
   }
 }
 
-body.sidenav-toggled {
+body.side-nav-closed {
   @media (min-width: 992px) {
     footer.sticky-footer {
       width: calc(100% - #{$sidenav-collapsed-width});
