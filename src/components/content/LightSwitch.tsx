@@ -15,31 +15,44 @@ interface ILightSwitchOwnProps extends ILightSwitch {
   storeKey: string;
 }
 
-export type ILightSwitchProps = ILightSwitchOwnProps & IRootStore;
+export type ILightSwitchProps = ILightSwitchOwnProps & Partial<IRootStore>;
 
-@inject('store')
-@observer
-export default class LightSwitch extends React.Component<ILightSwitchProps, {}> {
-  static defaultProps = storeDefaultProps;
+function LightSwitch({
+  group,
+  groupLabel,
+  id,
+  ident,
+  label,
+  store = storeDefaultProps.store,
+  storeKey = '',
+  value,
+}: ILightSwitchProps) {
+  const { appStore } = store;
+  const { setValue } = appStore;
+  const switchId = `lightswitch-${storeKey}-${id}`;
 
-  render() {
-    const { id, ident, label, storeKey, value } = this.props;
-    const switchId = `lightswitch-${storeKey}-${id}`;
-    return (
-      <div>
-        <input
-          type="checkbox"
-          name="switch"
-          id={switchId}
-          checked={value}
-          className="light-switch"
-          onChange={() => this.props.store!.appStore.setValue(storeKey, ident, id, !value)}
-        />
-        <label className="switch" htmlFor={switchId}>
-          <span className="text">{label}</span>
-          <span className="indicator" />
-        </label>
-      </div>
-    );
-  }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (storeKey) {
+      setValue(storeKey, ident, id, !value);
+    }
+  };
+
+  return (
+    <div>
+      <input
+        checked={value}
+        className="light-switch"
+        id={switchId}
+        name="switch"
+        onChange={handleChange}
+        type="checkbox"
+      />
+      <label className="switch" htmlFor={switchId}>
+        <span className="text">{label}</span>
+        <span className="indicator" />
+      </label>
+    </div>
+  );
 }
+
+export default inject('store')(observer(LightSwitch));

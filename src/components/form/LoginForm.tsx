@@ -2,134 +2,135 @@ import { inject, observer } from 'mobx-react';
 import { IRootStore, storeDefaultProps } from '../../store';
 import * as React from 'react';
 
+const { useRef, useState } = React;
+
 interface ILoginFormOwnProps {}
 
-export type ILoginFormProps = ILoginFormOwnProps & IRootStore;
+export type ILoginFormProps = ILoginFormOwnProps & Partial<IRootStore>;
 
 interface ILoginFormPropsState {
   error?: string | null;
-  password?: string;
+  password: string;
   pristine: boolean;
   submitting: boolean;
-  username?: string;
+  username: string;
 }
 
-@inject('store')
-@observer
-export default class LoginForm extends React.Component<ILoginFormProps, ILoginFormPropsState> {
-  static defaultProps = storeDefaultProps;
+const initState = () => {
+  return { error: null, username: '', password: '', pristine: true, submitting: false };
+};
 
-  constructor(props: ILoginFormProps) {
-    super(props);
-    this.state = { username: '', password: '', pristine: true, submitting: false };
+function LoginForm({ store = storeDefaultProps.store }: ILoginFormProps) {
+  const [state, setState] = useState<ILoginFormPropsState>(initState());
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const { appStore } = store;
+  const { username, password, error, pristine, submitting } = state;
+  const submitDisabled =
+    username === '' ||
+    password === '' ||
+    submitting ||
+    (typeof error === 'string' && pristine) ||
+    (!error && pristine);
 
-  handleChange(event: React.FormEvent<HTMLInputElement>, id: string) {
-    this.setState({ ...this.state, [id]: event.currentTarget.value, pristine: false });
-  }
+  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const name = event.currentTarget.name;
+    const value = event.currentTarget.value;
+    setState((s) => ({ ...s, [name]: value, pristine: false }));
+  };
 
-  handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>, id: string) {
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const name = event.currentTarget.name;
+
     if (event.key === 'Enter') {
-      const { password, submit } = this.refs;
-      if (id === 'username') {
-        (password as HTMLInputElement).focus();
-      } else if (id === 'password') {
-        (submit as HTMLInputElement).click();
+      if (name === 'username') {
+        if (passwordRef.current) {
+          passwordRef.current.focus();
+        }
+      } else if (name === 'password') {
+        handleSubmit();
       }
     }
-  }
+  };
 
-  handleSubmit() {
-    this.setState({
-      ...this.state,
+  const handleSubmit = () => {
+    setState((s) => ({
+      ...s,
       error: null,
       pristine: true,
       submitting: true,
+    }));
+    appStore.login(username, password).then((response) => {
+      const { error } = response;
+      if (error) {
+        setState((s) => ({
+          ...s,
+          error: error ? String(error) : 'Oops, something went wrong.',
+          pristine: true,
+          submitting: false,
+        }));
+      }
     });
-    this.props
-      .store!.appStore.login(this.state.username as string, this.state.password as string)
-      .then((response) => {
-        const { error } = response;
-        if (error) {
-          this.setState({
-            ...this.state,
-            error: error ? error : 'Oops, something went wrong.',
-            pristine: true,
-            submitting: false,
-          });
-        }
-      });
-  }
+  };
 
-  render() {
-    const { username, password, error, pristine, submitting } = this.state;
-    const submitDisabled =
-      username === '' ||
-      password === '' ||
-      submitting ||
-      (typeof error === 'string' && pristine) ||
-      (!error && pristine);
-    return (
-      <form onSubmit={this.handleSubmit}>
-        {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
-          </div>
-        )}
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <div className="input-group">
-            <span className="input-group-prepend">
-              <div className="input-group-text">
-                <span className="fas fa-user" aria-hidden="true" />
-              </div>
-            </span>
-            <input
-              className="form-control"
-              id="username"
-              type="text"
-              placeholder="Enter username"
-              value={username}
-              onChange={(e) => this.handleChange(e, 'username')}
-              onKeyPress={(e) => this.handleKeyPress(e, 'username')}
-              ref="username"
-            />
-          </div>
+  return (
+    <form onSubmit={handleSubmit}>
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
         </div>
-        <div className="form-group">
-          <label htmlFor="exampleInputPassword1">Password</label>
-          <div className="input-group">
-            <span className="input-group-prepend">
-              <div className="input-group-text">
-                <span className="fas fa-unlock-alt" aria-hidden="true" />
-              </div>
-            </span>
-            <input
-              className="form-control"
-              id="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => this.handleChange(e, 'password')}
-              onKeyPress={(e) => this.handleKeyPress(e, 'password')}
-              ref="password"
-            />
-          </div>
+      )}
+      <div className="form-group">
+        <label htmlFor="username">Username</label>
+        <div className="input-group">
+          <span className="input-group-prepend">
+            <div className="input-group-text">
+              <span className="fas fa-user" aria-hidden="true" />
+            </div>
+          </span>
+          <input
+            className="form-control"
+            id="username"
+            name="username"
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+            placeholder="Enter username"
+            type="text"
+            value={username}
+          />
         </div>
-        <button
-          className={`btn btn-primary btn-block${submitDisabled ? ' disabled' : ''}`}
-          disabled={submitDisabled}
-          onClick={this.handleSubmit}
-          ref="submit"
-          type="button"
-        >
-          {submitting ? <span className="fas fa-spinner fa-pulse" aria-hidden="true" /> : 'Login'}
-        </button>
-      </form>
-    );
-  }
+      </div>
+      <div className="form-group">
+        <label htmlFor="exampleInputPassword1">Password</label>
+        <div className="input-group">
+          <span className="input-group-prepend">
+            <div className="input-group-text">
+              <span className="fas fa-unlock-alt" aria-hidden="true" />
+            </div>
+          </span>
+          <input
+            className="form-control"
+            id="password"
+            name="password"
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+            placeholder="Password"
+            ref={passwordRef}
+            type="password"
+            value={password}
+          />
+        </div>
+      </div>
+      <button
+        className={`btn btn-primary btn-block${submitDisabled ? ' disabled' : ''}`}
+        disabled={submitDisabled}
+        onClick={handleSubmit}
+        type="button"
+      >
+        {submitting ? <span className="fas fa-spinner fa-pulse" aria-hidden="true" /> : 'Login'}
+      </button>
+    </form>
+  );
 }
+
+export default inject('store')(observer(LoginForm));

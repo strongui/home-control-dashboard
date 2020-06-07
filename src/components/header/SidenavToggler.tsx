@@ -6,7 +6,7 @@ interface ISideNavTogglerOwnProps {}
 
 export type ISideNavTogglerProps = ISideNavTogglerOwnProps & Partial<IRootStore>;
 
-const SideNavToggler = ({ store = storeDefaultProps.store }: ISideNavTogglerProps) => {
+function SideNavToggler({ store = storeDefaultProps.store }: ISideNavTogglerProps) {
   const { uiStore } = store;
   const { sideNavOpen, toggleSideNav } = uiStore;
 
@@ -24,6 +24,6 @@ const SideNavToggler = ({ store = storeDefaultProps.store }: ISideNavTogglerProp
       </li>
     </ul>
   );
-};
+}
 
 export default inject('store')(observer(SideNavToggler));

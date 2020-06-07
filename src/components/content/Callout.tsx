@@ -7,17 +7,16 @@ export interface ICalloutProps {
   type?: string;
 }
 
-export default class Callout extends React.PureComponent<ICalloutProps, {}> {
-  render() {
-    const type = this.props.type ? this.props.type : 'default';
-    return (
-      <div className={`bd-callout bd-callout-${type}`}>
-        <h4>
-          {this.props.title}
-          {this.props.titleExtra && this.props.titleExtra}
-        </h4>
-        {this.props.description && <p>{this.props.description}</p>}
-      </div>
-    );
-  }
+export default function Callout(props: ICalloutProps) {
+  const { description, title, titleExtra, type = 'default' } = props;
+
+  return (
+    <div className={`bd-callout bd-callout-${type}`}>
+      <h4>
+        {title}
+        {titleExtra && titleExtra}
+      </h4>
+      {description && <p>{description}</p>}
+    </div>
+  );
 }

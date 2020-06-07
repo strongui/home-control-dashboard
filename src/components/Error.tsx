@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-// tslint:disable-next-line function-name
 export default function Error({ title }: { title: string }) {
   return (
     <div className="card text-white bg-danger o-hidden h-100">

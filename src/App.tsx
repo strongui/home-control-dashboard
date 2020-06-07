@@ -12,62 +12,67 @@ import Login from './components/pages/Login';
 import PrivateRoute from './HOC/PrivateRoute';
 import Weather from './components/pages/Weather';
 
+const { useEffect } = React;
+
 interface IAppOwnProps {}
 
-type IAppProps = IAppOwnProps & IRootStore & IRouting;
+type IAppProps = IAppOwnProps & Partial<IRootStore> & Partial<IRouting>;
 
-@inject('store', 'routing')
-@observer
-export default class App extends React.Component<IAppProps> {
-  static defaultProps = { ...routingDefaultProps, ...storeDefaultProps };
+function App({
+  store = storeDefaultProps.store,
+  routing = routingDefaultProps.routing,
+}: IAppProps) {
+  const { appStore } = store;
+  const { controlsInitialized, isLoggedIn, syncStateWithServer } = appStore;
 
-  componentDidMount() {
-    if (this.props.store) {
-      // this.props.store.appStore.syncStateWithServer(0)
-      if (!this.props.store.appStore.isLoggedIn) {
-        document.body.classList.add('login', 'bg-dark');
-      }
-      if (!this.props.store.appStore.controlsInitialized && this.props.store.appStore.isLoggedIn) {
-        this.props.store.appStore.syncStateWithServer(0);
-      }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      document.body.classList.add('login', 'bg-dark');
+    } else {
+      document.body.classList.remove('login', 'bg-dark');
     }
-  }
-
-  componentDidUpdate(prevProps: IAppProps) {
-    if (prevProps.store) {
-      if (!prevProps.store.appStore.isLoggedIn) {
-        document.body.classList.add('login', 'bg-dark');
-      } else {
-        document.body.classList.remove('login', 'bg-dark');
-        if (!prevProps.store.appStore.controlsInitialized) {
-          prevProps.store.appStore.syncStateWithServer(0);
-        }
-      }
+    if (!controlsInitialized && isLoggedIn) {
+      syncStateWithServer(1500);
     }
-  }
+  }, [controlsInitialized, isLoggedIn, syncStateWithServer]);
 
-  render() {
-    const { routing, store } = this.props;
-    const { location } = routing;
-    const isLoggedIn = store ? store.appStore.isLoggedIn : false;
-
-    return (
-      <div className={`App${!isLoggedIn ? ' login' : ''}`}>
-        {isLoggedIn && <Header location={location} />}
-        <div className="content-wrapper">
-          <Switch>
-            <PrivateRoute isLoggedIn={isLoggedIn} exact path="/" component={Dashboard} />
-            <PrivateRoute isLoggedIn={isLoggedIn} path="/api" component={Api} />
-            <PrivateRoute isLoggedIn={isLoggedIn} path="/lights" component={Lights} />
-            <PrivateRoute isLoggedIn={isLoggedIn} path="/weather" component={Weather} />
-            <Route path="/login" component={Login} />
-            <Route component={Error404} />
-          </Switch>
-          <Footer />
-        </div>
+  return (
+    <div className={`App${!isLoggedIn ? ' login' : ''}`}>
+      {isLoggedIn && <Header />}
+      <div className="content-wrapper">
+        <Switch>
+          <PrivateRoute
+            component={Dashboard}
+            controlsInitialized={controlsInitialized}
+            exact
+            isLoggedIn={isLoggedIn}
+            path="/"
+          />
+          <PrivateRoute
+            component={Api}
+            controlsInitialized={controlsInitialized}
+            isLoggedIn={isLoggedIn}
+            path="/api"
+          />
+          <PrivateRoute
+            component={Lights}
+            controlsInitialized={controlsInitialized}
+            isLoggedIn={isLoggedIn}
+            path="/lights"
+          />
+          <PrivateRoute
+            component={Weather}
+            controlsInitialized={controlsInitialized}
+            isLoggedIn={isLoggedIn}
+            path="/weather"
+          />
+          <Route path="/login" component={Login} />
+          <Route component={Error404} />
+        </Switch>
+        <Footer />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-// export default inject('store', 'routing')(observer(App));
+export default inject('store', 'routing')(observer(App));

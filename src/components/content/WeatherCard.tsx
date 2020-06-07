@@ -19,96 +19,90 @@ export interface IWeatherCardProps {
   wind: number;
 }
 
-export default class WeatherCard extends React.Component<IWeatherCardProps, {}> {
-  render() {
-    const {
-      date,
-      header,
-      high,
-      humidity,
-      icon,
-      lastUpdate,
-      low,
-      minimal,
-      subTitle,
-      temp,
-      title,
-      update,
-      updating,
-      wind,
-    } = this.props;
-    const momentDate = moment.unix(date);
-    const dateText = minimal
-      ? momentDate.format('dddd / D')
-      : `Last updated: ${moment(lastUpdate).format('dddd, h:mm:ss a')}`;
-    return (
-      <div className={`card weather${minimal ? ' minimal' : ''}`}>
-        {header && (
-          <div className="card-header">
-            <span className="fas fa-sun" aria-hidden="true" /> {header}
-          </div>
-        )}
-        <div className="card-body">
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="date">
-                {dateText}
-                {!minimal && (
-                  <button
-                    type="button"
-                    className="btn btn-secondary btn-sm ml-1 update"
-                    onClick={updating ? () => undefined : update}
-                  >
-                    <span
-                      className={`fas fa-sync${updating ? ' fa-spin' : ''}`}
-                      aria-hidden="true"
-                    />{' '}
-                  </button>
-                )}
-              </div>
+export default function WeatherCard({
+  date,
+  header,
+  high,
+  humidity,
+  icon,
+  lastUpdate,
+  low,
+  minimal,
+  subTitle,
+  temp,
+  title,
+  update,
+  updating,
+  wind,
+}: IWeatherCardProps) {
+  const momentDate = moment.unix(date);
+  const dateText = minimal
+    ? momentDate.format('dddd / D')
+    : `Last updated: ${moment(lastUpdate).format('dddd, h:mm:ss a')}`;
+  return (
+    <div className={`card weather${minimal ? ' minimal' : ''}`}>
+      {header && (
+        <div className="card-header">
+          <span className="fas fa-sun" aria-hidden="true" /> {header}
+        </div>
+      )}
+      <div className="card-body">
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="date">
+              {dateText}
+              {!minimal && (
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm ml-1 update"
+                  onClick={updating ? () => undefined : update}
+                >
+                  <span className={`fas fa-sync${updating ? ' fa-spin' : ''}`} aria-hidden="true" />{' '}
+                </button>
+              )}
             </div>
           </div>
+        </div>
 
-          <div className="row">
-            <div className="col-sm-3">
-              <div className="icon">
-                <span className={`owf owf-${icon}`} aria-hidden="true" />
-              </div>
-            </div>
-            <div className="col-sm-6">
-              <div className="description">
-                <div className="title">{title}</div>
-                <div className="sub-title">{subTitle}</div>
-              </div>
-            </div>
-            <div className="col-sm-3">
-              <div className="temperature">
-                {temp} <small>&deg;C</small>
-              </div>
+        <div className="row">
+          <div className="col-sm-3">
+            <div className="icon">
+              <span className={`owf owf-${icon}`} aria-hidden="true" />
             </div>
           </div>
-          <hr />
+          <div className="col-sm-6">
+            <div className="description">
+              <div className="title">{title}</div>
+              <div className="sub-title">{subTitle}</div>
+            </div>
+          </div>
+          <div className="col-sm-3">
+            <div className="temperature">
+              {temp} <small>&deg;C</small>
+            </div>
+          </div>
+        </div>
+        <hr />
 
-          <div className="row">
-            <div className="col-sm-4">
-              <div className="humidty">
-                <span className="fas fa-umbrella" aria-hidden="true" /> {humidity}%
-              </div>
+        <div className="row">
+          <div className="col-sm-4">
+            <div className="humidty">
+              <span className="fas fa-umbrella" aria-hidden="true" /> {humidity}%
             </div>
-            <div className="col-sm-4">
-              <div className="temp">
-                <span className="fas fa-thermometer-half" aria-hidden="true" /> {low} &deg; {high}{' '}
-                &deg;
-              </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="temp">
+              <span className="fas fa-thermometer-half" aria-hidden="true" /> {low} &deg; {high}{' '}
+              &deg;
             </div>
-            <div className="col-sm-4">
-              <div className="wind">
-                <span className="fas fa-flag" aria-hidden="true" /> {wind} km/h
-              </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="wind">
+              <span className="fas fa-flag" aria-hidden="true" /> {wind} km/h
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }

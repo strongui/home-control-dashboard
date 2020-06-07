@@ -152,11 +152,9 @@ class Knob extends React.Component<IKnobProps, {}> {
 
   coerceToStep = (v: number) => {
     let val = !this.props.log
-      ? // tslint:disable-next-line no-bitwise
-        ~~((v < 0 ? -0.5 : 0.5) + v / this.props.step) * this.props.step
+      ? ~~((v < 0 ? -0.5 : 0.5) + v / this.props.step) * this.props.step
       : Math.pow(
           this.props.step,
-          // tslint:disable-next-line no-bitwise
           ~~((Math.abs(v) < 1 ? -0.5 : 0.5) + Math.log(v) / Math.log(this.props.step))
         );
     val = Math.max(Math.min(val, this.props.max), this.props.min);
@@ -241,6 +239,11 @@ class Knob extends React.Component<IKnobProps, {}> {
   };
 
   handleWheel = (e: any) => {
+    const { disableMouseWheel, readOnly } = this.props;
+    if (readOnly || disableMouseWheel) {
+      return;
+    }
+
     e.preventDefault();
     if (e.deltaX > 0 || e.deltaY > 0) {
       this.props.onChange(
@@ -282,19 +285,14 @@ class Knob extends React.Component<IKnobProps, {}> {
     background: 'none',
     border: 0,
     color: this.props.inputColor || this.props.fgColor,
-    // tslint:disable-next-line no-bitwise
     font: `${this.props.fontWeight} ${(this.w / this.digits) >> 0}px ${this.props.font}`,
-    // tslint:disable-next-line no-bitwise
     height: `${(this.w / 3) >> 0}px`,
-    // tslint:disable-next-line no-bitwise
     marginLeft: `-${((this.w * 3) / 4 + 2) >> 0}px`,
-    // tslint:disable-next-line no-bitwise
     marginTop: `${(this.w / 3) >> 0}px`,
     padding: '0px',
     position: 'absolute',
     textAlign: 'center',
     verticalAlign: 'middle',
-    // tslint:disable-next-line no-bitwise
     width: `${(this.w / 2 + 4) >> 0}px`,
   });
 
@@ -352,13 +350,13 @@ class Knob extends React.Component<IKnobProps, {}> {
   };
 
   render() {
-    const { canvasClassName, className, disableMouseWheel, readOnly, title, value } = this.props;
+    const { canvasClassName, className, readOnly, title, value } = this.props;
 
     return (
       <div
         className={className}
         style={{ width: this.w, height: this.h, display: 'inline-block' }}
-        onWheel={readOnly || disableMouseWheel ? () => undefined : this.handleWheel}
+        onWheel={this.handleWheel}
       >
         <canvas
           ref={(ref) => {

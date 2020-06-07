@@ -122,14 +122,16 @@ export default class AppState {
   @action logout() {
     window.localStorage.setItem('hccLoggedIn', 'false');
     this.user = { loggedIn: false };
+    this.controlsInitialized = false;
     return Promise.resolve();
   }
 
   @action setValue(objKey: string, ident: string, id: number, value: any) {
-    console.log('%cPosting new values to server!', 'color: white; background-color: #26c6da;');
-    console.log(`%c ${ident} is changing to ${value}`, 'color: white; background-color: #33b5e5;');
-    console.dir({ objKey, ident, id, value });
-    console.log('******************');
+    console.info('%cPosting new values to server!', 'color: white; background-color: #26c6da;');
+    console.info(`%c ${ident} is changing to ${value}`, 'color: white; background-color: #33b5e5;');
+    // eslint-disable-next-line no-console
+    console.table({ objKey, ident, id, value });
+    console.info('******************');
 
     // @ts-ignore
     this[objKey] = this[objKey].map((obj: IGenericObj) =>

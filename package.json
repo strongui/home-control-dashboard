@@ -61,6 +61,7 @@
         "warn",
         {
           "allow": [
+            "dir",
             "error",
             "group",
             "groupEnd",

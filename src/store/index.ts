@@ -10,7 +10,9 @@ export const storeDefaultProps = { store: (null as unknown) as RootStore };
 export type IRouting = {
   routing: { history: History; location: Location };
 };
-export const routingDefaultProps = { routing: (null as unknown) as IRouting };
+export const routingDefaultProps = {
+  routing: ({} as unknown) as { history: History; location: Location },
+};
 
 class RootStore {
   appStore: AppState;
