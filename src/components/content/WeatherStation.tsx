@@ -57,14 +57,11 @@ export interface IForecastObj {
   city: ICity;
 }
 
-interface IWeatherStationOwnProps {
-  lat: number;
-  lon: number;
-}
+interface IWeatherStationOwnProps {}
 
 export type IWeatherStationProps = IWeatherStationOwnProps & Partial<IRootStore>;
 
-function WeatherStation({ lat, lon, store = storeDefaultProps.store }: IWeatherStationProps) {
+function WeatherStation({ store = storeDefaultProps.store }: IWeatherStationProps) {
   const { appStore } = store;
   const { loadWeather, weather } = appStore;
   const { error, loaded, updating, forecast, currentWeather, lastUpdate } = weather;
@@ -109,8 +106,6 @@ function WeatherStation({ lat, lon, store = storeDefaultProps.store }: IWeatherS
           humidity={currentWeather.main.humidity}
           icon={currentWeather.weather[0].id}
           lastUpdate={lastUpdate}
-          lat={lat}
-          lon={lon}
           low={Math.round(currentWeather.main.temp_min)}
           subTitle={`${currentWeather.weather[0].description
             .charAt(0)

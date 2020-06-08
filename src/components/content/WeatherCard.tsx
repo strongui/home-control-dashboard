@@ -8,14 +8,12 @@ export interface IWeatherCardProps {
   humidity: number;
   icon: number;
   lastUpdate?: number;
-  lat?: number;
-  lon?: number;
   low: number;
   minimal?: boolean;
   subTitle?: string;
   temp: number;
   title?: string;
-  update?: (lat: number, lon: number) => any;
+  update?: () => any;
   updating?: boolean;
   wind: number;
 }
@@ -27,8 +25,6 @@ export default function WeatherCard({
   humidity,
   icon,
   lastUpdate,
-  lat,
-  lon,
   low,
   minimal,
   subTitle,
@@ -44,8 +40,8 @@ export default function WeatherCard({
     : `Last updated: ${moment(lastUpdate).format('dddd, h:mm:ss a')}`;
 
   const handleUpdateClick = () => {
-    if (updating || !lat || !lon || !update) return;
-    update(lat, lon);
+    if (updating || !update) return;
+    update();
   };
 
   return (

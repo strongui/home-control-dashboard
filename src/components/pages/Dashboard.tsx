@@ -30,7 +30,6 @@ function Dashboard({ store = storeDefaultProps.store }: IDashboardProps) {
       />
 
       <Controls />
-      <hr />
     </div>
   );
 }

@@ -65,9 +65,9 @@ function App({ store = storeDefaultProps.store }: IAppProps) {
           />
           <Route path="/login" component={Login} />
           <Route component={Error404} />
-          <Footer />
         </Switch>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -42,6 +42,34 @@ export interface IWeather extends IWeatherBase {
   updating: boolean;
 }
 
+export const defaultPosition = {
+  lat: 46.8921,
+  lon: -71.2732,
+};
+
+export const newYorkPosition = {
+  lat: 40.73061,
+  lon: -73.935242,
+};
+
+const getPosition = (): Promise<{ lat: number; lon: number }> => {
+  return new Promise((resolve) => {
+    if (navigator.geolocation) {
+      return navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newLatitude = position.coords.latitude;
+          const newLongitude = position.coords.longitude;
+
+          resolve({ lat: newLatitude, lon: newLongitude });
+        },
+        (error) => {
+          console.error(error);
+          return resolve(newYorkPosition);
+        }
+      );
+    }
+  });
+};
 export default class AppState {
   rootStore: RootStore;
 
@@ -79,34 +107,37 @@ export default class AppState {
     this[notification] = this[notification].filter((obj: INotification) => obj.id !== targetId);
   }
 
-  @action loadWeather(lat: number, lon: number) {
+  @action loadWeather() {
     if (this.weather.updating) return;
 
     this.weather.updating = true;
     this.weather.error = null;
 
-    syncWeather(lat, lon)
-      .then((response) => {
-        const { currentWeather, forecast } = response;
-        const now = new Date();
+    getPosition().then((position) => {
+      const { lat, lon } = position;
+      syncWeather(lat, lon)
+        .then((response) => {
+          const { currentWeather, forecast } = response;
+          const now = new Date();
 
-        action('Sync Weather', () => {
-          this.weather.currentWeather = currentWeather;
-          this.weather.error = null;
-          this.weather.forecast = forecast;
-          this.weather.lastUpdate = now.valueOf();
+          action('Sync Weather', () => {
+            this.weather.currentWeather = currentWeather;
+            this.weather.error = null;
+            this.weather.forecast = forecast;
+            this.weather.lastUpdate = now.valueOf();
 
-          this.weather.loaded = true;
-          this.weather.updating = false;
-        })();
-      })
-      .catch((err) => {
-        action('Sync Weather Failed', () => {
-          this.weather.error = err;
-          this.weather.loaded = true;
-          this.weather.updating = false;
-        })();
-      });
+            this.weather.loaded = true;
+            this.weather.updating = false;
+          })();
+        })
+        .catch((err) => {
+          action('Sync Weather Failed', () => {
+            this.weather.error = err;
+            this.weather.loaded = true;
+            this.weather.updating = false;
+          })();
+        });
+    });
   }
 
   @action async login(username: string, password: string, forceFail?: boolean) {
