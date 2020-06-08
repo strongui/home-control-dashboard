@@ -23,7 +23,7 @@ export type IWeatherStationProps = IWeatherStationOwnProps & Partial<IRootStore>
 
 const initState = () => {
   return {
-    ...defaultPosition,
+    ...newYorkPosition,
   };
 };
 

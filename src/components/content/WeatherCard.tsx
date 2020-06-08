@@ -59,7 +59,7 @@ export default function WeatherCard({
         <div className="row">
           <div className="col-sm-12">
             <div className="date">
-              {dateText} is hwat
+              {dateText}
               {!minimal && (
                 <button
                   className="btn btn-secondary btn-sm ml-1 update"
