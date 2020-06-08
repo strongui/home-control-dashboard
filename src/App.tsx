@@ -1,6 +1,6 @@
 import { inject, observer } from 'mobx-react';
-import { IRootStore, IRouting, storeDefaultProps, routingDefaultProps } from './store';
 import { Route, Switch } from 'react-router-dom';
+import { IRootStore, storeDefaultProps } from './store';
 import * as React from 'react';
 import Api from './components/pages/Api';
 import Dashboard from './components/pages/Dashboard';
@@ -16,12 +16,9 @@ const { useEffect } = React;
 
 interface IAppOwnProps {}
 
-type IAppProps = IAppOwnProps & Partial<IRootStore> & Partial<IRouting>;
+type IAppProps = IAppOwnProps & Partial<IRootStore>;
 
-function App({
-  store = storeDefaultProps.store,
-  routing = routingDefaultProps.routing,
-}: IAppProps) {
+function App({ store = storeDefaultProps.store }: IAppProps) {
   const { appStore } = store;
   const { controlsInitialized, isLoggedIn, syncStateWithServer } = appStore;
 
@@ -38,7 +35,7 @@ function App({
 
   return (
     <div className={`App${!isLoggedIn ? ' login' : ''}`}>
-      {isLoggedIn && <Header />}
+      <Switch>{isLoggedIn && <Header />}</Switch>
       <div className="content-wrapper">
         <Switch>
           <PrivateRoute
@@ -68,8 +65,8 @@ function App({
           />
           <Route path="/login" component={Login} />
           <Route component={Error404} />
+          <Footer />
         </Switch>
-        <Footer />
       </div>
     </div>
   );

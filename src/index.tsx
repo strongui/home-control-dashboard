@@ -3,31 +3,29 @@ import './scss/index.scss';
 
 // Vendors
 import 'mobx-react-lite/batchingForReactDom';
-import { createBrowserHistory } from 'history';
+
 import { Provider } from 'mobx-react';
-import { Router } from 'react-router';
-import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
+import { RouterStore } from 'mobx-react-router';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+import { HashRouter } from 'react-router-dom';
 
 // Components
 import App from './App';
 import store from './store';
 
 // Routing
-const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
-const history = syncHistoryWithStore(browserHistory, routingStore);
 
 // Store
 const storeInstance = new store();
 
 ReactDOM.render(
   <Provider routing={routingStore} store={storeInstance}>
-    <Router history={history}>
+    <HashRouter>
       <App />
-    </Router>
+    </HashRouter>
   </Provider>,
   document.getElementById('root') as HTMLElement
 );

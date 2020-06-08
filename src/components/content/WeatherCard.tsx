@@ -1,6 +1,5 @@
 import * as React from 'react';
-// import * as moment from 'moment';
-const moment = require('moment');
+import moment from 'moment';
 
 export interface IWeatherCardProps {
   date: number;
@@ -9,12 +8,14 @@ export interface IWeatherCardProps {
   humidity: number;
   icon: number;
   lastUpdate?: number;
+  lat?: number;
+  lon?: number;
   low: number;
   minimal?: boolean;
   subTitle?: string;
   temp: number;
   title?: string;
-  update?: () => void;
+  update?: (lat: number, lon: number) => any;
   updating?: boolean;
   wind: number;
 }
@@ -26,6 +27,8 @@ export default function WeatherCard({
   humidity,
   icon,
   lastUpdate,
+  lat,
+  lon,
   low,
   minimal,
   subTitle,
@@ -39,6 +42,12 @@ export default function WeatherCard({
   const dateText = minimal
     ? momentDate.format('dddd / D')
     : `Last updated: ${moment(lastUpdate).format('dddd, h:mm:ss a')}`;
+
+  const handleUpdateClick = () => {
+    if (updating || !lat || !lon || !update) return;
+    update(lat, lon);
+  };
+
   return (
     <div className={`card weather${minimal ? ' minimal' : ''}`}>
       {header && (
@@ -50,12 +59,12 @@ export default function WeatherCard({
         <div className="row">
           <div className="col-sm-12">
             <div className="date">
-              {dateText}
+              {dateText} is hwat
               {!minimal && (
                 <button
-                  type="button"
                   className="btn btn-secondary btn-sm ml-1 update"
-                  onClick={updating ? () => undefined : update}
+                  onClick={handleUpdateClick}
+                  type="button"
                 >
                   <span className={`fas fa-sync${updating ? ' fa-spin' : ''}`} aria-hidden="true" />{' '}
                 </button>

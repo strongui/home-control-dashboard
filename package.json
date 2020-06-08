@@ -5,7 +5,7 @@
   "bugs": {
     "url": "https://github.com/strongui/home-control-dashboard/issues"
   },
-  "homepage": "https://hcc.amirkaramuja.com/",
+  "homepage": "./",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/strongui/home-control-dashboard.git"

@@ -79,13 +79,13 @@ export default class AppState {
     this[notification] = this[notification].filter((obj: INotification) => obj.id !== targetId);
   }
 
-  @action loadWeather() {
+  @action loadWeather(lat: number, lon: number) {
     if (this.weather.updating) return;
 
     this.weather.updating = true;
     this.weather.error = null;
 
-    syncWeather()
+    syncWeather(lat, lon)
       .then((response) => {
         const { currentWeather, forecast } = response;
         const now = new Date();

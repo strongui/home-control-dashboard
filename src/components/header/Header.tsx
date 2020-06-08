@@ -1,5 +1,5 @@
 import { inject, observer } from 'mobx-react';
-import { IRootStore, storeDefaultProps, routingDefaultProps, IRouting } from '../../store';
+import { ILocation, IRootStore, storeDefaultProps, locationDefaultProps } from '../../store';
 import { Link } from 'react-router-dom';
 import * as React from 'react';
 import SideMenu from './SideMenu';
@@ -8,13 +8,12 @@ import TopMenu from './TopMenu';
 
 interface IHeaderOwnProps {}
 
-export type IHeaderProps = IHeaderOwnProps & Partial<IRootStore> & Partial<IRouting>;
+export type IHeaderProps = IHeaderOwnProps & Partial<IRootStore> & Partial<ILocation>;
 
 function Header({
+  location = locationDefaultProps.location,
   store = storeDefaultProps.store,
-  routing = routingDefaultProps.routing,
 }: IHeaderProps) {
-  const { location } = routing;
   const { uiStore } = store;
   const { menuCollapsed, collapseMenu } = uiStore;
 
@@ -62,4 +61,4 @@ function Header({
   );
 }
 
-export default inject('store', 'routing')(observer(Header));
+export default inject('store')(observer(Header));
