@@ -1,6 +1,6 @@
 import { inject, observer } from 'mobx-react';
-import { Route, Switch } from 'react-router-dom';
 import { IRootStore, storeDefaultProps } from './store';
+import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import Api from './components/pages/Api';
 import Dashboard from './components/pages/Dashboard';
@@ -10,6 +10,7 @@ import Header from './components/header/Header';
 import Lights from './components/pages/Lights';
 import Login from './components/pages/Login';
 import PrivateRoute from './HOC/PrivateRoute';
+import Register from './components/pages/Register';
 import Weather from './components/pages/Weather';
 
 const { useEffect } = React;
@@ -64,6 +65,7 @@ function App({ store = storeDefaultProps.store }: IAppProps) {
             path="/weather"
           />
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route component={Error404} />
         </Switch>
       </div>

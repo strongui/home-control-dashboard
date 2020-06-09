@@ -4,7 +4,9 @@ import { IForecastObj, IWeatherStationObj } from '../components/content/WeatherS
 import { IIconCardOwnProps } from '../components/content/IconCard';
 import { ILightSwitch } from '../components/content/LightSwitch';
 import { INotification } from '../components/header/Notification';
-import doLogin, { arnold } from './actions/doLogin';
+import doLogin from './actions/doLogin';
+import doRegistration from './actions/doRegistration';
+import getLoggedInUser from './actions/getLoggedInUser';
 import RootStore from '.';
 import sync from './actions/sync';
 import syncWeather from './actions/syncWeather';
@@ -21,12 +23,15 @@ export interface IGenericObj {
 }
 
 export interface IUserObj {
-  error?: string | null;
   lastname?: string;
-  loggedIn: boolean;
   name?: string;
+  password?: string;
   sex?: string;
   username?: string;
+}
+
+export interface IRegisterObj extends IUserObj {
+  passwordConfirm?: string;
 }
 
 export interface IWeatherBase {
@@ -82,14 +87,14 @@ export default class AppState {
   @observable lights: ILightSwitch[] = [];
   @observable messages: INotification[] = [];
   @observable status = 'offline';
-  @observable user: IUserObj =
-    localStorage.getItem('hccLoggedIn') === 'true' ? arnold : { loggedIn: false };
+  @observable user = getLoggedInUser();
   @observable weather: IWeather = { loaded: false, updating: false };
 
   constructor(rootStore: RootStore) {
     this.dismissNotification = this.dismissNotification.bind(this);
     this.loadWeather = this.loadWeather.bind(this);
     this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
     this.rootStore = rootStore;
     this.setValue = this.setValue.bind(this);
     this.syncStateWithServer = this.syncStateWithServer.bind(this);
@@ -100,7 +105,7 @@ export default class AppState {
   }
 
   @computed get isLoggedIn() {
-    return this.user && this.user.loggedIn;
+    return this.user && typeof this.user === 'object' && this.user.username ? true : false;
   }
 
   @action dismissNotification(notification: 'alerts' | 'messages', targetId: number) {
@@ -141,18 +146,36 @@ export default class AppState {
   }
 
   @action async login(username: string, password: string, forceFail?: boolean) {
-    this.user = { ...this.user, error: null };
+    this.user = {} as IUserObj;
 
     const user = await doLogin(username, password, forceFail);
-    action('Login User', () => {
-      this.user = user;
-    })();
+
+    if (typeof user === 'object') {
+      action('Login User', () => {
+        this.user = user;
+      })();
+    }
+
+    return user;
+  }
+
+  @action async register(obj: IRegisterObj) {
+    this.user = {} as IUserObj;
+
+    const user = await doRegistration(obj);
+
+    if (typeof user === 'object') {
+      action('Login User', () => {
+        this.user = user;
+      })();
+    }
+
     return user;
   }
 
   @action logout() {
-    window.localStorage.setItem('hccLoggedIn', 'false');
-    this.user = { loggedIn: false };
+    window.localStorage.setItem('hcdLoggedIn', '');
+    this.user = {};
     this.controlsInitialized = false;
     return Promise.resolve();
   }

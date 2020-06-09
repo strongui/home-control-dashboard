@@ -61,7 +61,7 @@ function LoginForm({ store = storeDefaultProps.store }: ILoginFormProps) {
       submitting: true,
     }));
     appStore.login(username, password).then((response) => {
-      const { error } = response;
+      const error = typeof response === 'string' ? response : null;
       if (error) {
         setState((s) => ({
           ...s,
@@ -114,7 +114,7 @@ function LoginForm({ store = storeDefaultProps.store }: ILoginFormProps) {
             name="password"
             onChange={handleChange}
             onKeyPress={handleKeyPress}
-            placeholder="Password"
+            placeholder="Enter password"
             ref={passwordRef}
             type="password"
             value={password}

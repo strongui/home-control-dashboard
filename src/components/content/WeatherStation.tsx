@@ -122,7 +122,7 @@ function WeatherStation({ store = storeDefaultProps.store }: IWeatherStationProp
           <div className="card-header">
             <span className="fas fa-newspaper" aria-hidden="true" /> 5 Day Forecast
           </div>
-          <div className="card-body">
+          <div className="card-body overflow-x-auto">
             <div className="d-flex">{weatherCards}</div>
           </div>
         </div>

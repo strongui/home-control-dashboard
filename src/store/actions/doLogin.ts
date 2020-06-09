@@ -1,29 +1,32 @@
 import { IUserObj } from '../AppState';
 
-export const arnold = {
-  lastname: 'Schwarzenegger',
-  loggedIn: true,
-  name: 'Arnold',
-  sex: 'M',
-  username: 'arnold',
-};
-
 export default function doLogin(
   username: string,
   password: string,
-  forceFail?: boolean,
-): Promise<IUserObj> {
+  forceFail?: boolean
+): Promise<IUserObj | string> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (forceFail || (username !== 'arnold' || password !== 'test')) {
-        resolve({
-          error: 'Username or password are invalid.',
-          loggedIn: false,
-        });
-      } else {
-        window.localStorage.setItem('hccLoggedIn', 'true');
-        resolve(arnold);
-      }
-    }, 1000);
+    try {
+      setTimeout(() => {
+        const users: IUserObj[] =
+          window.localStorage.getItem('hcdUsers') === null
+            ? []
+            : JSON.parse(window.localStorage.getItem('hcdUsers') as string);
+        const userFind = users.filter(
+          (user) => user.username === username && user.password === password
+        );
+        const user = userFind.length ? userFind[0] : null;
+        if (forceFail || user === null) {
+          resolve('Username or password are invalid.');
+        } else {
+          if (user.username) {
+            window.localStorage.setItem('hcdLoggedIn', user.username);
+          }
+          resolve(user);
+        }
+      }, 1000);
+    } catch (error) {
+      resolve('Unknown error has occurred.');
+    }
   });
 }
