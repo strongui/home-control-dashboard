@@ -13,11 +13,12 @@ export type IWeatherStationProps = IWeatherStationOwnProps & Partial<IRootStore>
 
 function Weather({ store = storeDefaultProps.store }: IWeatherStationProps) {
   const { appStore } = store;
-  const { loadWeather } = appStore;
+  const { loadWeather, user } = appStore;
+  const weatherApiId = user?.api?.weatherApiId;
 
   useEffect(() => {
     loadWeather();
-  }, [loadWeather]);
+  }, [loadWeather, weatherApiId]);
 
   return (
     <div className="container-fluid">
@@ -27,12 +28,23 @@ function Weather({ store = storeDefaultProps.store }: IWeatherStationProps) {
         </li>
         <li className="breadcrumb-item active">Plan for the week</li>
       </ol>
-      <Callout
-        type="success-secondary"
-        title="Weather Forecast"
-        description="Upcoming weather conditions for your area."
-      />
-      <WeatherStation />
+      {!weatherApiId && (
+        <Callout
+          type="warning"
+          title="Open Weather API id missing"
+          description="In order for this component to work, you must define your Open Weather API id in your account settings."
+        />
+      )}
+      {weatherApiId && (
+        <React.Fragment>
+          <Callout
+            type="success-secondary"
+            title="Weather Forecast"
+            description="Upcoming weather conditions for your area."
+          />
+          <WeatherStation />
+        </React.Fragment>
+      )}
     </div>
   );
 }

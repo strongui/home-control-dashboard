@@ -1,11 +1,17 @@
 import { inject, observer } from 'mobx-react';
 import { IRootStore, storeDefaultProps } from '../../store';
-import { IUserObj } from '../../store/AppState';
+import { IUserObj, IRegisterObj } from '../../store/AppState';
 import * as React from 'react';
 
 const { useRef, useState } = React;
 
-interface IRegisterFormOwnProps {}
+interface IRegisterFormOwnProps {
+  initialValues?: IUserObj;
+  onSubmit?: (obj: IRegisterObj) => Promise<string | IUserObj>;
+  optionalFields?: string[];
+  readOnlyFields?: string[];
+  submitButtonLabel?: string;
+}
 
 export type IRegisterFormProps = IRegisterFormOwnProps & Partial<IRootStore>;
 
@@ -16,22 +22,29 @@ interface IRegisterFormPropsState extends IUserObj {
   submitting: boolean;
 }
 
-const initState = () => {
+const initState = ({ initialValues = {} }: IRegisterFormProps) => {
   return {
     error: null,
-    lastname: '',
-    name: '',
+    lastname: initialValues.lastname ? initialValues.lastname : '',
+    name: initialValues.name ? initialValues.name : '',
     password: '',
     passwordConfirm: '',
     pristine: true,
-    sex: '',
+    sex: initialValues.sex ? initialValues.sex : '',
     submitting: false,
-    username: '',
+    username: initialValues.username ? initialValues.username : '',
   };
 };
 
-function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
-  const [state, setState] = useState<IRegisterFormPropsState>(initState());
+function RegisterForm(props: IRegisterFormProps) {
+  const {
+    onSubmit,
+    optionalFields = [],
+    readOnlyFields = [],
+    store = storeDefaultProps.store,
+    submitButtonLabel = 'Submit',
+  } = props;
+  const [state, setState] = useState<IRegisterFormPropsState>(initState(props));
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const lastnameRef = useRef<HTMLInputElement>(null);
@@ -51,11 +64,12 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
     username,
   } = state;
   const submitDisabled =
-    lastname === '' ||
-    name === '' ||
-    password === '' ||
-    sex === '' ||
-    username === '' ||
+    (!optionalFields.includes('lastname') && lastname === '') ||
+    (!optionalFields.includes('name') && name === '') ||
+    (!optionalFields.includes('password') && password === '') ||
+    (!optionalFields.includes('passwordConfirm') && passwordConfirm === '') ||
+    (!optionalFields.includes('sex') && sex === '') ||
+    (!optionalFields.includes('username') && username === '') ||
     submitting ||
     (typeof error === 'string' && pristine) ||
     (!error && pristine);
@@ -103,9 +117,8 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
       pristine: true,
       submitting: true,
     }));
-    appStore
-      .register({ lastname, name, password, passwordConfirm, sex, username })
-      .then((response) => {
+    resolveSubmission({ lastname, name, password, passwordConfirm, sex, username }).then(
+      (response) => {
         const error = typeof response === 'string' ? response : null;
         if (error) {
           setState((s) => ({
@@ -114,8 +127,23 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
             pristine: true,
             submitting: false,
           }));
+        } else {
+          setState((s) => ({
+            ...s,
+            error: null,
+            pristine: true,
+            submitting: false,
+          }));
         }
-      });
+      }
+    );
+  };
+
+  const resolveSubmission = (obj: IRegisterObj): Promise<string | IUserObj> => {
+    if (typeof onSubmit === 'function') {
+      return onSubmit(obj);
+    }
+    return appStore.register({ lastname, name, password, passwordConfirm, sex, username });
   };
 
   return (
@@ -134,6 +162,7 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           placeholder="Enter username"
+          readOnly={readOnlyFields.includes('username')}
           type="text"
           value={username}
         />
@@ -147,6 +176,7 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           placeholder="Enter password"
+          readOnly={readOnlyFields.includes('password')}
           ref={passwordRef}
           type="password"
           value={password}
@@ -161,6 +191,7 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           placeholder="Re-enter your password"
+          readOnly={readOnlyFields.includes('passwordConfirm')}
           ref={passwordConfirmRef}
           type="password"
           value={passwordConfirm}
@@ -175,6 +206,7 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           placeholder="Enter name"
+          readOnly={readOnlyFields.includes('name')}
           ref={nameRef}
           type="text"
           value={name}
@@ -189,6 +221,7 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           placeholder="Enter last name"
+          readOnly={readOnlyFields.includes('lastname')}
           ref={lastnameRef}
           type="text"
           value={lastname}
@@ -199,13 +232,14 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
         <div className="form-check">
           <label className="form-check-label">
             <input
+              checked={sex === 'm'}
               className="form-check-input"
-              type="radio"
               name="sex"
               onChange={handleChange}
+              readOnly={readOnlyFields.includes('sex')}
               ref={sexRef}
+              type="radio"
               value="m"
-              checked={sex === 'm'}
             />
             Male
           </label>
@@ -213,12 +247,13 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
         <div className="form-check">
           <label className="form-check-label">
             <input
+              checked={sex === 'f'}
               className="form-check-input"
-              type="radio"
               name="sex"
               onChange={handleChange}
+              readOnly={readOnlyFields.includes('sex')}
+              type="radio"
               value="f"
-              checked={sex === 'f'}
             />
             Female
           </label>
@@ -230,7 +265,11 @@ function RegisterForm({ store = storeDefaultProps.store }: IRegisterFormProps) {
         onClick={handleSubmit}
         type="button"
       >
-        {submitting ? <span className="fas fa-spinner fa-pulse" aria-hidden="true" /> : 'Login'}
+        {submitting ? (
+          <span className="fas fa-spinner fa-pulse" aria-hidden="true" />
+        ) : (
+          submitButtonLabel
+        )}
       </button>
     </form>
   );

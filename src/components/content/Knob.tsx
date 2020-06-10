@@ -365,7 +365,7 @@ class Knob extends React.Component<IKnobProps, {}> {
           className={canvasClassName}
           style={{ width: '100%', height: '100%' }}
           onMouseDown={readOnly ? () => undefined : this.handleMouseDown}
-          title={title ? `${title}: ${value}` : value.toString()}
+          title={title ? `${title}: ${value}` : String(value)}
         />
         {this.renderCenter()}
       </div>

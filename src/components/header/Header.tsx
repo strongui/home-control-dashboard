@@ -55,7 +55,7 @@ function Header({
       >
         <SideMenu location={location} onMenuClick={handleMenuClick} />
         <SideNavToggler />
-        <TopMenu />
+        <TopMenu location={location} onMenuClick={handleMenuClick} />
       </div>
     </nav>
   );

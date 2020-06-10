@@ -6,7 +6,10 @@ import { ILightSwitch } from '../components/content/LightSwitch';
 import { INotification } from '../components/header/Notification';
 import doLogin from './actions/doLogin';
 import doRegistration from './actions/doRegistration';
+import doUserApiUpdate from './actions/doUserApiUpdate';
+import doUserUpdate from './actions/doUserUpdate';
 import getLoggedInUser from './actions/getLoggedInUser';
+import post from './actions/post';
 import RootStore from '.';
 import sync from './actions/sync';
 import syncWeather from './actions/syncWeather';
@@ -22,7 +25,13 @@ export interface IGenericObj {
   value: any;
 }
 
+export interface IUserApiObj {
+  postApiUrl?: string;
+  syncApiUrl?: string;
+  weatherApiId?: string;
+}
 export interface IUserObj {
+  api?: IUserApiObj;
   lastname?: string;
   name?: string;
   password?: string;
@@ -98,6 +107,8 @@ export default class AppState {
     this.rootStore = rootStore;
     this.setValue = this.setValue.bind(this);
     this.syncStateWithServer = this.syncStateWithServer.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.updateUserApi = this.updateUserApi.bind(this);
   }
 
   @computed get userFullName() {
@@ -113,14 +124,15 @@ export default class AppState {
   }
 
   @action loadWeather() {
-    if (this.weather.updating) return;
+    if (this.weather.updating || !this.user.api?.weatherApiId) return;
 
     this.weather.updating = true;
     this.weather.error = null;
+    const apiId = this.user.api.weatherApiId;
 
     getPosition().then((position) => {
       const { lat, lon } = position;
-      syncWeather(lat, lon)
+      syncWeather(lat, lon, apiId)
         .then((response) => {
           const { currentWeather, forecast } = response;
           const now = new Date();
@@ -173,6 +185,30 @@ export default class AppState {
     return user;
   }
 
+  @action async updateUser(obj: IRegisterObj) {
+    const user = await doUserUpdate(obj, this.user);
+
+    if (typeof user === 'object') {
+      action('Update User', () => {
+        this.user = user;
+      })();
+    }
+
+    return user;
+  }
+
+  @action async updateUserApi(obj: IUserApiObj) {
+    const user = await doUserApiUpdate(obj, this.user);
+
+    if (typeof user === 'object') {
+      action('Update User Api', () => {
+        this.user = user;
+      })();
+    }
+
+    return user;
+  }
+
   @action logout() {
     window.localStorage.setItem('hcdLoggedIn', '');
     this.user = {};
@@ -181,11 +217,21 @@ export default class AppState {
   }
 
   @action setValue(objKey: string, ident: string, id: number, value: any) {
-    console.info('%cPosting new values to server!', 'color: white; background-color: #26c6da;');
-    console.info(`%c ${ident} is changing to ${value}`, 'color: white; background-color: #33b5e5;');
-    // eslint-disable-next-line no-console
-    console.table({ objKey, ident, id, value });
-    console.info('******************');
+    const postObj = { objKey, ident, id, value };
+    const postApiUrl = this.user.api?.postApiUrl;
+    if (postApiUrl) {
+      console.info('Posting to server: ');
+      post(postApiUrl, postObj);
+    } else {
+      console.info('%cPosting new values to server!', 'color: white; background-color: #26c6da;');
+      console.info(
+        `%c ${ident} is changing to ${value}`,
+        'color: white; background-color: #33b5e5;'
+      );
+      // eslint-disable-next-line no-console
+      console.table(postObj);
+      console.info('******************');
+    }
 
     // @ts-ignore
     this[objKey] = this[objKey].map((obj: IGenericObj) =>
@@ -193,8 +239,8 @@ export default class AppState {
     );
   }
 
-  @action syncStateWithServer(latency?: number) {
-    sync(latency).then((response) => {
+  @action syncStateWithServer(latency?: number, syncApiUrl?: string) {
+    sync(latency, syncApiUrl).then((response) => {
       const {
         alerts,
         chartCards,

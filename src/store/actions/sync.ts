@@ -2,6 +2,7 @@ import { IChartCardOwnProps } from '../../components/content/ChartCard';
 import { IIconCardOwnProps } from '../../components/content/IconCard';
 import { ILightSwitch } from '../../components/content/LightSwitch';
 import { INotification } from '../../components/header/Notification';
+import axios, { AxiosResponse } from 'axios';
 
 const alertsJson = require('../data/alerts.json');
 const lightsJson = require('../data/lights.json');
@@ -30,13 +31,13 @@ interface ISyncResponse {
 
 function buildNewState(obj: IApiResponse): ISyncResponse {
   const {
-    coolingCompressorOn,
-    fanOn,
-    heatingCompressorOn,
-    heatingElementOn,
-    mainFloorTemp,
-    outsideHumidity,
-    outsideTemp,
+    coolingCompressorOn = false,
+    fanOn = false,
+    heatingCompressorOn = false,
+    heatingElementOn = false,
+    mainFloorTemp = 0,
+    outsideHumidity = 0,
+    outsideTemp = 0,
   } = obj;
 
   const statuses = ['online', 'offline', 'error', 'syncing'];
@@ -148,31 +149,48 @@ function buildNewState(obj: IApiResponse): ISyncResponse {
   };
 }
 
-function fakeFetch(ms: number): Promise<IApiResponse> {
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve({
-        coolingCompressorOn: false,
-        fanOn: false,
-        heatingCompressorOn: false,
-        heatingElementOn: false,
-        mainFloorTemp: randomIntFromInterval(18, 22),
-        outsideHumidity: randomIntFromInterval(34, 89),
-        outsideTemp: randomIntFromInterval(7, 25),
-      });
-    }, ms)
-  );
+function fakeFetch(): Promise<IApiResponse> {
+  return Promise.resolve({
+    coolingCompressorOn: false,
+    fanOn: false,
+    heatingCompressorOn: false,
+    heatingElementOn: false,
+    mainFloorTemp: randomIntFromInterval(18, 22),
+    outsideHumidity: randomIntFromInterval(34, 89),
+    outsideTemp: randomIntFromInterval(7, 25),
+  });
 }
 
 function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export default function sync(latency = 0): Promise<ISyncResponse> {
-  return new Promise((resolve, reject) => {
-    fakeFetch(latency).then((response) => {
-      const newState = buildNewState(response);
-      resolve(newState);
-    });
-  });
+function validateResponse(data: IApiResponse) {
+  let valid = true;
+  if (!data || typeof data !== 'object') {
+    valid = false;
+  }
+  return valid;
+}
+
+export default async function sync(latency = 0, apiEndPoint?: string): Promise<ISyncResponse> {
+  try {
+    if (latency > 0) {
+      await new Promise((r) => setTimeout(r, latency));
+    }
+    if (apiEndPoint) {
+      const response: AxiosResponse<IApiResponse> = await axios.get(apiEndPoint);
+      const responseIsValid = validateResponse(response.data);
+      if (!responseIsValid) {
+        throw Error('API endpoint returned invalid data');
+      }
+      return buildNewState(response.data);
+    }
+    const response = await fakeFetch();
+    return buildNewState(response);
+  } catch (error) {
+    console.error('An error has occured in the sync function. Returning dummy state.');
+    const response = await fakeFetch();
+    return buildNewState(response);
+  }
 }

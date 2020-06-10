@@ -6,8 +6,12 @@ interface IPosition {
   lat: number;
   lon: number;
 }
-
-export default async function syncWeather(lat: number, lon: number): Promise<IWeatherBase> {
+// a40aead15bf642aab90b78be6ff65135
+export default async function syncWeather(
+  lat: number,
+  lon: number,
+  apiId: string
+): Promise<IWeatherBase> {
   const position = {
     lat,
     lon,
@@ -15,13 +19,13 @@ export default async function syncWeather(lat: number, lon: number): Promise<IWe
 
   function getWeather(position: IPosition) {
     return axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${position.lat}&lon=${position.lon}&mode=json&units=metric&APPID=a40aead15bf642aab90b78be6ff65135`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${position.lat}&lon=${position.lon}&mode=json&units=metric&APPID=${apiId}`
     );
   }
 
   function getForecast(position: IPosition) {
     return axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${position.lat}&lon=${position.lon}&mode=json&units=metric&APPID=a40aead15bf642aab90b78be6ff65135`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${position.lat}&lon=${position.lon}&mode=json&units=metric&APPID=${apiId}`
     );
   }
 

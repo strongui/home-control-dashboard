@@ -2,15 +2,19 @@ import { inject, observer } from 'mobx-react';
 import { IRootStore, storeDefaultProps } from '../../store';
 import { Redirect } from 'react-router-dom';
 import * as React from 'react';
+import NavLink from './NavLink';
 import Notification from './Notification';
 
-interface ITopMenuOwnProps {}
+interface ITopMenuOwnProps {
+  location: Location;
+  onMenuClick?: (event: React.MouseEvent<HTMLElement>) => any;
+}
 
 export type ITopMenuProps = ITopMenuOwnProps & Partial<IRootStore>;
 
-function TopMenu({ store = storeDefaultProps.store }: ITopMenuProps) {
+function TopMenu({ location, onMenuClick, store = storeDefaultProps.store }: ITopMenuProps) {
   const { appStore, uiStore } = store;
-  const { alerts = [], dismissNotification, messages = [] } = appStore;
+  const { alerts = [], dismissNotification, messages = [], userFullName } = appStore;
   const { windowDimensions } = uiStore;
   const { width } = windowDimensions;
 
@@ -42,8 +46,15 @@ function TopMenu({ store = storeDefaultProps.store }: ITopMenuProps) {
         type="warning"
       />
 
+      <NavLink location={location} to="/account" onMenuClick={onMenuClick}>
+        <span className="fas fa-user-circle" aria-hidden="true" />
+        <span className="nav-link-text">{userFullName}</span>
+      </NavLink>
       <li className="nav-item">
-        <button className="nav-link button" onClick={logout}>
+        <button
+          className="nav-link mr-lg-2 w-100 text-left border-0 bg-transparent outline-0"
+          onClick={logout}
+        >
           <span className="fas fa-sign-out-alt" aria-hidden="true" />
           Logout
         </button>
