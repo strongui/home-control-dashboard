@@ -34,13 +34,11 @@ class MainActivity : AppCompatActivity() {
             origin: String?,
             callback: GeolocationPermissions.Callback?
         ) {
-            Log.d("MyApplication", "WTF MAN-----------------------");
             var permFine = android.Manifest.permission.ACCESS_FINE_LOCATION;
             var permCoarse = android.Manifest.permission.ACCESS_COARSE_LOCATION;
             if ((ContextCompat.checkSelfPermission(this@MainActivity, permFine) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this@MainActivity, permCoarse) == PackageManager.PERMISSION_GRANTED)
             ) {
-                Log.d("MyApplication", "IS HWAT -----------------------");
                 callback!!.invoke(origin, true, false)
             } else {
 
@@ -75,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        Log.d("MyApplication", "ARE WE THER EYET?? -----------------------");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {

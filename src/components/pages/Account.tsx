@@ -30,7 +30,7 @@ function Account({ store = storeDefaultProps.store }: IAccountProps) {
       </ol>
       <div className="row">
         <div className="col-sm-7">
-          <div className="card">
+          <div className="card mb-3">
             <div className="card-header">
               <span className="fas fa-user-circle" aria-hidden="true" /> Account
             </div>
