@@ -27,7 +27,7 @@
     "@types/react-onclickoutside": "^6.7.3",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-transition-group": "^4.4.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.7.2",
     "css-toggle-switch": "^4.1.0",
