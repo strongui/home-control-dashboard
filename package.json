@@ -29,7 +29,7 @@
     "@types/react-transition-group": "^4.4.0",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
-    "chart.js": "^2.7.2",
+    "chart.js": "^2.9.4",
     "css-toggle-switch": "^4.1.0",
     "mobx": "^5.15.7",
     "mobx-react": "^6.3.0",
